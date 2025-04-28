@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+import classes.Aluno;
+
 public class SIGAA2
 {
         public static void main(String[] args)
