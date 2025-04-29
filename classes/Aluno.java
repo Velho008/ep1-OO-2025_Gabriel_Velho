@@ -1,10 +1,12 @@
 package classes;
+import java.util.List;
 
 public class Aluno
 {
     private String curso;
     private String nome;
     private int matricula;
+    private List<String> disciplinas_cursadas; //serve para checar pré-requisitos
 
     public Aluno(String nome, int matricula, String curso) //construtor
     {
@@ -16,6 +18,10 @@ public class Aluno
         System.out.println("nome: "+nome);
         System.out.println("matricula: "+matricula);
         System.out.println("curso: "+curso);
+    }
+    public Aluno() //construtor sem infos
+    {
+        System.out.println("um novo aluno sem info foi criado");
     }
 
     //setters e getters

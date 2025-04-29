@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-import classes.Aluno;
+import classes.*;
 
 public class SIGAA2
 {
