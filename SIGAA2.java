@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.List;
+import java.util.Arrays;
 
 import classes.*;
 
@@ -22,6 +24,9 @@ public class SIGAA2
             {
                 case 1:
                     System.out.println("escolheu 1");
+                    Aluno gabriel = new Aluno();
+                    Aluno_especial caua = new Aluno_especial();
+                    Disciplina calculo1 = new Disciplina("Calculo1", "C1", 80);
                     continuar = false;
                     break;
                 case 2:

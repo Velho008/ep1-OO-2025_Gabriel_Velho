@@ -18,7 +18,7 @@ public class Disciplina {
 
         System.out.println("uma nova disciplina foi criada: "+nome);
         System.out.println("codigo: "+codigo);
-        System.out.println("carga horaria: "+carga_horaria+"Horas");
+        System.out.println("carga horaria: "+carga_horaria+" Horas");
         if (pre_requisitos.isEmpty())
         {
             System.out.println("não tem pré-requisitos");
@@ -32,7 +32,17 @@ public class Disciplina {
             }
         }
     }
+    public Disciplina(String nome, String codigo, int carga_horaria)
+    {
+        this.nome = nome;
+        this.codigo = codigo;
+        this.carga_horaria = carga_horaria;
 
+        System.out.println("uma nova disciplina foi criada: "+nome);
+        System.out.println("codigo: "+codigo);
+        System.out.println("carga horaria: "+carga_horaria+" Horas");
+        System.out.println("não tem pré-requisitos");
+    }
     public Disciplina()
     {
         System.out.println("uma nova disciplina foi criada, sem info");
