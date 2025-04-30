@@ -23,7 +23,7 @@ public class Aluno
         System.out.println("curso: "+curso);
         if (this.disciplinas_cursadas.isEmpty())
         {
-            System.out.println("não cursou nenhuma disciplina");
+            System.out.println("ainda não cursou nenhuma disciplina(calouro)");
         }
         else
         {
@@ -78,5 +78,24 @@ public class Aluno
     public void setMatricula(int matricula)
     {
         this.matricula = matricula;
+    }
+
+    public void MostrarInfo()
+    {
+        System.out.println("nome: "+nome);
+        System.out.println("matricula: "+matricula);
+        System.out.println("curso: "+curso);
+        if (this.disciplinas_cursadas.isEmpty())
+        {
+            System.out.println("não cursou nenhuma disciplina");
+        }
+        else
+        {
+            System.out.println("atualmente cursou: ");
+            for (String discuplina_cursada : this.disciplinas_cursadas)
+            {
+                System.out.println(discuplina_cursada);
+            }
+        }
     }
 }
