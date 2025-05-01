@@ -8,6 +8,8 @@ import classes.*;
 public class SIGAA2
 {
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
+    static ArrayList<Disciplina> disciplinas = new ArrayList<>(); //serve pra manter e criar disciplinas
+    //talvez fazer outro desse pra turmas
         public static void main(String[] args)
     {
         Scanner input1 = new Scanner(System.in);
@@ -31,7 +33,7 @@ public class SIGAA2
                     continuar = false;
                     break;
                 case 2:
-                    System.out.println("MODO TURMA");
+                    ModoTurma(input1);
 
 
                     continuar = false;
@@ -58,39 +60,39 @@ public class SIGAA2
 
         do //menuzinho do modo aluno
         {
-        System.out.println("MODO ALUNO");
-        System.out.println("digite 1 para cadastrar alunos");
-        System.out.println("digite 2 para listar os alunos cadastrados");
-        System.out.println("digite 3 para matricular um aluno em uma disciplina");
-        System.out.println("digite 4 para editar alunos matriculados (trancar) ou editar seu cadastro");
-        System.out.println("digite 0 para fechar o programa");
-        escolha = input.nextInt();
-        input.nextLine(); //come o enter
+            System.out.println("MODO ALUNO");
+            System.out.println("digite 1 para cadastrar alunos");
+            System.out.println("digite 2 para listar os alunos cadastrados");
+            System.out.println("digite 3 para matricular um aluno em uma disciplina");
+            System.out.println("digite 4 para editar alunos matriculados (trancar) ou editar seu cadastro");
+            System.out.println("digite 0 para fechar o programa");
+            escolha = input.nextInt();
+            input.nextLine(); //come o enter
 
-        switch (escolha)
-        {
-            case 1:
-                Cadastro(input);
+            switch (escolha)
+            {
+                case 1:
+                    Cadastro(input);
 
-                break;
-            case 2:
-                ListarAlunos(input);
+                    break;
+                case 2:
+                    ListarAlunos(input);
 
-                break;
-            case 3:
-                //colocar aluno em disciplina
+                    break;
+                case 3:
+                    //colocar aluno em disciplina
 
-                break;
-            case 4:
-                //editar aluno
+                    break;
+                case 4:
+                    //editar aluno
 
-                break;
-            case 0:
-                System.exit(0);
-            default:
-                System.out.println("DIGITO INVALIDO, DIGITE NOVAMENTE");
-                break;
-        }
+                    break;
+                case 0:
+                    System.exit(0);
+                default:
+                    System.out.println("DIGITO INVALIDO, DIGITE NOVAMENTE");
+                    break;
+            }
 
         } while (escolha !=0);
 
@@ -103,9 +105,9 @@ public class SIGAA2
         int matricula = input.nextInt();
         input.nextLine(); // come o enter
 
-        for (Aluno pessoa : alunos)
+        for (Aluno aluno : alunos) //checa matricula dupla
         {
-            if ( pessoa.getMatricula() == matricula) //checar se a matricula já pertence a algum dos alunos da lista
+            if ( aluno.getMatricula() == matricula) 
             {
                 System.out.println("essa matricula já existe");
                 return;
@@ -117,7 +119,7 @@ public class SIGAA2
         // ainda preciso adicionar os codigos das materias ja feitas pelo aluno
 
         //cria de fato o aluno e cadastra no sistema (adiciona na lista)
-        Aluno aluno = new Aluno(nome,matricula,curso);
+        Aluno aluno = new Aluno(nome,matricula,curso); //calouro
         alunos.add(aluno); //coloca o aluno na lista do sistema
     }
     public static void ListarAlunos(Scanner input)
@@ -139,8 +141,80 @@ public class SIGAA2
 
     public static void ModoTurma(Scanner input)
     {
+        int escolha;
+
+        do //menuzinho do modo escolha
+        {
+            System.out.println("MODO TURMA");
+            System.out.println("digite 1 para criar uma nova disciplina");
+            System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");
+            System.out.println("digite 3 para listar as turmas existentes"); //mostrar quantas vagas tem e pode escolher uma turma para listar os alunos dela
+            System.out.println("digite 4 para listar as disciplinas existentes");
+            System.out.println("digite 0 para fechar o programa");
+            escolha = input.nextInt();
+            input.nextLine(); //come o enter
+
+            switch (escolha)
+            {
+                case 1:
+                    CriarDisciplina(input);
+
+                    break;
+                case 2:
+                    //criar turma
+
+                    break;
+                case 3:
+                    //listar disciplinas
+
+                    break;
+                case 4:
+                    //listar turmas
+
+                    break;
+                case 0 :
+                    System.exit(0);
+                default:
+                    System.out.println("DIGITO INVALIDO, DIGITE NOVAMENTE");
+                    break;
+            }
+        } while (escolha !=0);
 
     }
+    public static void CriarDisciplina(Scanner input)
+    {
+        System.out.println("digite o nome da disciplina: ");
+        String nome = input.nextLine();
+        System.out.println("digite o codigo da disciplina: ");
+        String codigo = input.nextLine();
+
+        for (Disciplina disciplina: disciplinas)//checa codigo duplo
+        {
+            if (disciplina.getCodigo().equals(codigo))
+            {
+                System.out.println("esse codigo já existe");
+                return;
+            }
+        }
+        System.out.println("digite a carga horaria: ");
+        int carga_horaria = input.nextInt();
+        input.nextLine(); //come o enter
+        System.out.println("digite 1 caso essa materia tenha pré-requisitos");
+        int escolha = input.nextInt();
+        input.nextLine();
+        switch (escolha)
+        {
+            case 1:
+                //fazer a coisa dos pré_requisitos
+                break;
+            default:
+
+                break;
+        }
+        Disciplina disciplina = new Disciplina(nome,codigo,carga_horaria); 
+        disciplinas.add(disciplina); //coloca a disciplina na lista do sistema
+    }   
+
     public static void ModoNotas(Scanner input)
     {
 

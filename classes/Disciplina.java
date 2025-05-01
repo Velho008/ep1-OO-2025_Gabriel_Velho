@@ -1,18 +1,19 @@
 package classes;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Disciplina {
 
     private String nome;
     private String codigo;
     private int carga_horaria;
-    private List<String> pre_requisitos;
-    private int vagasTotais; // fazer setter e getter
+    private ArrayList<String> pre_requisitos;
+    private int vagasTotais; // fazer setter e getter // talvez passar isso pra turma
     private int vagasAtuais; //alterar isso quando um aluno for cadastrado //fazer setter e getter
-    // criar uma arraylist com os alunos fazendo a disciplina
+    // criar uma arraylist com os alunos fazendo a disciplina // talvez passar isso pra turma
 
     //construtores
-    public Disciplina(String nome, String codigo, int carga_horaria, List<String> pre_requisitos, int vagasTotais)
+    public Disciplina(String nome, String codigo, int carga_horaria, ArrayList<String> pre_requisitos, int vagasTotais)
     {
         this.nome = nome;
         this.codigo = codigo;
@@ -84,7 +85,7 @@ public class Disciplina {
     {
         return this.carga_horaria;
     }
-    public void setPreRequisitos(List<String> pre_requisitos)
+    public void setPreRequisitos(ArrayList<String> pre_requisitos)
     {
         this.pre_requisitos = pre_requisitos;
     }
