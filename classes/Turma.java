@@ -1,6 +1,7 @@
 package classes;
 
-public class Turma extends Disciplina{
+public class Turma extends Disciplina
+{
     private int vagasTotais;
     private int vagasAtuais; //deve ser calculado automaticamente
     private int numero; // numero da turma mesmo
