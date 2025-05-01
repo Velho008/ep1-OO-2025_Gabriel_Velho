@@ -66,7 +66,7 @@ public class SIGAA2
             System.out.println("digite 2 para listar os alunos cadastrados");
             System.out.println("digite 3 para matricular um aluno em uma turma");
             System.out.println("digite 4 para editar alunos matriculados (trancar) ou editar seu cadastro"); //para fazer qualquer uma dessas alterações o operador deve digitar a matricula do aluno
-            System.out.println("digite 0 para fechar o programa");
+            System.out.println("digite 0 para fechar o programa"); //separar o trancamento e a edição do cadastro
             escolha = input.nextInt();
             input.nextLine(); //come o enter
 
