@@ -7,18 +7,25 @@ public class Disciplina {
     private String codigo;
     private int carga_horaria;
     private List<String> pre_requisitos;
+    private int vagasTotais; // fazer setter e getter
+    private int vagasAtuais; //alterar isso quando um aluno for cadastrado //fazer setter e getter
+    // criar uma arraylist com os alunos fazendo a disciplina
 
     //construtores
-    public Disciplina(String nome, String codigo, int carga_horaria, List<String> pre_requisitos)
+    public Disciplina(String nome, String codigo, int carga_horaria, List<String> pre_requisitos, int vagasTotais)
     {
         this.nome = nome;
         this.codigo = codigo;
         this.carga_horaria = carga_horaria;
         this.pre_requisitos = pre_requisitos;
+        this.vagasTotais = vagasTotais;
+        this.vagasAtuais = vagasTotais;
 
-        System.out.println("uma nova disciplina foi criada: "+nome);
-        System.out.println("codigo: "+codigo);
-        System.out.println("carga horaria: "+carga_horaria+" Horas");
+
+        System.out.println("uma nova disciplina foi criada: "+this.nome);
+        System.out.println("codigo: "+this.codigo);
+        System.out.println("carga horaria: "+this.carga_horaria+" Horas");
+        System.out.println("vagas : "+this.vagasAtuais+"/"+this.vagasTotais);
         if (pre_requisitos.isEmpty())
         {
             System.out.println("não tem pré-requisitos");
@@ -38,15 +45,19 @@ public class Disciplina {
         this.codigo = codigo;
         this.carga_horaria = carga_horaria;
 
-        System.out.println("uma nova disciplina foi criada: "+nome);
-        System.out.println("codigo: "+codigo);
-        System.out.println("carga horaria: "+carga_horaria+" Horas");
+        System.out.println("uma nova disciplina foi criada: "+this.nome);
+        System.out.println("codigo: "+this.codigo);
+        System.out.println("carga horaria: "+this.carga_horaria+" Horas");
         System.out.println("não tem pré-requisitos");
     }
     public Disciplina()
     {
         System.out.println("uma nova disciplina foi criada, sem info");
     }
+
+    // fazer o metodo que realiza o cadastro do aluno na disciplina
+    // metodo que mostra a lista dos alunos da disciplina
+    // metodo pro aluno trancar a disciplina
 
     //setters e getters
     public void setNome(String nome)

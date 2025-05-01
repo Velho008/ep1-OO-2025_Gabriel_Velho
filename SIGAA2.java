@@ -62,7 +62,7 @@ public class SIGAA2
         System.out.println("digite 1 para cadastrar alunos");
         System.out.println("digite 2 para listar os alunos cadastrados");
         System.out.println("digite 3 para matricular um aluno em uma disciplina");
-        System.out.println("digite 4 para editar alunos matriculados ou editar seu cadastro");
+        System.out.println("digite 4 para editar alunos matriculados (trancar) ou editar seu cadastro");
         System.out.println("digite 0 para fechar o programa");
         escolha = input.nextInt();
         input.nextLine(); //come o enter
@@ -124,13 +124,13 @@ public class SIGAA2
     {
         int contador = 0;
         System.out.println("");
-        System.out.println("n   nome        matricula");
+        System.out.println("N //NOME //MATRICULA //CURSO");
         for (Aluno aluno : alunos)
         {
             contador ++;
 
             System.out.print(contador+": ");
-            System.out.print(aluno.getNome()+"    "+aluno.getMatricula());
+            System.out.print(aluno.getNome()+"    "+aluno.getMatricula()+"    "+aluno.getCurso());
             System.out.println("");
 
         } 
