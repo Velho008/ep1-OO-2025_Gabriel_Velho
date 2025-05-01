@@ -148,8 +148,8 @@ public class SIGAA2
             System.out.println("MODO TURMA");
             System.out.println("digite 1 para criar uma nova disciplina");
             System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");
-            System.out.println("digite 3 para listar as turmas existentes"); //mostrar quantas vagas tem e pode escolher uma turma para listar os alunos dela
-            System.out.println("digite 4 para listar as disciplinas existentes");
+            System.out.println("digite 3 para listar as disciplinas existentes"); //talvez escolher para listar as turmas de cada disciplina
+            System.out.println("digite 4 para listar as turmas existentes"); //mostrar quantas vagas tem e pode escolher uma turma para listar os alunos dela
             System.out.println("digite 0 para fechar o programa");
             escolha = input.nextInt();
             input.nextLine(); //come o enter
@@ -165,7 +165,7 @@ public class SIGAA2
 
                     break;
                 case 3:
-                    //listar disciplinas
+                    ListarDisciplinas(input);
 
                     break;
                 case 4:
@@ -214,6 +214,20 @@ public class SIGAA2
         Disciplina disciplina = new Disciplina(nome,codigo,carga_horaria); 
         disciplinas.add(disciplina); //coloca a disciplina na lista do sistema
     }   
+    public static void ListarDisciplinas(Scanner input)
+    {
+        int contador = 0;
+        System.out.println("");
+        System.out.println("N //NOME //CODIGO //CARGA HORARIA");
+        for (Disciplina disciplina : disciplinas)
+        {
+            contador++;
+            System.out.print(contador+": ");
+            System.out.print(disciplina.getNome()+"    "+disciplina.getCodigo()+"    "+disciplina.getCargaHoraria()+"H");
+            System.out.println("");
+        }
+        System.out.println("");
+    }
 
     public static void ModoNotas(Scanner input)
     {
