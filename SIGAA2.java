@@ -272,7 +272,7 @@ public class SIGAA2
 
                     break;
                 case 4:
-                    //listar turmas
+                    ListarTurmas();
 
                     break;
                 case 0 :
