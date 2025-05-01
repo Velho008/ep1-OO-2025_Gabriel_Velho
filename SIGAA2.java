@@ -9,7 +9,8 @@ public class SIGAA2
 {
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
     static ArrayList<Disciplina> disciplinas = new ArrayList<>(); //serve pra manter e criar disciplinas
-    //talvez fazer outro desse pra turmas
+    static ArrayList<Turma> turmas = new ArrayList<>(); //serve para manter e criar turmas
+
         public static void main(String[] args)
     {
         Scanner input1 = new Scanner(System.in);
@@ -63,8 +64,8 @@ public class SIGAA2
             System.out.println("MODO ALUNO");
             System.out.println("digite 1 para cadastrar alunos");
             System.out.println("digite 2 para listar os alunos cadastrados");
-            System.out.println("digite 3 para matricular um aluno em uma disciplina");
-            System.out.println("digite 4 para editar alunos matriculados (trancar) ou editar seu cadastro");
+            System.out.println("digite 3 para matricular um aluno em uma turma");
+            System.out.println("digite 4 para editar alunos matriculados (trancar) ou editar seu cadastro"); //para fazer qualquer uma dessas alterações o operador deve digitar a matricula do aluno
             System.out.println("digite 0 para fechar o programa");
             escolha = input.nextInt();
             input.nextLine(); //come o enter
@@ -76,11 +77,11 @@ public class SIGAA2
 
                     break;
                 case 2:
-                    ListarAlunos(input);
+                    ListarAlunos();
 
                     break;
                 case 3:
-                    //colocar aluno em disciplina
+                    //colocar aluno em turma
 
                     break;
                 case 4:
@@ -122,7 +123,7 @@ public class SIGAA2
         Aluno aluno = new Aluno(nome,matricula,curso); //calouro
         alunos.add(aluno); //coloca o aluno na lista do sistema
     }
-    public static void ListarAlunos(Scanner input)
+    public static void ListarAlunos()
     {
         int contador = 0;
         System.out.println("");
@@ -161,11 +162,11 @@ public class SIGAA2
 
                     break;
                 case 2:
-                    //criar turma
+                    CriarTurma(input);
 
                     break;
                 case 3:
-                    ListarDisciplinas(input);
+                    ListarDisciplinas();
 
                     break;
                 case 4:
@@ -214,7 +215,38 @@ public class SIGAA2
         Disciplina disciplina = new Disciplina(nome,codigo,carga_horaria); 
         disciplinas.add(disciplina); //coloca a disciplina na lista do sistema
     }   
-    public static void ListarDisciplinas(Scanner input)
+
+    public static void CriarTurma(Scanner input)
+    {
+        System.out.println("Digite o codigo da disciplina da qual a turma pertence");
+        String codigo = input.nextLine();
+        String nomeDisciplina = "";
+
+        for (Disciplina disciplina: disciplinas) //define a disciplina a qual a turma pertence
+        {
+            if (disciplina.getCodigo().equals(codigo))
+            {
+                nomeDisciplina = disciplina.getNome();
+            }
+        }
+        if (nomeDisciplina.isEmpty()) //checa se o codigo existe, só roda o resto se existir
+        {
+            System.out.println("o codigo digitado não existe");
+            return;
+        }
+        System.out.println("disciplina selecionada: "+nomeDisciplina);
+        System.out.println("digite o numero da turma: ");
+        int numero = input.nextInt();
+        input.nextLine(); //come o espaço
+        System.out.println("digite a quantidade de vagas: ");
+        int vagasTotais = input.nextInt();
+        input.nextLine();
+        Turma turma = new Turma(numero,vagasTotais,nomeDisciplina);
+        turmas.add(turma); //coloca a turma na lista do sistema
+
+    }
+
+    public static void ListarDisciplinas()
     {
         int contador = 0;
         System.out.println("");
@@ -224,6 +256,20 @@ public class SIGAA2
             contador++;
             System.out.print(contador+": ");
             System.out.print(disciplina.getNome()+"    "+disciplina.getCodigo()+"    "+disciplina.getCargaHoraria()+"H");
+            System.out.println("");
+        }
+        System.out.println("");
+    }
+
+    public static void ListarTurmas()
+    {
+        //caso tenha 0 vagas, marcar a turma com um X no começo, para mostrar que acabaram as vagas
+        System.out.println("");
+        System.out.println("NUMERO //DISCIPLINA //VAGAS ATUAIS //VAGAS TOTAIS");
+        for (Turma turma : turmas)
+        {
+            System.out.print(turma.getNumero());
+            System.out.print(turma.getDisciplina()+"    "+turma.getVagasAtuais()+"/"+turma.getVagasTotais());
             System.out.println("");
         }
         System.out.println("");

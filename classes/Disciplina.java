@@ -7,10 +7,9 @@ public class Disciplina {
     private String nome;
     private String codigo;
     private int carga_horaria;
-    private ArrayList<String> pre_requisitos;
-    private int vagasTotais; // fazer setter e getter // talvez passar isso pra turma
-    private int vagasAtuais; //alterar isso quando um aluno for cadastrado //fazer setter e getter
+    private ArrayList<String> pre_requisitos; // os pré-requisitos devem referenciar a outras disciplinas existentes, pra quando for mostrar listar codigo, nome e carga horaria dos pré
     // criar uma arraylist com os alunos fazendo a disciplina // talvez passar isso pra turma
+    //criar uma arrylist com as turmas da disciplina
 
     //construtores
     public Disciplina(String nome, String codigo, int carga_horaria, ArrayList<String> pre_requisitos, int vagasTotais)
@@ -19,14 +18,11 @@ public class Disciplina {
         this.codigo = codigo;
         this.carga_horaria = carga_horaria;
         this.pre_requisitos = pre_requisitos;
-        this.vagasTotais = vagasTotais;
-        this.vagasAtuais = vagasTotais;
 
 
         System.out.println("uma nova disciplina foi criada: "+this.nome);
         System.out.println("codigo: "+this.codigo);
         System.out.println("carga horaria: "+this.carga_horaria+" Horas");
-        System.out.println("vagas : "+this.vagasAtuais+"/"+this.vagasTotais);
         if (pre_requisitos.isEmpty())
         {
             System.out.println("não tem pré-requisitos");
