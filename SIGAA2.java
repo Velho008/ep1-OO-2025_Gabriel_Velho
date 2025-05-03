@@ -165,7 +165,7 @@ public class SIGAA2
                 System.out.println("digite 1 para alterar o nome");
                 System.out.println("digite 2 para alterar o curso");
                 System.out.println("digite 3 para alterar a matricula");
-                System.out.println("digite 0 para fechar o programa");
+                System.out.println("digite 0 para fechar o programa"); //adicionar um que apaga o aluno do sistema
                 System.out.println("digite qualquer outro numero para voltar ao menu anterior");
                 escolha = input.nextInt();
                 input.nextLine(); //come o enter
