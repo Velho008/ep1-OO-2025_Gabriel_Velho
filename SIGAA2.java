@@ -121,11 +121,22 @@ public class SIGAA2
         System.out.println("digite o curso: ");
         String curso = input.nextLine();
         // ainda preciso checar se é especial ou não
-        // ainda preciso adicionar os codigos das materias ja feitas pelo aluno
-
-        //cria de fato o aluno e cadastra no sistema (adiciona na lista)
+        System.out.println("o aluno é calouro? digite 1 para sim");
+        int escolha = input.nextInt();
+        input.nextLine();
+        if (escolha !=1)
+        {
+            System.out.println("digite os codigos das disciplinas que esse aluno já cursou, separados por espaço");
+            String disciplinas_cursadas = input.nextLine();
+            Aluno aluno = new Aluno(nome,matricula,curso,disciplinas_cursadas);//cria de fato o aluno e cadastra no sistema (adiciona na lista)
+            alunos.add(aluno);
+        }
+        else
+        {
         Aluno aluno = new Aluno(nome,matricula,curso); //calouro
         alunos.add(aluno); //coloca o aluno na lista do sistema
+        }
+        
     }
     public static void ListarAlunos()
     {
@@ -142,6 +153,11 @@ public class SIGAA2
 
         } 
         System.out.println("");
+    }
+
+    public static void MatricularAlunoEmTurma(Scanner input)
+    {
+
     }
 
 
@@ -382,5 +398,27 @@ public class SIGAA2
     public static void ModoNotas(Scanner input)
     {
 
+    }
+    public static boolean ChecarMatricula(int matricula)
+    {
+        for (Aluno aluno: alunos)
+        {
+            if (aluno.getMatricula()==matricula)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static Aluno Buscaraluno(int matricula)
+    {
+        for (Aluno aluno : alunos)
+        {
+            if (aluno.getMatricula()==matricula)
+            {
+                return aluno;
+            }
+        }
+        return null;
     }
 }

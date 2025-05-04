@@ -1,5 +1,6 @@
 package classes;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Aluno
 {
@@ -15,6 +16,7 @@ public class Aluno
         this.nome = nome;
         this.matricula = matricula;
         this.curso = curso;
+        this.disciplinas_cursadas = new ArrayList<>();
         for (String disciplina : disciplinas_cursadas.split(" "))
         {
             this.disciplinas_cursadas.add(disciplina);
@@ -31,9 +33,9 @@ public class Aluno
         else
         {
             System.out.println("atualmente cursou: ");
-            for (String discuplina_cursada : this.disciplinas_cursadas)
+            for (String disciplina : this.disciplinas_cursadas)
             {
-                System.out.println(discuplina_cursada);
+                System.out.println(disciplina);
             }
         }
     }
