@@ -10,12 +10,15 @@ public class Aluno
 
 
     //construtores
-    public Aluno(String nome, int matricula, String curso, List<String> disciplinas_cursadas)
+    public Aluno(String nome, int matricula, String curso, String disciplinas_cursadas)
     {
         this.nome = nome;
         this.matricula = matricula;
         this.curso = curso;
-        this.disciplinas_cursadas = disciplinas_cursadas;
+        for (String disciplina : disciplinas_cursadas.split(" "))
+        {
+            this.disciplinas_cursadas.add(disciplina);
+        }
 
         System.out.println("um novo aluno foi criado");
         System.out.println("nome: "+nome);

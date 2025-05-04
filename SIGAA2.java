@@ -14,9 +14,9 @@ public class SIGAA2
         public static void main(String[] args)
     {
         Scanner input1 = new Scanner(System.in);
+        int escolha;
 
-        boolean continuar = true;
-        while(continuar)
+        do
         {
             
             System.out.println("SIGAA2.0");
@@ -24,26 +24,23 @@ public class SIGAA2
             System.out.println("digite 2 para o modo turma");
             System.out.println("digite 3 para o modo notas");
             System.out.println("digite 0 para sair");
-            int escolha = input1.nextInt();
+            escolha = input1.nextInt();
 
             switch (escolha)
             {
                 case 1:
                     ModoAluno(input1);
 
-                    continuar = false;
                     break;
                 case 2:
                     ModoTurma(input1);
 
 
-                    continuar = false;
                     break;
                 case 3:
                     System.out.println("MODO NOTAS");
 
 
-                    continuar = false;
                     break;
                 case 0:
                     input1.close();
@@ -54,7 +51,8 @@ public class SIGAA2
                     continue;
             }
             
-        }
+        } while (escolha !=0);
+        
     }
     public static void ModoAluno(Scanner input)
     {
@@ -68,7 +66,7 @@ public class SIGAA2
             System.out.println("digite 3 para matricular um aluno em uma turma");
             System.out.println("digite 4 para editar cadastro de aluno"); //para fazer qualquer uma dessas alterações o operador deve digitar a matricula do aluno
             System.out.println("digite 5 para trancar a matricula de um aluno");//para fazer qualquer uma dessas alterações o operador deve digitar a matricula do aluno
-            System.out.println("digite 0 para fechar o programa"); //separar o trancamento e a edição do cadastro
+            System.out.println("digite 0 voltar ao menu anterior"); //separar o trancamento e a edição do cadastro
             escolha = input.nextInt();
             input.nextLine(); //come o enter
 
@@ -95,7 +93,7 @@ public class SIGAA2
 
                     break;
                 case 0:
-                    System.exit(0);
+                    break;
                 default:
                     System.out.println("DIGITO INVALIDO, DIGITE NOVAMENTE");
                     break;
@@ -160,87 +158,91 @@ public class SIGAA2
         {
             if (aluno.getMatricula() == matriculaVelha)
             {
-                System.out.println("aluno escolhido: "+aluno.getNome()+" matricula: "+aluno.getMatricula());
-                System.out.println("CUIDADO AO EDITAR DADOS DE ALUNOS");
-                System.out.println("digite 1 para alterar o nome");
-                System.out.println("digite 2 para alterar o curso");
-                System.out.println("digite 3 para alterar a matricula");
-                System.out.println("digite 0 para fechar o programa"); //adicionar um que apaga o aluno do sistema
-                System.out.println("digite qualquer outro numero para voltar ao menu anterior");
-                escolha = input.nextInt();
-                input.nextLine(); //come o enter
-
-                switch (escolha)
+                do
                 {
-                    case 1:
-                        System.out.println("digite o novo nome: ");
-                        String nome = input.nextLine();
-                        System.out.println("o nome antigo era: "+aluno.getNome()+" o novo nome será: "+nome);
-                        System.out.println("digite a matricula do aluno para confirmar a mudança");
-                        teste = input.nextInt();
-                        input.nextLine(); //come o enter
-                        if (teste == matriculaVelha)
-                        {
-                            aluno.setNome(nome);
-                            System.out.println("nome alterado com sucesso");
-                        }
-                        else
-                        {
-                            System.out.println("MATRICULA ERRADA");
-                        }
-                        break;
-                    case 2:
-                        System.out.println("digite o novo curso: ");
-                        String curso = input.nextLine();
-                        System.out.println("o curso antigo era: "+aluno.getCurso()+" o novo curso será: "+curso);
-                        System.out.println("digite a matricula do aluno para confirmar a mudança");
-                        teste = input.nextInt();
-                        input.nextLine(); //come o enter
-                        if (teste == matriculaVelha)
-                        {
-                            aluno.setCurso(curso);
-                            System.out.println("curso alterado com sucesso");
-                        }
-                        else
-                        {
-                            System.out.println("MATRICULA ERRADA");
-                        }
-                        break;
-                    case 3: //verificar duplicidade de matricula ao digitar a nova, lembre que a matricula já vai existir, por ser a de um aluno existente, mas ão pode colidir com outros
-                        System.out.println("digite a nova matricula: ");
-                        int matriculaNova = input.nextInt();
-                        input.nextLine(); //come o enter
-                        System.out.println("a matricula antiga era: "+aluno.getMatricula()+" a nova matricula será: "+matriculaNova);
-                        System.out.println("digite a matricula ANTIGA do aluno para confirmar a mudança");
-                        teste = input.nextInt();
-                        input.nextLine(); //come o enter
-                        if (teste == matriculaVelha)
-                        {
-                            aluno.setMatricula(matriculaNova);
-                            System.out.println("matricula alterada com sucesso");
-                        }
-                        else
-                        {
-                            System.out.println("MATRICULA ERRADA");
-                        }
+                    System.out.println("aluno escolhido: "+aluno.getNome()+" matricula: "+aluno.getMatricula());
+                    System.out.println("CUIDADO AO EDITAR DADOS DE ALUNOS");
+                    System.out.println("digite 1 para alterar o nome");
+                    System.out.println("digite 2 para alterar o curso");
+                    System.out.println("digite 3 para alterar a matricula");
+                    System.out.println("digite 0 para voltar ao menu anterior"); //adicionar um que apaga o aluno do sistema
 
-                        break;
-                    case 0:
+                    escolha = input.nextInt();
+                    input.nextLine(); //come o enter
 
-                        System.exit(0);
-                    default:
-                        System.out.println("voltando ao menu anterior");
-                    
-                }
+                
+                    switch (escolha)
+                    {
+                        case 1:
+                            System.out.println("digite o novo nome: ");
+                            String nome = input.nextLine();
+                            System.out.println("o nome antigo era: "+aluno.getNome()+" o novo nome será: "+nome);
+                            System.out.println("digite a matricula do aluno para confirmar a mudança");
+                            teste = input.nextInt();
+                            input.nextLine(); //come o enter
+                            if (teste == matriculaVelha)
+                            {
+                                aluno.setNome(nome);
+                                System.out.println("nome alterado com sucesso");
+                            }
+                            else
+                            {
+                                System.out.println("MATRICULA ERRADA");
+                            }
+                            break;
+                        case 2:
+                            System.out.println("digite o novo curso: ");
+                            String curso = input.nextLine();
+                            System.out.println("o curso antigo era: "+aluno.getCurso()+" o novo curso será: "+curso);
+                            System.out.println("digite a matricula do aluno para confirmar a mudança");
+                            teste = input.nextInt();
+                            input.nextLine(); //come o enter
+                            if (teste == matriculaVelha)
+                            {
+                                aluno.setCurso(curso);
+                                System.out.println("curso alterado com sucesso");
+                            }
+                            else
+                            {
+                                System.out.println("MATRICULA ERRADA");
+                            }
+                            break;
+                        case 3: //verificar duplicidade de matricula ao digitar a nova, lembre que a matricula já vai existir, por ser a de um aluno existente, mas ão pode colidir com outros
+                            System.out.println("digite a nova matricula: ");
+                            int matriculaNova = input.nextInt();
+                            input.nextLine(); //come o enter
+                            System.out.println("a matricula antiga era: "+aluno.getMatricula()+" a nova matricula será: "+matriculaNova);
+                            System.out.println("digite a matricula ANTIGA do aluno para confirmar a mudança");
+                            teste = input.nextInt();
+                            input.nextLine(); //come o enter
+                            if (teste == matriculaVelha)
+                            {
+                                aluno.setMatricula(matriculaNova);
+                                System.out.println("matricula alterada com sucesso");
+                            }
+                            else
+                            {
+                                System.out.println("MATRICULA ERRADA");
+                            }
+
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            System.out.println("digite novamente");
+                        
+                    }
+                } while (escolha !=0);
             }
             else
             {
                 System.out.println("matricula não existe");
             }
-        }
 
-
+        }        
     }
+            
+        
 
     public static void ModoTurma(Scanner input)
     {
@@ -253,7 +255,7 @@ public class SIGAA2
             System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");
             System.out.println("digite 3 para listar as disciplinas existentes"); //talvez escolher para listar as turmas de cada disciplina
             System.out.println("digite 4 para listar as turmas existentes"); //mostrar quantas vagas tem e pode escolher uma turma para listar os alunos dela
-            System.out.println("digite 0 para fechar o programa");
+            System.out.println("digite 0 para voltar ao menu anterior");
             escolha = input.nextInt();
             input.nextLine(); //come o enter
 
@@ -276,7 +278,7 @@ public class SIGAA2
 
                     break;
                 case 0 :
-                    System.exit(0);
+                    break;
                 default:
                     System.out.println("DIGITO INVALIDO, DIGITE NOVAMENTE");
                     break;
