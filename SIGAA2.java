@@ -159,8 +159,6 @@ public class SIGAA2
     {
 
     }
-
-
     public static void EditarAluno(Scanner input)
     {
         int escolha;
@@ -170,23 +168,20 @@ public class SIGAA2
         System.out.println("digite a matricula do aluno cujo cadastro vai ser editado");
         matriculaVelha = input.nextInt();
         input.nextLine();
-        for (Aluno aluno : alunos) // TÁ MOSTRANDO A MENSAGEM DE MATRICULA ERRADA PRA CADA ALUNO DA LISTA, CRIAR UM BOOL PRA MUDAR ISSO
+        if (ChecarMatricula(matriculaVelha))
         {
-            if (aluno.getMatricula() == matriculaVelha)
+            do
             {
-                do
-                {
-                    System.out.println("aluno escolhido: "+aluno.getNome()+" matricula: "+aluno.getMatricula());
-                    System.out.println("CUIDADO AO EDITAR DADOS DE ALUNOS");
-                    System.out.println("digite 1 para alterar o nome");
-                    System.out.println("digite 2 para alterar o curso");
-                    System.out.println("digite 3 para alterar a matricula");
-                    System.out.println("digite 0 para voltar ao menu anterior"); //adicionar um que apaga o aluno do sistema
+                Aluno aluno = Buscaraluno(matriculaVelha);
+                System.out.println("aluno escolhido: "+aluno.getNome()+" matricula: "+aluno.getMatricula());
+                System.out.println("CUIDADO AO EDITAR DADOS DE ALUNOS");
+                System.out.println("digite 1 para alterar o nome");
+                System.out.println("digite 2 para alterar o curso");
+                System.out.println("digite 3 para alterar a matricula");
+                System.out.println("digite 0 para voltar ao menu anterior"); //adicionar um que apaga o aluno do sistema
 
-                    escolha = input.nextInt();
-                    input.nextLine(); //come o enter
-
-                
+                escolha = input.nextInt();
+                input.nextLine(); //come o enter
                     switch (escolha)
                     {
                         case 1:
@@ -227,18 +222,28 @@ public class SIGAA2
                             System.out.println("digite a nova matricula: ");
                             int matriculaNova = input.nextInt();
                             input.nextLine(); //come o enter
-                            System.out.println("a matricula antiga era: "+aluno.getMatricula()+" a nova matricula será: "+matriculaNova);
-                            System.out.println("digite a matricula ANTIGA do aluno para confirmar a mudança");
-                            teste = input.nextInt();
-                            input.nextLine(); //come o enter
-                            if (teste == matriculaVelha)
+                            Aluno alunoComNovaMatricula = Buscaraluno(matriculaNova);
+                            if (alunoComNovaMatricula != null && alunoComNovaMatricula != aluno)
                             {
-                                aluno.setMatricula(matriculaNova);
-                                System.out.println("matricula alterada com sucesso");
+                                System.out.println("essa matricula já existe");
                             }
                             else
                             {
-                                System.out.println("MATRICULA ERRADA");
+                                System.out.println("a matricula antiga era: "+aluno.getMatricula()+" a nova matricula será: "+matriculaNova);
+                                System.out.println("digite a matricula ANTIGA do aluno para confirmar a mudança");
+                                teste = input.nextInt();
+                                input.nextLine(); //come o enter
+                                if (teste == matriculaVelha)
+                                {
+                                    aluno.setMatricula(matriculaNova);
+                                    System.out.println("matricula alterada com sucesso");
+                                    matriculaVelha = matriculaNova;
+                                    break;
+                                }
+                                else
+                                {
+                                    System.out.println("MATRICULA ERRADA");
+                                }
                             }
 
                             break;
@@ -246,18 +251,16 @@ public class SIGAA2
                             break;
                         default:
                             System.out.println("digite novamente");
-                        
+                                
                     }
-                } while (escolha !=0);
-            }
-            else
-            {
-                System.out.println("matricula não existe");
-            }
+            } while (escolha !=0);
+        }  
+        else
+        {
+            System.out.println("matricula não existe");
+        }
 
-        }        
     }
-            
         
 
     public static void ModoTurma(Scanner input)
@@ -421,4 +424,5 @@ public class SIGAA2
         }
         return null;
     }
+    
 }
