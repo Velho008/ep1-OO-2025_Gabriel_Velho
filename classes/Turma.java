@@ -1,12 +1,14 @@
 package classes;
 
+import java.util.ArrayList;
+
 public class Turma extends Disciplina
 {
     private int vagasTotais;
     private int vagasAtuais; //deve ser calculado automaticamente
     private int numero; // numero da turma mesmo
-    private String disciplina; // de qual disciplina a turma faz parte
-    //talvez fazer uma lista de alunos fazendo a turma
+    private String disciplina; // codigo de qual disciplina a turma faz parte
+    private ArrayList<String> alunos; //matricula dos alunos matriculados
     // colocar horario, duas turmas de uma mesma disciplina não podem coexistir no mesmo horario
     // adicionar algo para mostrar se é remota ou não
     // adicionar String sala onde a turma tem as aulas

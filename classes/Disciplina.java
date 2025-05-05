@@ -1,23 +1,27 @@
 package classes;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Disciplina {
 
     private String nome;
     private String codigo;
     private int carga_horaria;
-    private ArrayList<String> pre_requisitos; // os pré-requisitos devem referenciar a outras disciplinas existentes, pra quando for mostrar listar codigo, nome e carga horaria dos pré
+    private List<String> pre_requisitos; // os pré-requisitos devem referenciar a outras disciplinas existentes, pra quando for mostrar listar codigo, nome e carga horaria dos pré
     // criar uma arraylist com os alunos fazendo a disciplina // talvez passar isso pra turma
     //criar uma arrylist com as turmas da disciplina
 
     //construtores
-    public Disciplina(String nome, String codigo, int carga_horaria, ArrayList<String> pre_requisitos, int vagasTotais)
+    public Disciplina(String nome, String codigo, int carga_horaria, String pre_requisitos)
     {
         this.nome = nome;
         this.codigo = codigo;
         this.carga_horaria = carga_horaria;
-        this.pre_requisitos = pre_requisitos;
+        this.pre_requisitos = new ArrayList<>();
+        for (String requisito : pre_requisitos.split(" "))
+        {
+            this.pre_requisitos.add(requisito);
+        }
 
 
         System.out.println("uma nova disciplina foi criada: "+this.nome);
@@ -30,9 +34,9 @@ public class Disciplina {
         else
         {
             System.out.println("seus pré-requisitos são: ");
-            for (String pre_requisito : pre_requisitos)
+            for (String requisito : this.pre_requisitos)
             {
-                System.out.println(pre_requisito);
+                System.out.println(requisito);
             }
         }
     }

@@ -157,7 +157,18 @@ public class SIGAA2
 
     public static void MatricularAlunoEmTurma(Scanner input)
     {
-
+        System.out.println("digite a matricula do aluno que vai ser matriculado");
+        int matricula = input.nextInt();
+        input.nextLine(); //come o espaço
+        if (ChecarMatricula(matricula))
+        {
+            Aluno aluno = BuscarAluno(matricula);
+            //escolher a disciplina e dps a turma, ai colocar o aluno na lista de ambas
+        }
+        else
+        {
+            System.out.println("matricula não existe");
+        }
     }
     public static void EditarAluno(Scanner input)
     {
@@ -172,7 +183,7 @@ public class SIGAA2
         {
             do
             {
-                Aluno aluno = Buscaraluno(matriculaVelha);
+                Aluno aluno = BuscarAluno(matriculaVelha);
                 System.out.println("aluno escolhido: "+aluno.getNome()+" matricula: "+aluno.getMatricula());
                 System.out.println("CUIDADO AO EDITAR DADOS DE ALUNOS");
                 System.out.println("digite 1 para alterar o nome");
@@ -222,7 +233,7 @@ public class SIGAA2
                             System.out.println("digite a nova matricula: ");
                             int matriculaNova = input.nextInt();
                             input.nextLine(); //come o enter
-                            Aluno alunoComNovaMatricula = Buscaraluno(matriculaNova);
+                            Aluno alunoComNovaMatricula = BuscarAluno(matriculaNova);
                             if (alunoComNovaMatricula != null && alunoComNovaMatricula != aluno)
                             {
                                 System.out.println("essa matricula já existe");
@@ -326,17 +337,36 @@ public class SIGAA2
         System.out.println("digite 1 caso essa materia tenha pré-requisitos");
         int escolha = input.nextInt();
         input.nextLine();
-        switch (escolha)
+        if (escolha == 1)
         {
-            case 1:
-                //fazer a coisa dos pré_requisitos
-                break;
-            default:
-
-                break;
+            boolean veracidadeRequisitos = true;//checa a veracidade de cada codigo de pre_requisito
+            String pre_requisitos;
+            do 
+            {
+                veracidadeRequisitos = true;
+                System.out.println("digite o codigo dos pré-requisitos, espaçados por um espaço");
+                pre_requisitos = input.nextLine();
+                for (String requisito : pre_requisitos.split(" "))
+                {
+                    if (!ChecarCodigoDisciplina(requisito))
+                    {
+                        veracidadeRequisitos = false;
+                        System.out.println("algum codigo não existe, digite novamente");
+                        break;
+                    }
+                    System.out.println("nome do pré-requisito");
+                    System.out.println(BuscarDisciplina(requisito).getNome());
+                }
+            } while (veracidadeRequisitos == false);
+            Disciplina disciplina = new Disciplina(nome, codigo, carga_horaria, pre_requisitos);
+            disciplinas.add(disciplina);
+            
         }
-        Disciplina disciplina = new Disciplina(nome,codigo,carga_horaria); 
-        disciplinas.add(disciplina); //coloca a disciplina na lista do sistema
+        else
+        {
+            Disciplina disciplina = new Disciplina(nome,codigo,carga_horaria); 
+            disciplinas.add(disciplina); //coloca a disciplina na lista do sistema
+        }
     }   
 
     public static void CriarTurma(Scanner input)
@@ -413,13 +443,35 @@ public class SIGAA2
         }
         return false;
     }
-    public static Aluno Buscaraluno(int matricula)
+    public static Aluno BuscarAluno(int matricula)
     {
         for (Aluno aluno : alunos)
         {
             if (aluno.getMatricula()==matricula)
             {
                 return aluno;
+            }
+        }
+        return null;
+    }
+    public static boolean ChecarCodigoDisciplina(String codigo)
+    {
+        for (Disciplina disciplina : disciplinas)
+        {
+            if (disciplina.getCodigo().equals(codigo))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static Disciplina BuscarDisciplina(String codigo)
+    {
+        for (Disciplina disciplina : disciplinas)
+        {
+            if (disciplina.getCodigo().equals(codigo))
+            {
+                return disciplina;
             }
         }
         return null;
