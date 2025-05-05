@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
-
+    //PASSAR ISSO PRA DENTRO DO PACKAGE CLASSES
 import classes.*;
 
 public class SIGAA2
@@ -373,30 +373,49 @@ public class SIGAA2
     {
         System.out.println("Digite o codigo da disciplina da qual a turma pertence");
         String codigo = input.nextLine();
-        String nomeDisciplina = "";
-
-        for (Disciplina disciplina: disciplinas) //define a disciplina a qual a turma pertence
+        if (ChecarCodigoDisciplina(codigo))
         {
-            if (disciplina.getCodigo().equals(codigo))
+            String nomeDisciplina = BuscarDisciplina(codigo).getNome();
+            System.out.println("disciplina selecionada: "+nomeDisciplina+" codigo: "+codigo);
+            System.out.println("digite o numero da turma: ");
+            int numero = input.nextInt();
+            input.nextLine(); //come o espaço
+            boolean checar = true;
+            for (Turma turma : turmas)
             {
-                nomeDisciplina = disciplina.getNome();
+                boolean continuar;
+                do{
+                    continuar = false;
+                    if (turma.getNumero() == numero && turma.getcodigoDisciplina() == codigo)
+                    {
+                        checar = false;
+                        System.out.println("o numero digitado já pertence a uma outra turma da mesma disciplina");
+                        System.out.println("digite novamente");
+                        continuar = true;
+                    }
+                    else
+                    {
+                        checar = true;
+                        continuar = false;
+
+                    }
+                    }while(continuar = true);
             }
+            if (checar)
+            {
+                        System.out.println("digite a quantidade de vagas: ");
+                        int vagasTotais = input.nextInt();
+                        input.nextLine();
+                        Turma turmaNova = new Turma(numero,vagasTotais,codigo);
+                        turmas.add(turmaNova); //coloca a turma na lista do sistema
+            }
+            
         }
-        if (nomeDisciplina.isEmpty()) //checa se o codigo existe, só roda o resto se existir
+        else
         {
             System.out.println("o codigo digitado não existe");
-            return;
+            System.out.println("voltando ao menu anterior");
         }
-        System.out.println("disciplina selecionada: "+nomeDisciplina);
-        System.out.println("digite o numero da turma: ");
-        int numero = input.nextInt();
-        input.nextLine(); //come o espaço
-        System.out.println("digite a quantidade de vagas: ");
-        int vagasTotais = input.nextInt();
-        input.nextLine();
-        Turma turma = new Turma(numero,vagasTotais,nomeDisciplina);
-        turmas.add(turma); //coloca a turma na lista do sistema
-
     }
 
     public static void ListarDisciplinas()
@@ -422,7 +441,7 @@ public class SIGAA2
         for (Turma turma : turmas)
         {
             System.out.print(turma.getNumero());
-            System.out.print(turma.getDisciplina()+"    "+turma.getVagasAtuais()+"/"+turma.getVagasTotais());
+            System.out.print(turma.getnomeDisciplina()+"    "+turma.getVagasAtuais()+"/"+turma.getVagasTotais());
             System.out.println("");
         }
         System.out.println("");
