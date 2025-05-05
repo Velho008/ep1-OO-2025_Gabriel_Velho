@@ -60,7 +60,7 @@ public class SIGAA2
 
         do //menuzinho do modo aluno
         {
-            System.out.println("MODO ALUNO");
+            System.out.println("MODO ALUNO"); //criar um modo de deletar alunos
             System.out.println("digite 1 para cadastrar alunos");
             System.out.println("digite 2 para listar os alunos cadastrados");
             System.out.println("digite 3 para matricular um aluno em uma turma");
@@ -280,7 +280,7 @@ public class SIGAA2
 
         do //menuzinho do modo escolha
         {
-            System.out.println("MODO TURMA");
+            System.out.println("MODO TURMA"); //criar um de deletar
             System.out.println("digite 1 para criar uma nova disciplina");
             System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");
             System.out.println("digite 3 para listar as disciplinas existentes"); //talvez escolher para listar as turmas de cada disciplina
