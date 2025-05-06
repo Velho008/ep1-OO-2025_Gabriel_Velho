@@ -1,5 +1,9 @@
 package classes;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -149,10 +153,12 @@ public class SIGAA2
             }while(!checar);
             Aluno aluno = new Aluno(nome,matricula,curso,disciplinas_cursadas);//cria de fato o aluno e cadastra no sistema (adiciona na lista)
             alunos.add(aluno);
+            SalvarAlunoIndividual(aluno);
         }
         else
         {
         Aluno aluno = new Aluno(nome,matricula,curso); //calouro
+        SalvarAlunoIndividual(aluno);
         alunos.add(aluno); //coloca o aluno na lista do sistema
         }
         
@@ -602,5 +608,20 @@ public class SIGAA2
             }
         }
     return null;
+    }
+
+    //parte de arquivos
+    public static void SalvarAlunoIndividual(Aluno aluno)
+    {
+        String pasta = "banco_de_dados/alunos"; //caminho do diretorio
+        new File(pasta).mkdirs(); //cria a pasta
+        String caminhoArquivo = (pasta+'/'+aluno.getMatricula()+"aluno.txt");//caminho completo do arquivo
+        try (BufferedWriter salvar = new BufferedWriter(new FileWriter(caminhoArquivo)))
+        {
+            salvar.write(aluno.toString()); //escreve o conteudo de aluno convertido pra string
+        } catch(IOException erro)
+        {
+            System.out.println("Erro ao salvar aluno "+aluno.getNome()+'/'+aluno.getMatricula()+':'+ erro.getMessage());
+        }
     }
 }
