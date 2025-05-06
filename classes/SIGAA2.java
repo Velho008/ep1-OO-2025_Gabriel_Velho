@@ -88,7 +88,7 @@ public class SIGAA2
 
                     break;
                 case 5:
-                    // trancar 
+                    // trancar essencialmente remove a turma das coisas que o aluno tá fazendo
 
                     break;
                 case 6:
@@ -316,6 +316,8 @@ public class SIGAA2
             System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");
             System.out.println("digite 3 para listar as disciplinas existentes"); //talvez escolher para listar as turmas de cada disciplina
             System.out.println("digite 4 para listar as turmas existentes"); //mostrar quantas vagas tem e pode escolher uma turma para listar os alunos dela
+            System.out.println("digite 5 para remover uma disciplina do sistema");
+            System.out.println("digite 6 para remover uma turma do sistema");
             System.out.println("digite 0 para voltar ao menu anterior");
             escolha = input.nextInt();
             input.nextLine(); //come o enter
@@ -336,6 +338,14 @@ public class SIGAA2
                     break;
                 case 4:
                     ListarTurmas();
+
+                    break;
+                case 5:
+                    RemoverDisciplina(input);
+
+                    break;
+                case 6:
+                    //remover turma
 
                     break;
                 case 0 :
@@ -400,7 +410,7 @@ public class SIGAA2
         }
     }   
 
-    public static void CriarTurma(Scanner input)
+    public static void CriarTurma(Scanner input) //ALGUM BUG NA HORA DE CHECAR SE JÁ TEM OUTRA TURMA NA MESMA DISCIPLINA E NUM
     {
         System.out.println("Digite o codigo da disciplina da qual a turma pertence");
         String codigo = input.nextLine();
@@ -414,7 +424,8 @@ public class SIGAA2
             boolean checar = true;
             for (Turma turma : turmas)
             {
-                boolean continuar;
+                checar = false;
+                boolean continuar = true;
                 do{
                     continuar = false;
                     if (turma.getNumero() == numero && turma.getcodigoDisciplina() == codigo)
@@ -430,7 +441,7 @@ public class SIGAA2
                         continuar = false;
 
                     }
-                    }while(continuar = true);
+                    }while(continuar);
             }
             if (checar)
             {
@@ -476,6 +487,27 @@ public class SIGAA2
             System.out.println("");
         }
         System.out.println("");
+    }
+    public static void RemoverDisciplina(Scanner input)
+    {
+        System.out.println("CUIDADO AO REMOVER DISCIPLINAS");
+        System.out.println("digite o codigo da disciplina que será removida: ");
+        String codigo = input.nextLine();
+        if (ChecarCodigoDisciplina(codigo))
+        {
+            System.out.println("Disciplina a ser apagada: "+BuscarDisciplina(codigo).getNome());
+            System.out.println("para confirmar a remoção da disciplina digite novamente o codigo ");
+            String teste = input.nextLine();
+            if (teste.equals(codigo))
+            {
+                System.out.println("disciplina removida");
+                disciplinas.remove(BuscarDisciplina(codigo));
+            }
+        }
+        else
+        {
+            System.out.println("o codigo não existe");
+        }
     }
 
     public static void ModoNotas(Scanner input)
@@ -526,5 +558,33 @@ public class SIGAA2
         }
         return null;
     }    
-    //criar um de checar e buscar turma
+    public static boolean ChecarTurma(int numero, String codigoDisciplina)
+    {
+        boolean achou = false;
+        if (ChecarCodigoDisciplina(codigoDisciplina))
+        {
+            for (Turma turma : turmas)
+            {
+                if (turma.getNumero()==numero && turma.getcodigoDisciplina()==codigoDisciplina)
+                {
+                    achou = true;
+                }
+            }
+        }
+        return achou;
+    }
+    public static Turma BuscarTurma(int numero, String codigoDisciplina)
+    {
+        if (ChecarCodigoDisciplina(codigoDisciplina))
+        {
+            for (Turma turma : turmas)
+            {
+                if (turma.getNumero()==numero && turma.getcodigoDisciplina()==codigoDisciplina)
+                {
+                    return turma;
+                }
+            }
+        }
+    return null;
+    }
 }

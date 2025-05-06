@@ -5,7 +5,7 @@ import java.util.ArrayList;
     //PASSAR ISSO PRA DENTRO DO PACKAGE CLASSES
 import classes.*;
 
-public class SIGAA2
+public class SIGAA2datado
 {
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
     static ArrayList<Disciplina> disciplinas = new ArrayList<>(); //serve pra manter e criar disciplinas
