@@ -2,7 +2,7 @@ package classes;
 
 import java.util.ArrayList;
 
-public class Turma
+public class Turma //PEDIR AJUDA PRA RESOLVER ESSE PROBLEMA DE TURMA
 {
     private int vagasTotais;
     private int vagasAtuais; //deve ser calculado automaticamente
@@ -22,7 +22,7 @@ public class Turma
         this.numero = numero;
         this.vagasAtuais = vagasTotais;
         this.vagasTotais = vagasTotais;
-        this.nomeDisciplina = BuscarDisciplina(codigoDisciplina); //arrumar isso passando SIGAA2 pra dentro de classes
+        //this.nomeDisciplina = BuscarDisciplina(codigoDisciplina); //arrumar isso passando SIGAA2 pra dentro de classes
         //puxar o nome da disciplina a partir do codigo
 
         System.out.println("nova turma");
@@ -54,6 +54,7 @@ public class Turma
     public void setcodigoDisciplina(String codigoDisciplina)
     {
         this.codigoDisciplina = codigoDisciplina;
+        //this.nomeDisciplina = BuscarDisciplina(this.codigoDisciplina);
         //trocar o nome de acordo com a disciplina
     }
     public String getcodigoDisciplina()

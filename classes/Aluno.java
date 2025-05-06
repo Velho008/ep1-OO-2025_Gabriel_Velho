@@ -44,6 +44,7 @@ public class Aluno
         this.nome = nome;
         this.matricula = matricula;
         this.curso = curso;
+        this.disciplinas_cursadas = new ArrayList<>();
 
         System.out.println("um novo aluno foi criado");
         System.out.println("nome: "+nome);
@@ -85,7 +86,7 @@ public class Aluno
         this.matricula = matricula;
     }
 
-    public void MostrarInfo()
+    public void MostrarInfo() //adicionar as disciplinas cursadas
     {
         System.out.println("nome: "+nome);
         System.out.println("matricula: "+matricula);
