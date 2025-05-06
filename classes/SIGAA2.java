@@ -129,8 +129,24 @@ public class SIGAA2
         input.nextLine();
         if (escolha !=1)
         {
+            boolean checar = false;
+            String disciplinas_cursadas;
             System.out.println("digite os codigos das disciplinas que esse aluno já cursou, separados por espaço");
-            String disciplinas_cursadas = input.nextLine();
+            do
+            {
+                disciplinas_cursadas = input.nextLine(); // ver se existem
+                for (String disciplina : disciplinas_cursadas.split(" "))
+                {
+                    if(ChecarCodigoDisciplina(disciplina))
+                    {
+                        checar = true;
+                    }
+                    else
+                    {
+                        System.out.println("algum codigo não existe, digite novamente");
+                    }
+                }
+            }while(!checar);
             Aluno aluno = new Aluno(nome,matricula,curso,disciplinas_cursadas);//cria de fato o aluno e cadastra no sistema (adiciona na lista)
             alunos.add(aluno);
         }
