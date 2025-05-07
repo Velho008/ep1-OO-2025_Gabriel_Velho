@@ -13,7 +13,10 @@ public class SIGAA2
     {
         //carregar as coisas dos arquivos
         CarregarAlunos();
+
+        //scanner usado no menu inteiro
         Scanner input1 = new Scanner(System.in);
+        //variavel de escolha do menu
         int escolha;
 
         do
@@ -35,7 +38,6 @@ public class SIGAA2
                 case 2:
                     ModoTurma(input1);
 
-
                     break;
                 case 3:
                     System.out.println("MODO NOTAS");
@@ -51,7 +53,7 @@ public class SIGAA2
                     continue;
             }
             
-        } while (escolha !=0);
+        } while (escolha !=0); //garante o loop enquanto algo diferente for digitado
         
     }
     public static void ModoAluno(Scanner input)
