@@ -1,15 +1,15 @@
 package classes;
 
 import java.util.ArrayList;
-//colocar um cdigo na turma e Fds
-public class Turma //PEDIR AJUDA PRA RESOLVER ESSE PROBLEMA DE TURMA
+import java.util.List;
+//colocar um cdigo na turma e Fds ou não
+public class Turma 
 {
     private int vagasTotais;
     private int vagasAtuais; //deve ser calculado automaticamente
     private int numero; // numero da turma mesmo
     private String codigoDisciplina; // codigo de qual disciplina a turma faz parte
-    private String nomeDisciplina; //nome da disciplina da qual a turma faz parte 
-    private ArrayList<String> alunos; //matricula dos alunos matriculados
+    private ArrayList<Integer> alunos; //matricula dos alunos da turma
     // colocar horario, duas turmas de uma mesma disciplina não podem coexistir no mesmo horario
     // adicionar algo para mostrar se é remota ou não
     // adicionar String sala onde a turma tem as aulas
@@ -22,18 +22,32 @@ public class Turma //PEDIR AJUDA PRA RESOLVER ESSE PROBLEMA DE TURMA
         this.numero = numero;
         this.vagasAtuais = vagasTotais;
         this.vagasTotais = vagasTotais;
-        //this.nomeDisciplina = BuscarDisciplina(codigoDisciplina); //arrumar isso passando SIGAA2 pra dentro de classes
-        //puxar o nome da disciplina a partir do codigo
+        alunos = new ArrayList<>();
 
         System.out.println("nova turma");
-        System.out.println("turma num: "+numero+" de "+nomeDisciplina+" codigo: "+codigoDisciplina);
+        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina);
         System.out.println("vagas totais: "+vagasTotais);
+    }
+    //construtor pra quando puxar de arquivo
+    public Turma(int numero, int vagasTotais, String codigoDisciplina, String matriculaAlunos)
+    {
+        this.numero = numero;
+        this.vagasAtuais = vagasTotais;
+        this.vagasTotais = vagasTotais;
+        this.codigoDisciplina = codigoDisciplina;
+        alunos = new ArrayList<>();
+        for (String aluno : matriculaAlunos.split(" "))
+        {
+            int matricula = Integer.parseInt(aluno);
+            addAluno(matricula);
+        }
     }
 
     //setters e getters
     public void setVagasTotais(int vagasTotais)
     {
         this.vagasTotais = vagasTotais;
+        //talvez recontar quantas vagas tem ao fazer isso, pois pode já ter alunos
     }
     public int getVagasTotais()
     {
@@ -54,15 +68,56 @@ public class Turma //PEDIR AJUDA PRA RESOLVER ESSE PROBLEMA DE TURMA
     public void setcodigoDisciplina(String codigoDisciplina)
     {
         this.codigoDisciplina = codigoDisciplina;
-        //this.nomeDisciplina = BuscarDisciplina(this.codigoDisciplina);
-        //trocar o nome de acordo com a disciplina
     }
     public String getcodigoDisciplina()
     {
         return this.codigoDisciplina;
     }
-    public String getnomeDisciplina() //não tem set nome da disciplina pq é feito automatico com o codigo
+    public void addAluno(int aluno)
     {
-        return this.nomeDisciplina;
+        alunos.add(aluno);
+        this.vagasAtuais-=1;
     }
+    public void addAluno(Aluno aluno)
+    {
+        alunos.add(aluno.getMatricula());
+        this.vagasAtuais-=1;
+    }
+    public void removerAluno(int matricula)
+    {
+        alunos.remove(matricula);
+        this.vagasAtuais+=1;
+    }
+    public void removerAluno(Aluno aluno)
+    {
+        alunos.remove(aluno.getMatricula());
+        this.vagasAtuais+=1;
+    }
+    
+
+    public void ListarAlunos()
+    {
+        for (int matricula : alunos)
+        {
+            System.out.println("matricula: "+matricula);
+        }
+    }
+    public String juntarAlunos(ArrayList<Integer> alunos)
+    {
+        ArrayList<String> str_matriculas = new ArrayList<>();
+
+        for (int matricula : alunos)
+        {
+            str_matriculas.add(String.valueOf(matricula));
+        }
+        String res = String.join(" ",str_matriculas);
+        return res;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.getNumero()+";"+this.getVagasTotais()+";"+this.getcodigoDisciplina()+";"+juntarAlunos(alunos);
+    }
+    
 }

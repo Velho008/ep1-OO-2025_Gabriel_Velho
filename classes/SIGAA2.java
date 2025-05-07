@@ -60,12 +60,12 @@ public class SIGAA2
 
         do //menuzinho do modo aluno
         {
-            System.out.println("MODO ALUNO"); //criar um modo de deletar alunos
+            System.out.println("MODO ALUNO"); 
             System.out.println("digite 1 para cadastrar alunos");
             System.out.println("digite 2 para listar os alunos cadastrados");
-            System.out.println("digite 3 para matricular um aluno em uma turma");
-            System.out.println("digite 4 para editar cadastro de aluno"); //para fazer qualquer uma dessas alterações o operador deve digitar a matricula do aluno
-            System.out.println("digite 5 para trancar a matricula de um aluno");//para fazer qualquer uma dessas alterações o operador deve digitar a matricula do aluno
+            System.out.println("digite 3 para matricular um aluno em uma turma"); //falta esse //falta mudar os arquivos quando muda aqui
+            System.out.println("digite 4 para editar cadastro de aluno"); //falta mudar os arquivos quando muda aqui
+            System.out.println("digite 5 para trancar a matricula de um aluno"); //falta esse //falta mudar os arquivos quando muda aqui
             System.out.println("digite 6 para deletar um aluno do sistema");
             System.out.println("digite 7 para buscar informações sobre um aluno");
             System.out.println("digite 0 voltar ao menu anterior"); //separar o trancamento e a edição do cadastro
@@ -350,8 +350,8 @@ public class SIGAA2
         do //menuzinho do modo escolha
         {
             System.out.println("MODO TURMA"); //criar um de deletar disciplina e turma
-            System.out.println("digite 1 para criar uma nova disciplina");
-            System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");
+            System.out.println("digite 1 para criar uma nova disciplina"); //falta salvar arquivos
+            System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");//falta deixar 100% //falta salvar arquivos
             System.out.println("digite 3 para listar as disciplinas existentes"); //talvez escolher para listar as turmas de cada disciplina
             System.out.println("digite 4 para listar as turmas existentes"); //mostrar quantas vagas tem e pode escolher uma turma para listar os alunos dela
             System.out.println("digite 5 para remover uma disciplina do sistema");
@@ -375,7 +375,7 @@ public class SIGAA2
 
                     break;
                 case 4:
-                    ListarTurmas();
+                    ListarTurmas(); 
 
                     break;
                 case 5:
@@ -521,7 +521,7 @@ public class SIGAA2
         for (Turma turma : turmas)
         {
             System.out.print(turma.getNumero());
-            System.out.print(turma.getnomeDisciplina()+"    "+turma.getVagasAtuais()+"/"+turma.getVagasTotais());
+            System.out.print(turma.getcodigoDisciplina()+"    "+turma.getVagasAtuais()+"/"+turma.getVagasTotais());
             System.out.println("");
         }
         System.out.println("");
