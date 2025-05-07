@@ -11,6 +11,7 @@ public class Aluno
 
 
     //construtores
+    //depois criar um construtor pra quando carregar um aluno ele n aparecer que foi feito
     public Aluno(String nome, int matricula, String curso, String disciplinas_cursadas)
     {
         this.nome = nome;
@@ -108,7 +109,7 @@ public class Aluno
     //parte de arquivos
     public String juntarDisciplinas(List<String> disciplinas_cursadas)
     {
-        String res = String.join(";",disciplinas_cursadas);
+        String res = String.join(" ",disciplinas_cursadas);
         return res;
     }
     @Override
@@ -117,17 +118,21 @@ public class Aluno
         return this.nome +';'+ this.matricula +';'+ this.curso +';'+juntarDisciplinas(this.disciplinas_cursadas);
     }
     public static Aluno fromString(String entrada) //CRIAR UM PRAS COISAS QUE O ALUNO JA FEZ
-    {                          //TROCAR O TOSTRING PRAS DISCIPLINAS TEREM ESPAÇO ENTRA ELAS
-                                //PRA QUANDO JOGAR NO ALUNO ELE SEPARAR AUTOMATICO NO CONSTRUTOR
+    {
         String[] infos = entrada.split(";");
         if (infos.length == 3)
         {
             int matricula = Integer.parseInt(infos[1]); //torna a matricula de volta em int
             return new Aluno(infos[0],matricula,infos[2]);
         }
-        else
+        else if (infos.length <3)
         {
             return null;
+        }
+        else
+        {
+            int matricula = Integer.parseInt(infos[1]); //torna a matricula de volta em int
+            return new Aluno(infos[0],matricula,infos[2],infos[3]);
         }
     }
 }

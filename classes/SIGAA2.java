@@ -1,11 +1,7 @@
 package classes;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 public class SIGAA2 
 {
@@ -15,6 +11,8 @@ public class SIGAA2
 
         public static void main(String[] args)
     {
+        //carregar as coisas dos arquivos
+        CarregarAlunos();
         Scanner input1 = new Scanner(System.in);
         int escolha;
 
@@ -69,6 +67,7 @@ public class SIGAA2
             System.out.println("digite 4 para editar cadastro de aluno"); //para fazer qualquer uma dessas alterações o operador deve digitar a matricula do aluno
             System.out.println("digite 5 para trancar a matricula de um aluno");//para fazer qualquer uma dessas alterações o operador deve digitar a matricula do aluno
             System.out.println("digite 6 para deletar um aluno do sistema");
+            System.out.println("digite 7 para buscar informações sobre um aluno");
             System.out.println("digite 0 voltar ao menu anterior"); //separar o trancamento e a edição do cadastro
             escolha = input.nextInt();
             input.nextLine(); //come o enter
@@ -88,7 +87,7 @@ public class SIGAA2
 
                     break;
                 case 4:
-                    EditarAluno(input);
+                    EditarAluno(input); //editar tambem o arquivo do aluno
 
                     break;
                 case 5:
@@ -96,9 +95,11 @@ public class SIGAA2
 
                     break;
                 case 6:
-                    RemoverAluno(input);
+                    RemoverAluno(input); //remover o arquivo do sistema
 
                     break;
+                case 7:
+                    MostrarInfoAluno(input);
                 case 0:
                     break;
                 default:
@@ -313,7 +314,8 @@ public class SIGAA2
             if (teste == matricula)
             {
                 System.out.println("aluno "+BuscarAluno(matricula).getNome()+" removido do sistema");
-                alunos.remove(BuscarAluno(matricula));
+                alunos.remove(BuscarAluno(matricula)); //tira d sistema
+                RemoverAlunoArquivo(matricula); //apaga o arquivo
             }
             else
             {
@@ -323,6 +325,20 @@ public class SIGAA2
         else
         {
             System.out.println("a matricula não existe");
+        }
+    }
+    public static void MostrarInfoAluno(Scanner input)
+    {
+        System.out.println("digite a matricula do aluno que sera consultado");
+        int matricula = input.nextInt();
+        input.nextLine(); //come o espaço
+        if (ChecarMatricula(matricula))
+        {
+            BuscarAluno(matricula).MostrarInfo();
+        }
+        else
+        {
+            System.out.println("a matricula digitada não existe no sistema");
         }
     }
         
@@ -622,6 +638,41 @@ public class SIGAA2
         } catch(IOException erro)
         {
             System.out.println("Erro ao salvar aluno "+aluno.getNome()+'/'+aluno.getMatricula()+':'+ erro.getMessage());
+        }
+    }
+    //criar um pra cada uma das outras coisas, talvez usar herança
+    //talvez criar um que salva todos os alunos de uma vez
+    public static void CarregarAlunos()
+    {
+        File pasta = new File("banco_de_dados/alunos"); //aponta onde vão estar as coisas
+        if (pasta.exists() && pasta.isDirectory()) //checa se existe e se é diretorio
+        {
+            File[] arquivos = pasta.listFiles((dir, nome) -> nome.endsWith("aluno.txt")); //filtrando pra pegar só os com o fim selecionado
+            if (arquivos !=null)
+            {
+                for (File arquivo : arquivos) //para cada arquivo
+                {
+                    try (BufferedReader leitor = new BufferedReader(new FileReader(arquivo))) //cria o leitor de arquivo
+                    {
+                        String dados = leitor.readLine(); //TEM QUE SER OBRIGATORIAMENTE UMA LINHA SÓ
+                        Aluno aluno = Aluno.fromString(dados); //cria o aluno usando fromstring
+                        alunos.add(aluno); //adiciona no sistema
+                    } catch (IOException | NullPointerException erro)
+                    {
+                        System.out.println("erro ao carregar arquivos iniciais do sistema: "+arquivo.getName());
+                    }
+                }
+            }
+        }
+    }
+    public static void RemoverAlunoArquivo(int matricula)
+    {
+        String caminho = "banco_de_dados/alunos/" + matricula + "aluno.txt"; //local do arquivo
+        File arquivo = new File(caminho); //encontra o arquivo
+
+        if (arquivo.exists())
+        {
+            arquivo.delete();
         }
     }
 }

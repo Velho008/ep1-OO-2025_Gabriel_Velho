@@ -1,7 +1,7 @@
 package classes;
 
 import java.util.ArrayList;
-
+//colocar um cdigo na turma e Fds
 public class Turma //PEDIR AJUDA PRA RESOLVER ESSE PROBLEMA DE TURMA
 {
     private int vagasTotais;
