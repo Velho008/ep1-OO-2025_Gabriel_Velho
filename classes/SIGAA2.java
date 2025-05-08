@@ -561,7 +561,15 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
         input.nextLine(); //come o enter
         if (ChecarTurma(numTurma, codigoDisciplina))
         {
-            System.out.println("");
+            System.out.println("turma a ser apagada: "+BuscarTurma(numTurma, codigoDisciplina).getNumero()+" de "+BuscarDisciplina(codigoDisciplina).getNome());
+            System.out.println("para confirmar a remoção da turma digite novamente o codigo da disciplina: ");
+            String teste = input.nextLine();
+            if (teste.equals(codigoDisciplina))
+            {
+                System.out.println("turma removida");
+                turmas.remove(BuscarTurma(numTurma, codigoDisciplina));
+                RemoverTurmaArquivo(BuscarTurma(numTurma, codigoDisciplina));
+            }
         }
         else
         {
@@ -624,7 +632,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
         {
             for (Turma turma : turmas)
             {
-                if (turma.getNumero()==numero && turma.getcodigoDisciplina()==codigoDisciplina)
+                if (turma.getNumero()==numero && turma.getcodigoDisciplina().equals(codigoDisciplina))
                 {
                     achou = true;
                 }
