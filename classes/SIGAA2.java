@@ -3,7 +3,7 @@ package classes;
 import java.util.*;
 import java.io.*;
 
-public class SIGAA2 
+public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COISAS MUDAM
 {
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
     static ArrayList<Disciplina> disciplinas = new ArrayList<>(); //serve pra manter e criar disciplinas
@@ -13,6 +13,7 @@ public class SIGAA2
     {
         //carregar as coisas dos arquivos
         CarregarAlunos();
+        CarregarTurmas();
 
         //scanner usado no menu inteiro
         Scanner input1 = new Scanner(System.in);
@@ -351,13 +352,13 @@ public class SIGAA2
 
         do //menuzinho do modo escolha
         {
-            System.out.println("MODO TURMA"); //criar um de deletar disciplina e turma
+            System.out.println("MODO TURMA");
             System.out.println("digite 1 para criar uma nova disciplina"); //falta salvar arquivos
-            System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");//falta deixar 100% //falta salvar arquivos
+            System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");//falta deixar 100%
             System.out.println("digite 3 para listar as disciplinas existentes"); //talvez escolher para listar as turmas de cada disciplina
             System.out.println("digite 4 para listar as turmas existentes"); //mostrar quantas vagas tem e pode escolher uma turma para listar os alunos dela
-            System.out.println("digite 5 para remover uma disciplina do sistema");
-            System.out.println("digite 6 para remover uma turma do sistema");
+            System.out.println("digite 5 para remover uma disciplina do sistema"); //falta tirar arquivo
+            System.out.println("digite 6 para remover uma turma do sistema"); //FALTA FAZER //falta tirar arquivo
             System.out.println("digite 0 para voltar ao menu anterior");
             escolha = input.nextInt();
             input.nextLine(); //come o enter
@@ -385,7 +386,7 @@ public class SIGAA2
 
                     break;
                 case 6:
-                    //remover turma
+                    RemoverTurma(input);
 
                     break;
                 case 0 :
@@ -490,6 +491,7 @@ public class SIGAA2
                         input.nextLine();
                         Turma turmaNova = new Turma(numero,vagasTotais,codigo);
                         turmas.add(turmaNova); //coloca a turma na lista do sistema
+                        SalvarTurma(turmaNova);
             }
             
         }
@@ -547,6 +549,23 @@ public class SIGAA2
         else
         {
             System.out.println("o codigo não existe");
+        }
+    }
+    public static void RemoverTurma(Scanner input)
+    {
+        System.out.println("CUIDADO AO REMOVER TURMAS");
+        System.out.println("digite o codigo da disciplina da turma");
+        String codigoDisciplina = input.nextLine();
+        System.out.println("digite o numero da turma");
+        int numTurma = input.nextInt();
+        input.nextLine(); //come o enter
+        if (ChecarTurma(numTurma, codigoDisciplina))
+        {
+            System.out.println("");
+        }
+        else
+        {
+            System.out.println("algum erro no codigo da disciplina ou no numero da turma");
         }
     }
 
@@ -677,4 +696,51 @@ public class SIGAA2
             arquivo.delete();
         }
     }
+    public static void SalvarTurma(Turma turma)
+    {
+        String pasta = "banco_de_dados/turmas";
+        new File(pasta).mkdirs();
+        String caminhoArquivo = (pasta+'/'+turma.getNumero()+"DE"+turma.getcodigoDisciplina()+"turma.txt");
+        try (BufferedWriter salvar = new BufferedWriter(new FileWriter(caminhoArquivo)))
+        {
+            salvar.write(turma.toString());
+        } catch (IOException erro)
+        {
+            System.out.println("Erro ao salvar turma "+turma.getNumero()+"DE"+turma.getcodigoDisciplina()+':'+erro.getMessage());
+        }
+    }
+    public static void CarregarTurmas()
+    {
+        File pasta = new File("banco_de_dados/turmas");
+        if (pasta.exists() && pasta.isDirectory())
+        {
+            File[] arquivos = pasta.listFiles((dir, nome) -> nome.endsWith("turma.txt"));
+            if (arquivos !=null)
+            {
+                for (File arquivo : arquivos)
+                {
+                    try (BufferedReader leitor = new BufferedReader(new FileReader(arquivo)))
+                    {   
+                        String dados = leitor.readLine();
+                        Turma turma = Turma.fromString(dados);
+                        turmas.add(turma);
+                    } catch (IOException | NullPointerException erro)
+                    {
+                        System.out.println("erro ao carregar arquivos iniciais do sistema: "+arquivo.getName());
+                    }
+                }
+            }
+        }
+    }
+    public static void RemoverTurmaArquivo(Turma turma)
+    {
+        String caminho = "banco_de_dados/turma/"+turma.getNumero()+"DE"+turma.getcodigoDisciplina()+"turma.txt";
+        File arquivo = new File(caminho);
+
+        if (arquivo.exists())
+        {
+            arquivo.delete();
+        }
+    }
+
 }

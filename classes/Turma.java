@@ -119,5 +119,25 @@ public class Turma
     {
         return this.getNumero()+";"+this.getVagasTotais()+";"+this.getcodigoDisciplina()+";"+juntarAlunos(alunos);
     }
+    public static Turma fromString(String entrada)
+    {
+        String[] dados = entrada.split(";");
+        if (dados.length < 3)
+        {
+            return null;
+        }
+        else if (dados.length == 3)
+        {
+            int numero = Integer.parseInt(dados[0]);
+            int vagasTotais = Integer.parseInt(dados[1]);
+            return new Turma(numero, vagasTotais, dados[2]);
+        }
+        else
+        {
+            int numero = Integer.parseInt(dados[0]);
+            int vagasTotais = Integer.parseInt(dados[1]);
+            return new Turma(numero, vagasTotais, dados[2], dados[3]);
+        }
+    }
     
 }

@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 public class Aluno
 {
+    //talvez adicionar semestre e turmas que faz parte
     private String curso;
     private String nome;
     private int matricula;
     private List<String> disciplinas_cursadas; //serve para checar pré-requisitos, deve ser o codigo da disciplina
-
+    //lembrar de quando for colocar o aluno na turma, se ele fez os requisitos
 
     //construtores
     //depois criar um construtor pra quando carregar um aluno ele n aparecer que foi feito

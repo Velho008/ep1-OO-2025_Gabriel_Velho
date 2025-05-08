@@ -8,8 +8,7 @@ public class Disciplina { //ainda falta muito
     private String codigo;
     private int carga_horaria;
     private List<String> pre_requisitos; // os pré-requisitos devem referenciar a outras disciplinas existentes, pra quando for mostrar listar codigo, nome e carga horaria dos pré
-    // criar uma arraylist com os alunos fazendo a disciplina // talvez passar isso pra turma
-    //criar uma arrylist com as turmas da disciplina
+    // criar uma arrylist com as turmas da disciplina
 
     //construtores
     public Disciplina(String nome, String codigo, int carga_horaria, String pre_requisitos)
@@ -55,10 +54,6 @@ public class Disciplina { //ainda falta muito
     {
         System.out.println("uma nova disciplina foi criada, sem info");
     }
-
-    // fazer o metodo que realiza o cadastro do aluno na disciplina
-    // metodo que mostra a lista dos alunos da disciplina
-    // metodo pro aluno trancar a disciplina
 
     //setters e getters
     public void setNome(String nome)

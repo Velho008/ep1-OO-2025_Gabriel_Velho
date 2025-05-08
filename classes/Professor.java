@@ -27,7 +27,7 @@ public class Professor {
             for (Turma turma : turmas_ministradas)
             {
                 System.out.println("turmas ministradas: ");
-                System.out.println("turma de: "+turma.getnomeDisciplina()+"numero: "+turma.getNumero());
+                System.out.println("turma de: "+turma.getcodigoDisciplina()+"numero: "+turma.getNumero());
 
             }
         }
