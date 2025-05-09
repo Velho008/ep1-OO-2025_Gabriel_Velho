@@ -455,52 +455,48 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
     {
         System.out.println("Digite o codigo da disciplina da qual a turma pertence");
         String codigo = input.nextLine();
-        if (ChecarCodigoDisciplina(codigo))
-        {
-            String nomeDisciplina = BuscarDisciplina(codigo).getNome();
-            System.out.println("disciplina selecionada: "+nomeDisciplina+" codigo: "+codigo);
-            System.out.println("digite o numero da turma: ");
-            int numero = input.nextInt();
-            input.nextLine(); //come o espaço
-            boolean checar = true;
-            for (Turma turma : turmas)
-            {
-                checar = false;
-                boolean continuar = true;
-                do{
-                    continuar = false;
-                    if (turma.getNumero() == numero && turma.getcodigoDisciplina() == codigo)
-                    {
-                        checar = false;
-                        System.out.println("o numero digitado já pertence a uma outra turma da mesma disciplina");
-                        System.out.println("digite novamente");
-                        continuar = true;
-                    }
-                    else
-                    {
-                        checar = true;
-                        continuar = false;
 
-                    }
-                    }while(continuar);
-            }
-            if (checar)
-            {
-                        System.out.println("digite a quantidade de vagas: ");
-                        int vagasTotais = input.nextInt();
-                        input.nextLine();
-                        Turma turmaNova = new Turma(numero,vagasTotais,codigo);
-                        turmas.add(turmaNova); //coloca a turma na lista do sistema
-                        SalvarTurma(turmaNova);
-            }
-            
-        }
-        else
+        if (!ChecarCodigoDisciplina(codigo))
         {
             System.out.println("o codigo digitado não existe");
             System.out.println("voltando ao menu anterior");
+            return;
         }
+
+        String nomeDisciplina = BuscarDisciplina(codigo).getNome();
+        System.out.println("disciplina selecionada: "+nomeDisciplina+" codigo: "+codigo);
+        int numero;
+        boolean continuar;
+
+        do
+        {
+            System.out.println("digite o numero da turma");
+            numero = input.nextInt();
+            input.nextLine(); //come o enter
+
+            continuar = false;
+
+            for (Turma turma : turmas)
+            {
+                if (turma.getNumero() == numero && turma.getcodigoDisciplina().equals(codigo))
+                {
+                    System.out.println("o numero digitado já existe em outra turma da mesma disciplina");
+                    continuar = true;
+                    break;
+                }
+            }
+        } while (continuar);
+
+        System.out.println("digite a quantidade de vagas");
+        int vagas = input.nextInt();
+        input.nextLine(); //come o enter
+
+        Turma turmanova = new Turma(numero, vagas, codigo);
+        turmas.add(turmanova);
+        SalvarTurma(turmanova);
+        System.out.println("turma criada corretamente");
     }
+        
 
     public static void ListarDisciplinas()
     {
@@ -556,19 +552,29 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
         System.out.println("CUIDADO AO REMOVER TURMAS");
         System.out.println("digite o codigo da disciplina da turma");
         String codigoDisciplina = input.nextLine();
+
         System.out.println("digite o numero da turma");
         int numTurma = input.nextInt();
         input.nextLine(); //come o enter
+
         if (ChecarTurma(numTurma, codigoDisciplina))
         {
-            System.out.println("turma a ser apagada: "+BuscarTurma(numTurma, codigoDisciplina).getNumero()+" de "+BuscarDisciplina(codigoDisciplina).getNome());
+            Turma turma = BuscarTurma(numTurma, codigoDisciplina);
+            String nomeDisciplina = BuscarDisciplina(codigoDisciplina).getNome();
+
+            System.out.println("turma a ser apagada: "+turma.getNumero()+" de "+nomeDisciplina);
             System.out.println("para confirmar a remoção da turma digite novamente o codigo da disciplina: ");
             String teste = input.nextLine();
+
             if (teste.equals(codigoDisciplina))
             {
                 System.out.println("turma removida");
-                turmas.remove(BuscarTurma(numTurma, codigoDisciplina));
-                RemoverTurmaArquivo(BuscarTurma(numTurma, codigoDisciplina));
+                RemoverTurmaArquivo(turma);
+                turmas.remove(turma);
+            }
+            else
+            {
+                System.out.println("algum erro na confirmação");
             }
         }
         else
@@ -646,7 +652,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
         {
             for (Turma turma : turmas)
             {
-                if (turma.getNumero()==numero && turma.getcodigoDisciplina()==codigoDisciplina)
+                if (turma.getNumero()==numero && turma.getcodigoDisciplina().equals(codigoDisciplina))
                 {
                     return turma;
                 }
@@ -656,6 +662,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
     }
 
     //parte de arquivos
+    // PARA CADA UM FAZER UM QUE SALVA TUDO
     public static void SalvarAlunoIndividual(Aluno aluno)
     {
         String pasta = "banco_de_dados/alunos"; //caminho do diretorio
@@ -742,7 +749,9 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
     }
     public static void RemoverTurmaArquivo(Turma turma)
     {
-        String caminho = "banco_de_dados/turma/"+turma.getNumero()+"DE"+turma.getcodigoDisciplina()+"turma.txt";
+        int numero = turma.getNumero();
+        String codigoDisciplina = turma.getcodigoDisciplina();
+        String caminho = "banco_de_dados/turmas/"+numero+"DE"+codigoDisciplina+"turma.txt";
         File arquivo = new File(caminho);
 
         if (arquivo.exists())
