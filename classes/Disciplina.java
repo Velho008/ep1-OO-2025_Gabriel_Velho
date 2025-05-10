@@ -88,4 +88,37 @@ public class Disciplina { //ainda falta muito
     {
         return this.pre_requisitos;
     }
+
+    public String juntarRequisitos(List<String> requisitos)
+    {
+        String res = String.join(" ", requisitos);
+        return res;
+    }
+
+    public String toString()
+    {
+        return this.getNome() +';'+ this.getCodigo()+';' + this.getCargaHoraria() +';'+ juntarRequisitos(this.getPreRequisitos());
+    }
+
+    public static Disciplina fromString(String entrada)
+    {
+        String[] dados = entrada.split(";");
+        String nome = dados[0];
+        String codigo = dados[1];
+        int carga_horaria = Integer.parseInt(dados[2]);
+        if (entrada.length() == 3)
+        {
+            return new Disciplina(nome,codigo,carga_horaria);
+
+        }
+        else if (entrada.length() < 3)
+        {
+            return null;
+        }
+        else
+        {
+            String requisitos = dados[3];
+            return new Disciplina(nome,codigo,carga_horaria,requisitos);
+        }
+    }
 }

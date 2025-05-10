@@ -760,4 +760,42 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
         }
     }
 
+    public static void SalvarDisciplina(Disciplina disciplina)
+    {
+        String pasta = "banco_de_dados/disciplinas";
+        new File(pasta).mkdirs();
+        String caminhoArquivo = (pasta +'/'+disciplina.getCodigo()+"disciplina.txt");
+        try (BufferedWriter salvar = new BufferedWriter(new FileWriter(caminhoArquivo)))
+        {
+            salvar.write(disciplina.toString());
+        } catch(IOException erro)
+        {
+            System.out.println("Erro ao salvar disciplina"+ disciplina.getCodigo()+'/'+disciplina.getNome()+':'+erro.getMessage());
+        }
+    }
+
+    public static void CarregarDisciplina()
+    {
+        File pasta = new File("banco_de_dados/disciplinas");
+        if (pasta.exists() && pasta.isDirectory())
+        {
+            File[] arquivos = pasta.listFiles((dir, nome) -> nome.endsWith("disciplina.txt"));
+            if (arquivos !=null)
+            {
+                for (File arquivo : arquivos)
+                {
+                    try (BufferedReader leitor = new BufferedReader(new FileReader(arquivo)))
+                    {
+                        String dados = leitor.readLine();
+                        Disciplina disciplina = Disciplina.fromString(dados);
+                        disciplinas.add(disciplina);
+                    } catch (IOException | NullPointerException erro)
+                    {
+                        System.out.println("erro ao carregar arquivos iniciais do sistema: "+arquivo.getName());
+                    }
+                }
+            }
+        }
+    }
+
 }
