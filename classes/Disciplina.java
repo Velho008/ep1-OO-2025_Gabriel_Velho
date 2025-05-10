@@ -26,7 +26,7 @@ public class Disciplina { //ainda falta muito
         System.out.println("uma nova disciplina foi criada: "+this.nome);
         System.out.println("codigo: "+this.codigo);
         System.out.println("carga horaria: "+this.carga_horaria+" Horas");
-        if (pre_requisitos.isEmpty())
+        if (this.pre_requisitos.isEmpty())
         {
             System.out.println("não tem pré-requisitos");
         }
@@ -44,6 +44,7 @@ public class Disciplina { //ainda falta muito
         this.nome = nome;
         this.codigo = codigo;
         this.carga_horaria = carga_horaria;
+        this.pre_requisitos = new ArrayList<>();
 
         System.out.println("uma nova disciplina foi criada: "+this.nome);
         System.out.println("codigo: "+this.codigo);
@@ -94,31 +95,28 @@ public class Disciplina { //ainda falta muito
         String res = String.join(" ", requisitos);
         return res;
     }
-
+    @Override
     public String toString()
     {
-        return this.getNome() +';'+ this.getCodigo()+';' + this.getCargaHoraria() +';'+ juntarRequisitos(this.getPreRequisitos());
+        return (this.nome +';'+ this.codigo+';' + this.carga_horaria +';'+ juntarRequisitos(this.pre_requisitos));
     }
 
     public static Disciplina fromString(String entrada)
     {
         String[] dados = entrada.split(";");
-        String nome = dados[0];
-        String codigo = dados[1];
-        int carga_horaria = Integer.parseInt(dados[2]);
-        if (entrada.length() == 3)
+        if (dados.length == 3)
         {
-            return new Disciplina(nome,codigo,carga_horaria);
-
+            int carga_horaria = Integer.parseInt(dados[2]);
+            return new Disciplina(dados[0],dados[1],carga_horaria);
         }
-        else if (entrada.length() < 3)
+        else if (dados.length < 3)
         {
             return null;
         }
         else
         {
-            String requisitos = dados[3];
-            return new Disciplina(nome,codigo,carga_horaria,requisitos);
+            int carga_horaria = Integer.parseInt(dados[2]);
+            return new Disciplina(dados[0],dados[1],carga_horaria,dados[3]);
         }
     }
 }
