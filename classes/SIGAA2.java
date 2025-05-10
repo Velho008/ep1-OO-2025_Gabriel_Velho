@@ -14,6 +14,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
         //carregar as coisas dos arquivos
         CarregarAlunos();
         CarregarTurmas();
+        CarregarDisciplinas();
 
         //scanner usado no menu inteiro
         Scanner input1 = new Scanner(System.in);
@@ -442,12 +443,14 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
             } while (veracidadeRequisitos == false);
             Disciplina disciplina = new Disciplina(nome, codigo, carga_horaria, pre_requisitos);
             disciplinas.add(disciplina);
+            SalvarDisciplina(disciplina);
             
         }
         else
         {
             Disciplina disciplina = new Disciplina(nome,codigo,carga_horaria); 
             disciplinas.add(disciplina); //coloca a disciplina na lista do sistema
+            SalvarDisciplina(disciplina);
         }
     }   
 
@@ -774,7 +777,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
         }
     }
 
-    public static void CarregarDisciplina()
+    public static void CarregarDisciplinas()
     {
         File pasta = new File("banco_de_dados/disciplinas");
         if (pasta.exists() && pasta.isDirectory())
