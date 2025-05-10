@@ -541,8 +541,14 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
             String teste = input.nextLine();
             if (teste.equals(codigo))
             {
+                Disciplina disciplina = BuscarDisciplina(codigo);
+                RemoverDisciplinaArquivo(disciplina);
                 System.out.println("disciplina removida");
                 disciplinas.remove(BuscarDisciplina(codigo));
+            }
+            else
+            {
+                System.out.println("algum erro na confirmação do codigo");
             }
         }
         else
@@ -798,6 +804,17 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
                     }
                 }
             }
+        }
+    }
+    public static void RemoverDisciplinaArquivo(Disciplina disciplina)
+    {
+        String codigo = disciplina.getCodigo();
+        String caminho = ("banco_de_dados/disciplinas/"+codigo+"disciplina.txt");
+        File arquivo = new File(caminho);
+
+        if (arquivo.exists())
+        {
+            arquivo.delete();
         }
     }
 
