@@ -22,7 +22,7 @@ public class Turma
         this.numero = numero;
         this.vagasAtuais = vagasTotais;
         this.vagasTotais = vagasTotais;
-        alunos = new ArrayList<>();
+        this.alunos = new ArrayList<>();
 
         System.out.println("nova turma");
         System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina);
@@ -35,7 +35,7 @@ public class Turma
         this.vagasAtuais = vagasTotais;
         this.vagasTotais = vagasTotais;
         this.codigoDisciplina = codigoDisciplina;
-        alunos = new ArrayList<>();
+        this.alunos = new ArrayList<>();
         for (String aluno : matriculaAlunos.split(" "))
         {
             int matricula = Integer.parseInt(aluno);

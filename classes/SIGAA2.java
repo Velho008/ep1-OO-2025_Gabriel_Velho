@@ -87,7 +87,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
 
                     break;
                 case 3:
-                    // colocar aluno em turma
+                    MatricularAlunoEmTurma(input);
 
                     break;
                 case 4:
@@ -193,7 +193,51 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
         if (ChecarMatricula(matricula))
         {
             Aluno aluno = BuscarAluno(matricula);
-            //escolher a disciplina e dps a turma, ai colocar o aluno na lista de ambas
+            System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
+            System.out.println("digite o codigo da disciplina: ");
+            String codigo = input.nextLine();
+            if (ChecarCodigoDisciplina(codigo))
+            {
+                Disciplina disciplina = BuscarDisciplina(codigo);
+                System.out.println("disciplina selecionada: " + disciplina.getNome()+'/'+disciplina.getCodigo());
+
+                boolean confirmador = false;
+                if (!disciplina.getPreRequisitos().isEmpty() && !aluno.getDisciplinasCursadas().isEmpty())
+                {
+                    if (aluno.getDisciplinasCursadas().containsAll(disciplina.getPreRequisitos()))
+                    {
+                        confirmador = true;
+                    }
+                }
+                if (disciplina.getPreRequisitos().isEmpty() || confirmador)
+                {
+                    System.out.println("digite o numero da turma que o aluno "+aluno.getNome()+" será matriculado:");
+                    int num = input.nextInt();
+                    input.nextLine(); //come o enter
+                    if (ChecarTurma(num, codigo))
+                    {
+                        Turma turma = BuscarTurma(num, codigo);
+                        System.out.println("turma selecionada: "+turma.getNumero());
+                        turma.addAluno(aluno);
+                        System.out.println("aluno matriculado com sucesso, vagas atuais da turma: "+turma.getVagasAtuais()+'/'+turma.getVagasTotais());
+                    }
+                    else
+                    {
+                        System.out.println("a turma selecionada não existe");
+                    }
+                    
+                }
+                else
+                {
+                    System.out.println("o aluno não tem algum dos pré-requisitos para cursar a disciplina");
+                    System.out.println("são eles");
+                    System.out.println(disciplina.getPreRequisitos());
+                }
+            }
+            else
+            {
+                System.out.println("codigo da disciplina inexistente");
+            }
         }
         else
         {
@@ -354,7 +398,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
         do //menuzinho do modo escolha
         {
             System.out.println("MODO TURMA");
-            System.out.println("digite 1 para criar uma nova disciplina"); //falta salvar arquivos
+            System.out.println("digite 1 para criar uma nova disciplina");
             System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");//falta deixar 100%
             System.out.println("digite 3 para listar as disciplinas existentes"); //talvez escolher para listar as turmas de cada disciplina
             System.out.println("digite 4 para listar as turmas existentes"); //mostrar quantas vagas tem e pode escolher uma turma para listar os alunos dela
@@ -454,7 +498,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
         }
     }   
 
-    public static void CriarTurma(Scanner input) //ALGUM BUG NA HORA DE CHECAR SE JÁ TEM OUTRA TURMA NA MESMA DISCIPLINA E NUM
+    public static void CriarTurma(Scanner input)
     {
         System.out.println("Digite o codigo da disciplina da qual a turma pertence");
         String codigo = input.nextLine();

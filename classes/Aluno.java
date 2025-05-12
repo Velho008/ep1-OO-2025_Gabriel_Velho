@@ -87,6 +87,10 @@ public class Aluno
     {
         this.matricula = matricula;
     }
+    public List<String> getDisciplinasCursadas()
+    {
+        return this.disciplinas_cursadas;
+    }
 
     public void MostrarInfo() //adicionar as disciplinas cursadas
     {
