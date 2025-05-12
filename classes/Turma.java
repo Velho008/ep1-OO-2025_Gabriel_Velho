@@ -2,7 +2,6 @@ package classes;
 
 import java.util.ArrayList;
 import java.util.List;
-//colocar um cdigo na turma e Fds ou não
 public class Turma 
 {
     private int vagasTotais;
@@ -10,7 +9,7 @@ public class Turma
     private int numero; // numero da turma mesmo
     private String codigoDisciplina; // codigo de qual disciplina a turma faz parte
     private ArrayList<Integer> alunos; //matricula dos alunos da turma
-    // colocar horario, duas turmas de uma mesma disciplina não podem coexistir no mesmo horario
+    // colocar horario, duas turmas de uma mesma sala não podem coexistir no mesmo horario
     // adicionar algo para mostrar se é remota ou não
     // adicionar String sala onde a turma tem as aulas
     // adicionar forma a ou b de avaliação (ver github para mais info)
@@ -72,6 +71,10 @@ public class Turma
     public String getcodigoDisciplina()
     {
         return this.codigoDisciplina;
+    }
+    public ArrayList<Integer> getAlunos()
+    {
+        return this.alunos;
     }
     public void addAluno(int aluno)
     {

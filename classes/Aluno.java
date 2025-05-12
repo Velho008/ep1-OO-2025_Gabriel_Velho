@@ -9,7 +9,7 @@ public class Aluno
     private String nome;
     private int matricula;
     private List<String> disciplinas_cursadas; //serve para checar pré-requisitos, deve ser o codigo da disciplina
-    //lembrar de quando for colocar o aluno na turma, se ele fez os requisitos
+    //fazer um add e um remove disciplinas_cursadas
 
     //construtores
     //depois criar um construtor pra quando carregar um aluno ele n aparecer que foi feito

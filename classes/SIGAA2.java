@@ -67,7 +67,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
             System.out.println("MODO ALUNO"); 
             System.out.println("digite 1 para cadastrar alunos");
             System.out.println("digite 2 para listar os alunos cadastrados");
-            System.out.println("digite 3 para matricular um aluno em uma turma"); //falta esse //falta mudar os arquivos quando muda aqui
+            System.out.println("digite 3 para matricular um aluno em uma turma"); //falta mudar os arquivos quando muda aqui
             System.out.println("digite 4 para editar cadastro de aluno"); //falta mudar os arquivos quando muda aqui
             System.out.println("digite 5 para trancar a matricula de um aluno"); //falta esse //falta mudar os arquivos quando muda aqui
             System.out.println("digite 6 para deletar um aluno do sistema");
@@ -91,11 +91,11 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
 
                     break;
                 case 4:
-                    EditarAluno(input); //editar tambem o arquivo do aluno
+                    EditarAluno(input); //editar tambem o arquivo do aluno (apagar o antigo e criar o novo)
 
                     break;
                 case 5:
-                    // trancar essencialmente remove a turma das coisas que o aluno tá fazendo
+                    TrancarMatricula(input); //editar o arquivo do aluno (apagar o antigo e criar o novo)
 
                     break;
                 case 6:
@@ -345,6 +345,76 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
             System.out.println("matricula não existe");
         }
 
+    }
+    public static void TrancarMatricula(Scanner input)
+    {
+        System.out.println("trancar matricula geral = sair de todas as turmas");
+        System.out.println("trancar matricula de materia = sair da turma da materia");
+        System.out.println("digite a matricula do aluno: ");
+        int matricula = input.nextInt();
+        input.nextLine(); //come o enter
+        if (ChecarMatricula(matricula))
+        {
+            Aluno aluno = BuscarAluno(matricula);
+            System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
+            System.out.println("digite 1 para realizar o trancamento geral de matricula");
+            int escolha = input.nextInt();
+            input.nextLine(); //come o enter
+            if (escolha == 1)
+            {
+                //dar uma melhorada nesse sistema de pesquisa
+                //talvez colocar uma lista com as turmas em disciplina pra facilitar a busca
+                for (Turma turma : turmas)
+                {
+                    for (int alunoDaTurma : turma.getAlunos())
+                    {
+                        if (alunoDaTurma == aluno.getMatricula())
+                        {
+                            turma.removerAluno(aluno);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                System.out.println("digite o codigo da disciplina que será trancada: ");
+                String codigo = input.nextLine();
+                if (ChecarCodigoDisciplina(codigo))
+                {
+                    System.out.println("digite o numero da turma: ");
+                    int num = input.nextInt();
+                    input.nextLine(); //come o enter 
+
+                    if (ChecarTurma(num, codigo))
+                    {
+                        Turma turma = BuscarTurma(num, codigo);
+                        System.out.println("digite novamente a matricula do aluno para confirmar o trancamento");
+                        int teste = input.nextInt();
+                        input.nextLine(); //come o enter
+                        if (teste == aluno.getMatricula())
+                        {
+                            turma.removerAluno(aluno);
+                        }
+                        else
+                        {
+                            System.out.println("matricula errada, voltando ao menu anterior");
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("turma selecionada não existe");
+                    }
+                }
+                else
+                {
+                    System.out.println("o codigo da disciplina não existe");
+                }
+            }
+        }
+        else
+        {
+            System.out.println("o aluno selecionado não existe");
+        }
     }
     public static void RemoverAluno(Scanner input)
     {
