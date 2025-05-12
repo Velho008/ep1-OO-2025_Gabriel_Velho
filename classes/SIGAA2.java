@@ -28,7 +28,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
             System.out.println("digite 1 para o modo aluno");
             System.out.println("digite 2 para o modo turma");
             System.out.println("digite 3 para o modo notas");
-            System.out.println("digite 0 para sair");
+            System.out.println("digite 0 para sair"); //falta salvar tudo quando for fechar
             escolha = input1.nextInt();
 
             switch (escolha)
@@ -69,7 +69,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
             System.out.println("digite 2 para listar os alunos cadastrados");
             System.out.println("digite 3 para matricular um aluno em uma turma"); //falta mudar os arquivos quando muda aqui
             System.out.println("digite 4 para editar cadastro de aluno"); //falta mudar os arquivos quando muda aqui
-            System.out.println("digite 5 para trancar a matricula de um aluno"); //falta esse //falta mudar os arquivos quando muda aqui
+            System.out.println("digite 5 para trancar a matricula de um aluno"); //falta mudar os arquivos quando muda aqui
             System.out.println("digite 6 para deletar um aluno do sistema");
             System.out.println("digite 7 para buscar informações sobre um aluno");
             System.out.println("digite 0 voltar ao menu anterior"); //separar o trancamento e a edição do cadastro
@@ -467,11 +467,11 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
 
         do //menuzinho do modo escolha
         {
-            System.out.println("MODO TURMA");
+            System.out.println("MODO TURMA"); //fazer um pra mostrar infos sobre uma disciplina e outro para infos sobre turma
             System.out.println("digite 1 para criar uma nova disciplina");
-            System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");//falta deixar 100%
-            System.out.println("digite 3 para listar as disciplinas existentes"); //talvez escolher para listar as turmas de cada disciplina
-            System.out.println("digite 4 para listar as turmas existentes"); //mostrar quantas vagas tem e pode escolher uma turma para listar os alunos dela
+            System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");
+            System.out.println("digite 3 para listar as disciplinas existentes"); 
+            System.out.println("digite 4 para listar as turmas existentes"); 
             System.out.println("digite 5 para remover uma disciplina do sistema"); //falta tirar arquivo
             System.out.println("digite 6 para remover uma turma do sistema"); //FALTA FAZER //falta tirar arquivo
             System.out.println("digite 0 para voltar ao menu anterior");
@@ -632,7 +632,6 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
 
     public static void ListarTurmas()
     {
-        //caso tenha 0 vagas, marcar a turma com um X no começo, para mostrar que acabaram as vagas
         System.out.println("");
         System.out.println("NUMERO //DISCIPLINA //VAGAS ATUAIS //VAGAS TOTAIS");
         for (Turma turma : turmas)
@@ -708,7 +707,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
 
     public static void ModoNotas(Scanner input)
     {
-
+        //meio que falta fazer tudo ainda 
     }
     public static boolean ChecarMatricula(int matricula)
     {
