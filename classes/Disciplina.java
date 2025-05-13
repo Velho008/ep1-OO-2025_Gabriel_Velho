@@ -90,6 +90,27 @@ public class Disciplina { //ainda falta muito
         return this.pre_requisitos;
     }
 
+
+    public void MostrarInfo()
+    {
+        System.out.println("nome da disciplina: "+this.nome);
+        System.out.println("codigo: "+this.codigo);
+        System.out.println("carga horaria: "+this.carga_horaria+" Horas");
+        if (this.pre_requisitos.isEmpty())
+        {
+            System.out.println("não tem pré-requisitos");
+        }
+        else
+        {
+            System.out.println("seus pré-requisitos são: ");
+            for (String requisito : this.pre_requisitos)
+            {
+                System.out.println(requisito);
+            }
+        }
+    }
+
+    //parte de arquivos
     public String juntarRequisitos(List<String> requisitos)
     {
         String res = String.join(" ", requisitos);

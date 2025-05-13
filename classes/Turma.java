@@ -105,6 +105,15 @@ public class Turma
             System.out.println("matricula: "+matricula);
         }
     }
+
+    public void MostrarInfo()
+    {
+        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina);
+        System.out.println("vagas atuais: "+vagasAtuais+'/'+vagasTotais);
+        ListarAlunos();
+    }
+
+    //parte de arquivos
     public String juntarAlunos(ArrayList<Integer> alunos)
     {
         ArrayList<String> str_matriculas = new ArrayList<>();

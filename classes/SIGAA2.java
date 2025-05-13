@@ -3,7 +3,7 @@ package classes;
 import java.util.*;
 import java.io.*;
 
-public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COISAS MUDAM
+public class SIGAA2 
 {
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
     static ArrayList<Disciplina> disciplinas = new ArrayList<>(); //serve pra manter e criar disciplinas
@@ -47,7 +47,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
 
                     break;
                 case 0:
-                    SalvarTudo();
+                    SalvarTudo(); //salva tudo antes de fechar
                     input1.close();
                     System.exit(0);
                     break;
@@ -69,11 +69,11 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
             System.out.println("digite 1 para cadastrar alunos");
             System.out.println("digite 2 para listar os alunos cadastrados");
             System.out.println("digite 3 para matricular um aluno em uma turma"); //falta mudar os arquivos quando muda aqui
-            System.out.println("digite 4 para editar cadastro de aluno"); //falta mudar os arquivos quando muda aqui //falta poder adicionar disciplinas
+            System.out.println("digite 4 para editar cadastro de aluno"); //falta mudar os arquivos quando muda aqui
             System.out.println("digite 5 para trancar a matricula de um aluno"); //falta mudar os arquivos quando muda aqui
             System.out.println("digite 6 para deletar um aluno do sistema");
             System.out.println("digite 7 para buscar informações sobre um aluno");
-            System.out.println("digite 0 voltar ao menu anterior"); //separar o trancamento e a edição do cadastro
+            System.out.println("digite 0 voltar ao menu anterior"); 
             escolha = input.nextInt();
             input.nextLine(); //come o enter
 
@@ -100,7 +100,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
 
                     break;
                 case 6:
-                    RemoverAluno(input); //remover o arquivo do sistema
+                    RemoverAluno(input);
 
                     break;
                 case 7:
@@ -264,9 +264,9 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
                 System.out.println("digite 1 para alterar o nome");
                 System.out.println("digite 2 para alterar o curso");
                 System.out.println("digite 3 para alterar a matricula");
-                System.out.println("digite 4 para adicionar disciplinas que o aluno já fez"); //falta checar os requisitos da materia adicionada
+                System.out.println("digite 4 para adicionar disciplinas que o aluno já fez");
                 System.out.println("digite 5 para remover disciplinas que o aluno já fez");
-                System.out.println("digite 0 para voltar ao menu anterior"); //adicionar um que apaga o aluno do sistema
+                System.out.println("digite 0 para voltar ao menu anterior");
 
                 escolha = input.nextInt();
                 String codigo;
@@ -536,8 +536,10 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
             System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");
             System.out.println("digite 3 para listar as disciplinas existentes"); 
             System.out.println("digite 4 para listar as turmas existentes"); 
-            System.out.println("digite 5 para remover uma disciplina do sistema"); //falta tirar arquivo
-            System.out.println("digite 6 para remover uma turma do sistema"); //FALTA FAZER //falta tirar arquivo
+            System.out.println("digite 5 para remover uma disciplina do sistema"); 
+            System.out.println("digite 6 para remover uma turma do sistema");
+            System.out.println("digite 7 para ver informações sobre uma disciplina"); 
+            System.out.println("digite 8 para ver informações sobre uma turma"); 
             System.out.println("digite 0 para voltar ao menu anterior");
             escolha = input.nextInt();
             input.nextLine(); //come o enter
@@ -566,6 +568,14 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
                     break;
                 case 6:
                     RemoverTurma(input);
+
+                    break;
+                case 7:
+                    MostrarInfoDisciplina(input);
+
+                    break;
+                case 8:
+                    MostrarInfoTurma(input);
 
                     break;
                 case 0 :
@@ -767,6 +777,40 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
         {
             System.out.println("algum erro no codigo da disciplina ou no numero da turma");
         }
+    }
+    public static void MostrarInfoDisciplina(Scanner input)
+    {
+        System.out.println("digite o codigo da disciplina que sera consultada");
+        String codigo = input.nextLine();
+        if (!ChecarCodigoDisciplina(codigo))
+        {
+            System.out.println("o codigo digitado não existe");
+            return; //só pra parar mesmo de rodar
+        }
+        BuscarDisciplina(codigo).MostrarInfo();
+    }
+    public static void MostrarInfoTurma(Scanner input)
+    {
+        System.out.println("digite o codigo da disciplina da turma");
+        String codigo = input.nextLine();
+        if (!ChecarCodigoDisciplina(codigo))
+        {
+            System.out.println("o codigo digitado não existe");
+            return; 
+        }
+        Disciplina disciplina = BuscarDisciplina(codigo);
+        System.out.println("a disciplina selecionada foi: "+disciplina.getNome()+'/'+disciplina.getCodigo());
+        System.out.println("digite o numero da turma");
+        int numero = input.nextInt();
+        input.nextLine(); //come o enter
+        if (!ChecarTurma(numero, codigo))
+        {
+            System.out.println("a turma não existe");
+            return;
+        }
+        Turma turma = BuscarTurma(numero, codigo);
+        turma.MostrarInfo();
+
     }
 
     public static void ModoNotas(Scanner input)
