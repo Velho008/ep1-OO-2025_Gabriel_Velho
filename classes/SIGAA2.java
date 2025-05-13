@@ -47,6 +47,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
 
                     break;
                 case 0:
+                    SalvarTudo();
                     input1.close();
                     System.exit(0);
                     break;
@@ -68,7 +69,7 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
             System.out.println("digite 1 para cadastrar alunos");
             System.out.println("digite 2 para listar os alunos cadastrados");
             System.out.println("digite 3 para matricular um aluno em uma turma"); //falta mudar os arquivos quando muda aqui
-            System.out.println("digite 4 para editar cadastro de aluno"); //falta mudar os arquivos quando muda aqui
+            System.out.println("digite 4 para editar cadastro de aluno"); //falta mudar os arquivos quando muda aqui //falta poder adicionar disciplinas
             System.out.println("digite 5 para trancar a matricula de um aluno"); //falta mudar os arquivos quando muda aqui
             System.out.println("digite 6 para deletar um aluno do sistema");
             System.out.println("digite 7 para buscar informações sobre um aluno");
@@ -263,9 +264,13 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
                 System.out.println("digite 1 para alterar o nome");
                 System.out.println("digite 2 para alterar o curso");
                 System.out.println("digite 3 para alterar a matricula");
+                System.out.println("digite 4 para adicionar disciplinas que o aluno já fez"); //falta checar os requisitos da materia adicionada
+                System.out.println("digite 5 para remover disciplinas que o aluno já fez");
                 System.out.println("digite 0 para voltar ao menu anterior"); //adicionar um que apaga o aluno do sistema
 
                 escolha = input.nextInt();
+                String codigo;
+                Disciplina disciplina;
                 input.nextLine(); //come o enter
                     switch (escolha)
                     {
@@ -331,6 +336,49 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
                                 }
                             }
 
+                            break;
+                        case 4: //FALTA CHECAR OS REQUISITOS DA MATERIA A SER ADICIONADA
+                            System.out.println("digite o codigo da disciplina que vai ser adicionada");
+                            codigo = input.nextLine();
+                            if (!ChecarCodigoDisciplina(codigo))
+                            {
+                                System.out.println("o codigo digitado não existe");
+                                break;
+                            }
+                            disciplina = BuscarDisciplina(codigo);
+                            System.out.println("a disciplina selecionada é: "+disciplina.getNome()+'/'+disciplina.getCodigo());
+                            System.out.println("digite novamente a matricula do aluno para confirmar: ");
+                            teste = input.nextInt();
+                            input.nextLine(); //come o enter
+                            if (!(teste == matriculaVelha))
+                            {
+                                System.out.println("matricula invalida");
+                                break;
+                            }
+                            aluno.addDisciplina(disciplina);
+                            System.out.println("disciplina adicionada com sucesso");
+                            ;
+                            break;
+                        case 5: //falta checar se o aluno realmente fez a disciplina
+                            System.out.println("digite o codigo da disciplina que vai ser removida");
+                            codigo = input.nextLine();
+                            if (!ChecarCodigoDisciplina(codigo))
+                            {
+                                System.out.println("o codigo digitado não existe");
+                                break;
+                            }
+                            disciplina = BuscarDisciplina(codigo);
+                            System.out.println("a disciplina selecionada é: "+disciplina.getNome()+'/'+disciplina.getCodigo());
+                            System.out.println("digite novamente a matricula do aluno para confirmar: ");
+                            teste = input.nextInt();
+                            input.nextLine(); //come o enter
+                            if (!(teste == matriculaVelha))
+                            {
+                                System.out.println("matricula invalida");
+                                break;
+                            }
+                            aluno.removerDisciplina(disciplina);
+                            System.out.println("disciplina removida com sucesso");
                             break;
                         case 0:
                             break;
@@ -928,6 +976,21 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
         if (arquivo.exists())
         {
             arquivo.delete();
+        }
+    }
+    public static void SalvarTudo()
+    {
+        for (Aluno aluno : alunos)
+        {
+            SalvarAlunoIndividual(aluno);
+        }
+        for (Disciplina disciplina : disciplinas)
+        {
+            SalvarDisciplina(disciplina);
+        }
+        for (Turma turma : turmas)
+        {
+            SalvarTurma(turma);
         }
     }
 

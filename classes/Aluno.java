@@ -91,6 +91,22 @@ public class Aluno
     {
         return this.disciplinas_cursadas;
     }
+    public void addDisciplina(String codigo)
+    {
+        this.disciplinas_cursadas.add(codigo);
+    }
+    public void addDisciplina(Disciplina disciplina)
+    {
+        this.disciplinas_cursadas.add(disciplina.getCodigo());
+    }
+    public void removerDisciplina(String codigo)
+    {
+        this.disciplinas_cursadas.remove(codigo);
+    }
+    public void removerDisciplina(Disciplina disciplina)
+    {
+        this.disciplinas_cursadas.remove(disciplina.getCodigo());
+    }
 
     public void MostrarInfo() //adicionar as disciplinas cursadas
     {
