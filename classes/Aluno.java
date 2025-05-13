@@ -108,6 +108,20 @@ public class Aluno
         this.disciplinas_cursadas.remove(disciplina.getCodigo());
     }
 
+    public boolean fezDisciplina(String codigo)
+    {
+        boolean res = false;
+        for (String disciplina : disciplinas_cursadas)
+        {
+            if (codigo.equals(disciplina))
+            {
+                res = true;
+                break;
+            }
+        }
+        return res;
+    }
+
     public void MostrarInfo() //adicionar as disciplinas cursadas
     {
         System.out.println("nome: "+nome);

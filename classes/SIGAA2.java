@@ -347,6 +347,17 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
                             }
                             disciplina = BuscarDisciplina(codigo);
                             System.out.println("a disciplina selecionada é: "+disciplina.getNome()+'/'+disciplina.getCodigo());
+                            if (!aluno.getDisciplinasCursadas().containsAll(disciplina.getPreRequisitos()))
+                            {
+                                System.out.println("o aluno não fez os requisitos da materia selecionada");
+                                System.out.println("portanto não poderá ter essa materia como já feita");
+                                System.out.println("os requisitos da materia são:");
+                                for (String requisito : disciplina.getPreRequisitos())
+                                {
+                                    System.out.println(requisito);
+                                }
+                                break;
+                            }
                             System.out.println("digite novamente a matricula do aluno para confirmar: ");
                             teste = input.nextInt();
                             input.nextLine(); //come o enter
@@ -359,12 +370,17 @@ public class SIGAA2 //SALVAR TUDO DNV QUANDO FOR FECHAR O PROGRAMA, POIS AS COIS
                             System.out.println("disciplina adicionada com sucesso");
                             ;
                             break;
-                        case 5: //falta checar se o aluno realmente fez a disciplina
+                        case 5: 
                             System.out.println("digite o codigo da disciplina que vai ser removida");
                             codigo = input.nextLine();
                             if (!ChecarCodigoDisciplina(codigo))
                             {
                                 System.out.println("o codigo digitado não existe");
+                                break;
+                            }
+                            if (!aluno.fezDisciplina(codigo))
+                            {
+                                System.out.println("o aluno não fez a disciplina selecionada");
                                 break;
                             }
                             disciplina = BuscarDisciplina(codigo);
