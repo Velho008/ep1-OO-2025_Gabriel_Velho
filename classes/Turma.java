@@ -1,7 +1,6 @@
 package classes;
 
 import java.util.ArrayList;
-import java.util.List;
 public class Turma 
 {
     private int vagasTotais;
