@@ -5,6 +5,7 @@ import java.io.*;
 
 public class SIGAA2 
 {
+    //faltam alguns ajustes no modo turma, implementar por completo professores, e partir pro modo notas
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
     static ArrayList<Disciplina> disciplinas = new ArrayList<>(); //serve pra manter e criar disciplinas
     static ArrayList<Turma> turmas = new ArrayList<>(); //serve para manter e criar turmas
@@ -531,9 +532,9 @@ public class SIGAA2
 
         do //menuzinho do modo escolha
         {
-            System.out.println("MODO TURMA"); //fazer um pra mostrar infos sobre uma disciplina e outro para infos sobre turma
+            System.out.println("MODO TURMA"); //falta criar editar e apagar professores 
             System.out.println("digite 1 para criar uma nova disciplina");
-            System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");
+            System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada"); //falta impossibilitar que 2 turmas existam na mesma sala ao mesmo tempo OU com o mesmo prof ao mesmo tempo
             System.out.println("digite 3 para listar as disciplinas existentes"); 
             System.out.println("digite 4 para listar as turmas existentes"); 
             System.out.println("digite 5 para remover uma disciplina do sistema"); 
