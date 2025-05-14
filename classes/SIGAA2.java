@@ -532,7 +532,7 @@ public class SIGAA2
 
         do //menuzinho do modo escolha
         {
-            System.out.println("MODO TURMA"); //falta criar editar e apagar professores 
+            System.out.println("MODO TURMA");
             System.out.println("digite 1 para criar uma nova disciplina");
             System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada"); //falta impossibilitar que 2 turmas existam na mesma sala ao mesmo tempo OU com o mesmo prof ao mesmo tempo
             System.out.println("digite 3 para listar as disciplinas existentes"); 
@@ -541,6 +541,9 @@ public class SIGAA2
             System.out.println("digite 6 para remover uma turma do sistema");
             System.out.println("digite 7 para ver informações sobre uma disciplina"); 
             System.out.println("digite 8 para ver informações sobre uma turma"); 
+            System.out.println("digite 9 para criar um novo professor"); //falta fazer
+            System.out.println("digite 10 para editar um professor que já existe no sistema"); //falta fazer
+            System.out.println("digite 11 para apagar um professor que existe no sistema"); //falta fazer
             System.out.println("digite 0 para voltar ao menu anterior");
             escolha = input.nextInt();
             input.nextLine(); //come o enter
