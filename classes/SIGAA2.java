@@ -5,10 +5,13 @@ import java.io.*;
 
 public class SIGAA2 
 {
-    //faltam alguns ajustes no modo turma, implementar por completo professores, e partir pro modo notas
+    //TESTAR O CRIADOR DE TURMAS
+    //fazer tudo de professor
+    //falta o modo notas inteiro
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
     static ArrayList<Disciplina> disciplinas = new ArrayList<>(); //serve pra manter e criar disciplinas
     static ArrayList<Turma> turmas = new ArrayList<>(); //serve para manter e criar turmas
+    static ArrayList<Professor> professores = new ArrayList<>(); //serve pra criar e manter professores
 
         public static void main(String[] args)
     {
@@ -542,8 +545,7 @@ public class SIGAA2
             System.out.println("digite 7 para ver informações sobre uma disciplina"); 
             System.out.println("digite 8 para ver informações sobre uma turma"); 
             System.out.println("digite 9 para criar um novo professor"); //falta fazer
-            System.out.println("digite 10 para editar um professor que já existe no sistema"); //falta fazer
-            System.out.println("digite 11 para apagar um professor que existe no sistema"); //falta fazer
+            System.out.println("digite 10 para apagar um professor que existe no sistema"); //falta fazer
             System.out.println("digite 0 para voltar ao menu anterior");
             escolha = input.nextInt();
             input.nextLine(); //come o enter
@@ -681,12 +683,44 @@ public class SIGAA2
                 }
             }
         } while (continuar);
-
+        boolean online = false;
         System.out.println("digite a quantidade de vagas");
         int vagas = input.nextInt();
         input.nextLine(); //come o enter
-
-        Turma turmanova = new Turma(numero, vagas, codigo);
+        System.out.println("digite o nome da sala onde a aula ocorrerá ou deixe em branco caso seja online: ");
+        String sala = input.nextLine();
+        if (sala.isEmpty())//online
+        {
+            online = true;
+        }
+        System.out.println("digite a matricula do professor que vai ministrar a turma");
+        int matriculaProf = input.nextInt();
+        input.nextLine(); //come o enter
+        if (!ChecarMatriculaProf(matriculaProf))
+        {
+            System.out.println("não existe professor com essa matricula");
+            return;
+        }
+        System.out.println("digite o horario de inicio da aula no formato: 8 (8AM) ou 12(meio dia)");
+        System.out.println("lembre que as aulas duram sempre 2 horas");
+        int horario = input.nextInt();
+        input.nextLine(); //come o enter
+        if (!ChecarHorario(horario) && !ChecarSala(sala) && !online)
+        {
+            System.out.println("existe outra sala no mesmo horario");
+            return;
+        }
+        if (!ChecarHorario(horario) && !ChecarProfTurma(matriculaProf))
+        {
+            System.out.println("esse prof já dá aula no mesmo horario");
+            return;
+        }
+        System.out.println("digite o semestre da turma: ");
+        int semestre = input.nextInt();
+        input.nextLine(); //come o enter
+        System.out.println("digite o metodo de avaliação, a ou b");
+        char metodoAvaliacao = input.nextLine().charAt(0);
+        Turma turmanova = new Turma(matriculaProf,sala,metodoAvaliacao,horario,numero, vagas,semestre, codigo);
         turmas.add(turmanova);
         SalvarTurma(turmanova);
         System.out.println("turma criada corretamente");
@@ -880,6 +914,18 @@ public class SIGAA2
         }
         return achou;
     }
+    public static boolean ChecarTurma(String codigoTurma)
+    {
+        boolean achou = false;
+        for (Turma turma : turmas)
+        {
+            if (turma.getCodigoTurma().equals(codigoTurma))
+            {
+                achou = true;
+            }
+        }
+        return achou;
+    }
     public static Turma BuscarTurma(int numero, String codigoDisciplina)
     {
         if (ChecarCodigoDisciplina(codigoDisciplina))
@@ -894,6 +940,84 @@ public class SIGAA2
         }
     return null;
     }
+    public static Turma BuscarTurma(String codigoTurma)
+    {
+        if (ChecarCodigoDisciplina(codigoTurma))
+        {
+            for (Turma turma : turmas)
+            {
+                if (turma.getCodigoTurma().equals(codigoTurma))
+                {
+                    return turma;
+                }
+            }
+        }
+    return null;
+    }
+    public static boolean ChecarHorario(int horario)
+    {
+        for (Turma turma : turmas)
+        {
+            int horarioExistente = turma.getHorario();
+            int conflito1 = horarioExistente +1;
+            int conflito2 = horarioExistente +2;
+            
+            if (horarioExistente == horario || conflito1 == horario || conflito2 == horario)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean ChecarSala(String sala)
+    {
+        for (Turma turma: turmas)
+        {
+            if (sala.equals(turma.getSala()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean ChecarProfTurma(int matriculaProf)
+    {
+        for (Turma turma : turmas)
+        {
+            if (turma.getMatriculaProf() == matriculaProf)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean ChecarMatriculaProf(int matricula)
+    {
+        for (Professor professor : professores)
+        {
+            if (professor.getMatricula() == matricula)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static Professor BuscarProfessor(int matricula)
+    {
+        if (ChecarMatriculaProf(matricula))
+        {
+            return null;
+        }
+        for (Professor professor : professores)
+        {
+            if (professor.getMatricula() == matricula)
+            {
+                return professor;
+            }
+        }
+        return null;
+    }
+
 
     //parte de arquivos
     // PARA CADA UM FAZER UM QUE SALVA TUDO

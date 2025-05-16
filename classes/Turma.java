@@ -11,11 +11,13 @@ public class Turma
     private int matriculaProf; //matricula do professor que ministra as aulas
     private String sala; // para ser remota, basta não adicionar sala
     private char metodoAvaliacao; //a ou b, ver github
-    private char[] horario; //toda aula dura 2 horas, hora final exemplo: 0800 (começa 8 da manha)
+    private int horario; //toda aula dura 2 horas, exemplo: 8 (começa 8 da manha) e acaba as 10
+    private int semestre; //de qual semestre a turma é
+    private String codigoDaTurma; //FACILITA BUSCAR A TURMA, é criado de forma automatica
     // duas turmas de uma mesma sala não podem coexistir no mesmo horario
 
-    //construtores //fazer um sem sala, pra online
-    public Turma(int matriculaProf, String sala, char metodoAvaliacao, char[] horario,int numero, int vagasTotais, String codigoDisciplina)
+    //construtores
+    public Turma(int matriculaProf, String sala, char metodoAvaliacao, int horario,int numero, int vagasTotais, int semestre, String codigoDisciplina)
     {
         this.matriculaProf = matriculaProf;
         this.sala = sala;
@@ -25,13 +27,15 @@ public class Turma
         this.numero = numero;
         this.vagasAtuais = vagasTotais;
         this.vagasTotais = vagasTotais;
+        this.semestre = semestre;
         this.alunos = new ArrayList<>();
-
+        this.codigoDaTurma = codigoDisciplina+numero;
+        System.out.println("codigo da turma: "+this.codigoDaTurma);
         System.out.println("nova turma ministrada pelo prof de matricula: "+this.matriculaProf);
-        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina);
+        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina+"do semestre: "+semestre);
         System.out.println("vagas totais: "+vagasTotais);
         System.out.println("metodo "+this.metodoAvaliacao+"de avaliação");
-        System.out.println("horario inicial: "+this.horario[0]+this.horario[1]+':'+this.horario[2]+this.horario[3]);
+        System.out.println("horario inicial: "+this.horario+':'+00);
         System.out.println("todas as aulas tem duração de 2 horas");
 
         if (this.sala.isEmpty())
@@ -43,7 +47,7 @@ public class Turma
             System.out.println("ocorre na sala: "+this.sala);
         }
     }
-    public Turma(int matriculaProf, char metodoAvaliacao, char[] horario,int numero, int vagasTotais, String codigoDisciplina)
+    public Turma(int matriculaProf, char metodoAvaliacao, int horario,int numero, int vagasTotais, int semestre, String codigoDisciplina)
     {
         this.matriculaProf = matriculaProf;
         this.sala = "";
@@ -53,24 +57,28 @@ public class Turma
         this.numero = numero;
         this.vagasAtuais = vagasTotais;
         this.vagasTotais = vagasTotais;
+        this.semestre = semestre;
         this.alunos = new ArrayList<>();
-
+        this.codigoDaTurma = codigoDisciplina+numero;
+        System.out.println("codigo da turma: "+this.codigoDaTurma);
         System.out.println("nova turma ministrada pelo prof de matricula: "+this.matriculaProf);
-        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina);
+        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina + "do semestre: "+semestre);
         System.out.println("vagas totais: "+vagasTotais);
         System.out.println("metodo "+this.metodoAvaliacao+"de avaliação");
-        System.out.println("horario inicial: "+this.horario[0]+this.horario[1]+':'+this.horario[2]+this.horario[3]);
+        System.out.println("horario inicial: "+this.horario+':'+00);
         System.out.println("todas as aulas tem duração de 2 horas");
         System.out.println("turma online");
     }
     //construtor pra quando puxar de arquivo
-    public Turma(int matriculaProf, String sala, char metodoAvaliacao, char[] horario, int numero, int vagasTotais, String codigoDisciplina, String matriculaAlunos)
+    public Turma(int matriculaProf, String sala, char metodoAvaliacao, char[] horario, int numero, int vagasTotais,int semestre, String codigoDisciplina, String matriculaAlunos)
     {
         this.numero = numero;
         this.vagasAtuais = vagasTotais;
         this.vagasTotais = vagasTotais;
         this.codigoDisciplina = codigoDisciplina;
+        this.semestre = semestre;
         this.alunos = new ArrayList<>();
+        this.codigoDaTurma = codigoDisciplina+numero;
         for (String aluno : matriculaAlunos.split(" "))
         {
             int matricula = Integer.parseInt(aluno);
@@ -78,7 +86,23 @@ public class Turma
         }
     }
 
+    public void atualizarCodigoTurma()
+    {
+        this.codigoDaTurma = codigoDisciplina+numero;
+    }
+    public String getCodigoTurma()
+    {
+        return this.codigoDaTurma = codigoDisciplina+numero;
+    }
     //setters e getters
+    public void setSemestre(int semestre)
+    {
+        this.semestre = semestre;
+    }
+    public int getSemestre()
+    {
+        return this.semestre;
+    }
     public void setMatriculaProf(int matricula)
     {
         this.matriculaProf = matricula;
@@ -103,11 +127,11 @@ public class Turma
     {
         return this.metodoAvaliacao;
     }
-    public void setHorario(char[] horario)
+    public void setHorario(int horario)
     {
         this.horario = horario;
     }
-    public char[] getHorario()
+    public int getHorario()
     {
         return this.horario;
     }
@@ -176,8 +200,24 @@ public class Turma
 
     public void MostrarInfo()
     {
-        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina);
+        System.out.println("codigo da turma: "+this.codigoDaTurma);
+        System.out.println("nova turma ministrada pelo prof de matricula: "+this.matriculaProf);
+        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina+"do semestre: "+semestre);
+        System.out.println("vagas totais: "+vagasTotais);
+        System.out.println("metodo "+this.metodoAvaliacao+"de avaliação");
+        System.out.println("horario inicial: "+this.horario+':'+00);
+        System.out.println("todas as aulas tem duração de 2 horas");
+
+        if (this.sala.isEmpty())
+        {
+            System.out.println("turma online");
+        }
+        else
+        {
+            System.out.println("ocorre na sala: "+this.sala);
+        }
         System.out.println("vagas atuais: "+vagasAtuais+'/'+vagasTotais);
+        System.out.println("alunos mattriculados: ");
         ListarAlunos();
     }
 
@@ -197,8 +237,7 @@ public class Turma
     @Override
     public String toString()
     {
-        String hora = getHorario().toString();
-        return this.getMatriculaProf()+';'+this.getSala()+';'+this.getMetodoAvaliacao()+';'+hora+';'+this.getNumero()+';'+this.getVagasTotais()+';'+this.getcodigoDisciplina()+';'+juntarAlunos(alunos);
+        return this.getMatriculaProf()+';'+this.getSala()+';'+this.getMetodoAvaliacao()+';'+this.getHorario()+';'+this.getNumero()+';'+this.getVagasTotais()+';'+this.getSemestre()+';'+this.getcodigoDisciplina()+';'+juntarAlunos(alunos);
     }
     public static Turma fromString(String entrada)
     {
@@ -211,16 +250,26 @@ public class Turma
         {
             int matriculaProf = Integer.parseInt(dados[0]);
             String sala = dados[1];
-            char metodoAvaliacao = dados[2];
-            int numero = Integer.parseInt(dados[0]);
-            int vagasTotais = Integer.parseInt(dados[1]);
-            return new Turma(numero, vagasTotais, dados[2]);
+            char metodoAvaliacao = dados[2].charAt(0);
+            int horario = Integer.parseInt(dados[3]);
+            int numero = Integer.parseInt(dados[4]);
+            int vagasTotais = Integer.parseInt(dados[5]);
+            int semestre = Integer.parseInt(dados[6]);
+            String codigoDisciplina = dados[7];
+            return new Turma(matriculaProf,sala,metodoAvaliacao,horario,numero,vagasTotais,semestre,codigoDisciplina);
         }
         else
         {
-            int numero = Integer.parseInt(dados[0]);
-            int vagasTotais = Integer.parseInt(dados[1]);
-            return new Turma(numero, vagasTotais, dados[2], dados[3]);
+
+            int matriculaProf = Integer.parseInt(dados[0]);
+            String sala = dados[1];
+            char metodoAvaliacao = dados[2].charAt(0);
+            char[] horario = dados[3].toCharArray();
+            int numero = Integer.parseInt(dados[4]);
+            int vagasTotais = Integer.parseInt(dados[5]);
+            int semestre = Integer.parseInt(dados[6]);
+            String codigoDisciplina = dados[7];
+            return new Turma(matriculaProf,sala,metodoAvaliacao,horario,numero,vagasTotais,semestre,codigoDisciplina,dados[8]);
         }
     }
     

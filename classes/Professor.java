@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Professor {
     private String nome;
     private int matricula;
-    private ArrayList<Turma> turmas_ministradas; //turmas que o professor ministra
+    private ArrayList<String> turmas_ministradas; //codigo das turmas que o prof ministra
 
     //construtores
     //criar outro construtor que coloca as turmas corretamente
@@ -23,9 +23,10 @@ public class Professor {
         }
         else
         {
-            for (Turma turma : turmas_ministradas)
+            System.out.println("turmas ministradas: ");
+            for (String codTurma : turmas_ministradas)
             {
-                System.out.println("turmas ministradas: ");
+                Turma turma = SIGAA2.BuscarTurma(codTurma);
                 System.out.println("turma de: "+turma.getcodigoDisciplina()+"numero: "+turma.getNumero());
 
             }
@@ -48,17 +49,17 @@ public class Professor {
     {
         this.matricula = matricula;
     }
-    public ArrayList<Turma> getTurmas()
+    public ArrayList<String> getTurmas()
     {
         return this.turmas_ministradas;
     } 
-    public void addTurma(Turma turma)
+    public void addTurma(String codTurma)
     {
-        this.turmas_ministradas.add(turma);
+        this.turmas_ministradas.add(codTurma);
     }
-    public void removerTurma(Turma turma)
+    public void removerTurma(String codTurma)
     {
-        this.turmas_ministradas.remove(turma);
+        this.turmas_ministradas.remove(codTurma);
     }
     public void MostrarInfo()
     {
@@ -69,24 +70,20 @@ public class Professor {
             System.out.println("ainda não ministra nenhuma turma");
             return;
         }
-        for (Turma turma : turmas_ministradas)
+        System.out.println("turmas ministradas: ");
+        for (String codTurma : turmas_ministradas)
         {
-            System.out.println("turmas ministradas: ");
+            Turma turma = SIGAA2.BuscarTurma(codTurma);
             System.out.println("turma de: "+turma.getcodigoDisciplina()+"numero: "+turma.getNumero());
+
         }
     }
+
 
     //arquivos
     public String juntarTurmas()
     {
-        ArrayList<String> res = new ArrayList<>();
-        for (Turma turma : this.turmas_ministradas)
-        {
-            res.add(String.valueOf(turma.getNumero()));
-            res.add(" ");
-            res.add(turma.getcodigoDisciplina());
-        }
-        String fim = String.join(" ",res);
+        String fim = String.join(" ",this.turmas_ministradas);
         return fim;
     }
     //falta o tostring e o fromstring
