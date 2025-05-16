@@ -11,7 +11,6 @@ public class SIGAA2
     //quando digitar a disciplina na hora de matricular o aluno, puxar a lista de turmas da disciplina
     //e para cada turma, puxar a lista de alunos, se ele estiver na lista de alguma turma, dar erro
     //}
-    //TESTAR TUDO DE PROFESSOR
 
     //criar o aluno especial
     //falta o modo notas inteiro
