@@ -8,8 +8,18 @@ public class SIGAA2
     //TESTAR O CRIADOR DE TURMAS
     //fazer tudo de professor (criador, salvador, apagador, carregador)
     // expandir o salvartudo pra tmb salvar professor
-    //falta o modo notas inteiro
     //criar o aluno especial
+    //falta o modo notas inteiro
+    //{ 
+    //criar boletim de aluno por semestre
+    //lançar notas e presenças (caso o aluno não passe, falar pq, caso passe, adicionar a materia nas que ele já fez)
+    //calcular media final e presença e salvar no boletim do semestre
+    //relatorio de turma {quantos alunos passaram, quantas aulas tiveram, nota media de cada prova}
+    //relatorio de disciplina {quantas turmas tem, quantos alunos passaram, nota media de cada prova}
+    //relatorio de professor {quantos alunos tem (soma das turmas que ministra) quantos passaram, media de cada prova}
+    // exibir boletim do aluno por semestre com ou sem dados da turma
+    //}
+    
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
     static ArrayList<Disciplina> disciplinas = new ArrayList<>(); //serve pra manter e criar disciplinas
     static ArrayList<Turma> turmas = new ArrayList<>(); //serve para manter e criar turmas
