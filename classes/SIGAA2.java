@@ -5,9 +5,14 @@ import java.io.*;
 
 public class SIGAA2 
 {
-    //TESTAR O CRIADOR DE TURMAS
-    //fazer tudo de professor (criador, salvador, apagador, carregador)
-    // expandir o salvartudo pra tmb salvar professor
+    //ARRUMAR: CONSIGO MATRICULAR O MESMO ALUNO 2 VEZES NA MESMA TURMA para isso
+    //{
+    // criar uma arraylist de turmas em disciplina
+    //quando digitar a disciplina na hora de matricular o aluno, puxar a lista de turmas da disciplina
+    //e para cada turma, puxar a lista de alunos, se ele estiver na lista de alguma turma, dar erro
+    //}
+    //TESTAR TUDO DE PROFESSOR
+
     //criar o aluno especial
     //falta o modo notas inteiro
     //{ 
@@ -28,9 +33,11 @@ public class SIGAA2
         public static void main(String[] args)
     {
         //carregar as coisas dos arquivos
-        CarregarAlunos();
-        CarregarTurmas();
+        CarregarProfessor();
         CarregarDisciplinas();
+        CarregarTurmas();
+        CarregarAlunos();
+        
 
         Scanner input1 = new Scanner(System.in);//scanner usado no menu inteiro
         int escolha;//variavel de escolha do menu
@@ -213,8 +220,7 @@ public class SIGAA2
             if (ChecarCodigoDisciplina(codigo))
             {
                 Disciplina disciplina = BuscarDisciplina(codigo);
-                System.out.println("disciplina selecionada: " + disciplina.getNome()+'/'+disciplina.getCodigo());
-
+                System.out.println("disciplina selecionada: " + disciplina.getNome()+'/'+disciplina.getCodigo()); 
                 boolean confirmador = false;
                 if (!disciplina.getPreRequisitos().isEmpty() && !aluno.getDisciplinasCursadas().isEmpty())
                 {
@@ -552,7 +558,9 @@ public class SIGAA2
             System.out.println("digite 7 para ver informações sobre uma disciplina"); 
             System.out.println("digite 8 para ver informações sobre uma turma"); 
             System.out.println("digite 9 para criar um novo professor"); 
-            System.out.println("digite 10 para apagar um professor que existe no sistema"); 
+            System.out.println("digite 10 para apagar um professor que existe no sistema");
+            System.out.println("digite 11 para listar os professores existentes"); 
+            System.out.println("digite 12 para ver informações sobre um professor");
             System.out.println("digite 0 para voltar ao menu anterior");
             escolha = input.nextInt();
             input.nextLine(); //come o enter
@@ -589,6 +597,22 @@ public class SIGAA2
                     break;
                 case 8:
                     MostrarInfoTurma(input);
+
+                    break;
+                case 9: 
+                    CriarProfessor(input);
+
+                    break;
+                case 10:
+                    RemoverProfessor(input);
+
+                    break;
+                case 11:
+                    ListarProfessores();
+
+                    break;
+                case 12:
+                    MostrarInfoProfessor(input);
 
                     break;
                 case 0 :
@@ -682,7 +706,7 @@ public class SIGAA2
 
             for (Turma turma : turmas)
             {
-                if (turma.getNumero() == numero && turma.getcodigoDisciplina().equals(codigo))
+                if (turma != null && turma.getCodigoDisciplina() != null && turma.getNumero() == numero && codigo.equals(turma.getCodigoDisciplina()))
                 {
                     System.out.println("o numero digitado já existe em outra turma da mesma disciplina");
                     continuar = true;
@@ -703,7 +727,7 @@ public class SIGAA2
         System.out.println("digite a matricula do professor que vai ministrar a turma");
         int matriculaProf = input.nextInt();
         input.nextLine(); //come o enter
-        if (!ChecarMatriculaProf(matriculaProf))
+        if (ChecarMatriculaProf(matriculaProf))
         {
             System.out.println("não existe professor com essa matricula");
             return;
@@ -714,7 +738,7 @@ public class SIGAA2
         input.nextLine(); //come o enter
         if (!ChecarHorario(horario) && !ChecarSala(sala) && !online)
         {
-            System.out.println("existe outra sala no mesmo horario");
+            System.out.println("existe outra turma que usa a sala no mesmo horario");
             return;
         }
         if (!ChecarHorario(horario) && !ChecarProfTurma(matriculaProf))
@@ -730,6 +754,8 @@ public class SIGAA2
         Turma turmanova = new Turma(matriculaProf,sala,metodoAvaliacao,horario,numero, vagas,semestre, codigo);
         turmas.add(turmanova);
         SalvarTurma(turmanova);
+        Professor professor = BuscarProfessor(matriculaProf);
+        professor.addTurma(turmanova.getCodigoTurma());
         System.out.println("turma criada corretamente");
     }
         
@@ -755,8 +781,9 @@ public class SIGAA2
         System.out.println("NUMERO //DISCIPLINA //VAGAS ATUAIS //VAGAS TOTAIS");
         for (Turma turma : turmas)
         {
+            if (turma == null) continue;
             System.out.print(turma.getNumero());
-            System.out.print(turma.getcodigoDisciplina()+"    "+turma.getVagasAtuais()+"/"+turma.getVagasTotais());
+            System.out.print(turma.getCodigoDisciplina()+"    "+turma.getVagasAtuais()+"/"+turma.getVagasTotais());
             System.out.println("");
         }
         System.out.println("");
@@ -857,6 +884,78 @@ public class SIGAA2
         turma.MostrarInfo();
 
     }
+    public static void CriarProfessor(Scanner input)
+    {
+        System.out.println("digite o nome do professor: ");
+        String nome = input.nextLine();
+        System.out.println("digite a matricula do professor: ");
+        int matricula = input.nextInt();
+        input.nextLine(); //come o enter
+
+        if (!ChecarMatriculaProf(matricula))
+        {
+            System.out.println("já existe um professor com essa matricula");
+            return;
+        }
+
+        Professor professor = new Professor(nome, matricula);
+        professores.add(professor);
+        SalvarProfessor(professor);
+    }
+    public static void RemoverProfessor(Scanner input)
+    {
+        System.out.println("CUIDADO AO REMOVER PROFESSORES");
+        System.out.println("digite a matricula do professor");
+        int matricula = input.nextInt();
+        input.nextLine(); //come o enter
+
+        if (ChecarMatriculaProf(matricula))
+        {
+            System.out.println("não existe nenhum professor com essa matricula");
+            return;
+        }
+        Professor professor = BuscarProfessor(matricula);
+        System.out.println("professor a ser apagado: "+professor.getNome()+'/'+professor.getMatricula());
+        System.out.println("para confirmar a remoção do professor digite novamente a matricula do professor");
+        int teste = input.nextInt();
+        input.nextLine(); //come o enter
+        if (! (teste == matricula))
+        {
+            System.out.println("erro na confirmação da matricula");
+            return;
+        }
+        System.out.println("professor removido");
+        RemoverProfessorArquivo(professor);
+        professores.remove(professor);
+    }
+    public static void ListarProfessores()
+    {
+        System.out.println("");
+        System.out.println("NOME //MATRICULA");
+        for (Professor professor : professores)
+        {
+            System.out.print(professor.getNome()+'/');
+            System.out.print(professor.getMatricula());
+            System.out.println("");
+        }
+        System.out.println("");
+    }
+    public static void MostrarInfoProfessor(Scanner input)
+    {
+        System.out.println("digite a matricula do professor");
+        int matricula = input.nextInt();
+        input.nextLine();//come o enter
+
+        if (ChecarMatriculaProf(matricula))
+        {
+            System.out.println("a matricula digitada não pertence a nenhum professor");
+            return; 
+        }
+        Professor professor = BuscarProfessor(matricula);
+        System.out.println("o professor selecionado foi: "+professor.getNome()+'/'+professor.getMatricula());
+        professor.MostrarInfo();
+
+    }
 
     public static void ModoNotas(Scanner input)
     {
@@ -913,7 +1012,7 @@ public class SIGAA2
         {
             for (Turma turma : turmas)
             {
-                if (turma.getNumero()==numero && turma.getcodigoDisciplina().equals(codigoDisciplina))
+                if (turma.getNumero()==numero && turma.getCodigoDisciplina().equals(codigoDisciplina))
                 {
                     achou = true;
                 }
@@ -939,7 +1038,7 @@ public class SIGAA2
         {
             for (Turma turma : turmas)
             {
-                if (turma.getNumero()==numero && turma.getcodigoDisciplina().equals(codigoDisciplina))
+                if (turma.getNumero()==numero && turma.getCodigoDisciplina().equals(codigoDisciplina))
                 {
                     return turma;
                 }
@@ -949,7 +1048,7 @@ public class SIGAA2
     }
     public static Turma BuscarTurma(String codigoTurma)
     {
-        if (ChecarCodigoDisciplina(codigoTurma))
+        if (ChecarTurma(codigoTurma))
         {
             for (Turma turma : turmas)
             {
@@ -962,20 +1061,23 @@ public class SIGAA2
     return null;
     }
     public static boolean ChecarHorario(int horario)
+{
+    for (Turma turma : turmas)
     {
-        for (Turma turma : turmas)
+        if (turma == null) continue;
+        int inicioExistente = turma.getHorario();
+        int fimExistente = inicioExistente + 2;
+
+        int inicioNovo = horario;
+        int fimNovo = horario + 2;
+
+        if (!(inicioNovo >= fimExistente || fimNovo <= inicioExistente))
         {
-            int horarioExistente = turma.getHorario();
-            int conflito1 = horarioExistente +1;
-            int conflito2 = horarioExistente +2;
-            
-            if (horarioExistente == horario || conflito1 == horario || conflito2 == horario)
-            {
-                return false;
-            }
+            return false; 
         }
-        return true;
     }
+    return true; 
+}
     public static boolean ChecarSala(String sala)
     {
         for (Turma turma: turmas)
@@ -1077,13 +1179,13 @@ public class SIGAA2
     {
         String pasta = "banco_de_dados/turmas";
         new File(pasta).mkdirs();
-        String caminhoArquivo = (pasta+'/'+turma.getNumero()+"DE"+turma.getcodigoDisciplina()+"turma.txt");
+        String caminhoArquivo = (pasta+'/'+turma.getNumero()+"DE"+turma.getCodigoDisciplina()+"turma.txt");
         try (BufferedWriter salvar = new BufferedWriter(new FileWriter(caminhoArquivo)))
         {
             salvar.write(turma.toString());
         } catch (IOException erro)
         {
-            System.out.println("Erro ao salvar turma "+turma.getNumero()+"DE"+turma.getcodigoDisciplina()+':'+erro.getMessage());
+            System.out.println("Erro ao salvar turma "+turma.getNumero()+"DE"+turma.getCodigoDisciplina()+':'+erro.getMessage());
         }
     }
     public static void CarregarTurmas()
@@ -1112,8 +1214,55 @@ public class SIGAA2
     public static void RemoverTurmaArquivo(Turma turma)
     {
         int numero = turma.getNumero();
-        String codigoDisciplina = turma.getcodigoDisciplina();
+        String codigoDisciplina = turma.getCodigoDisciplina();
         String caminho = "banco_de_dados/turmas/"+numero+"DE"+codigoDisciplina+"turma.txt";
+        File arquivo = new File(caminho);
+
+        if (arquivo.exists())
+        {
+            arquivo.delete();
+        }
+    }
+    public static void SalvarProfessor(Professor professor)
+    {
+        String pasta = "banco_de_dados/professores";
+        new File(pasta).mkdirs();
+        String caminhoArquivo = (pasta +'/'+professor.getMatricula()+"professor.txt");
+        try (BufferedWriter salvar = new BufferedWriter(new FileWriter(caminhoArquivo)))
+        {
+            salvar.write(professor.toString());
+        } catch (IOException erro)
+        {
+            System.out.println("Erro ao salvar professor"+professor.getNome()+'/'+professor.getMatricula()+':'+erro.getMessage());
+        }
+    }
+    public static void CarregarProfessor()
+    {
+        File pasta = new File("banco_de_dados/professores");
+        if (pasta.exists() && pasta.isDirectory())
+        {
+            File[] arquivos = pasta.listFiles((dir,nome) -> nome.endsWith("professor.txt"));
+            if (arquivos !=null)
+            {
+                for (File arquivo : arquivos)
+                {
+                    try (BufferedReader leitor = new BufferedReader(new FileReader(arquivo)))
+                    {
+                        String dados = leitor.readLine();
+                        Professor professor = Professor.fromString(dados);
+                        professores.add(professor);
+                    } catch (IOException | NullPointerException erro)
+                    {
+                        System.out.println("Erro ao carregar arquivos iniciais do sistema: "+arquivo.getName());
+                    }
+                }
+            }
+        }
+    }
+    public static void RemoverProfessorArquivo(Professor professor)
+    {
+        int matricula = professor.getMatricula();
+        String caminho = ("banco_de_dados/professores/"+matricula+"professor.txt");
         File arquivo = new File(caminho);
 
         if (arquivo.exists())
@@ -1183,6 +1332,10 @@ public class SIGAA2
         for (Turma turma : turmas)
         {
             SalvarTurma(turma);
+        }
+        for (Professor professor : professores)
+        {
+            SalvarProfessor(professor);
         }
     }
 

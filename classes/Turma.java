@@ -37,7 +37,7 @@ public class Turma
         System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina+"do semestre: "+semestre);
         System.out.println("vagas totais: "+vagasTotais);
         System.out.println("metodo "+this.metodoAvaliacao+"de avaliação");
-        System.out.println("horario inicial: "+this.horario+':'+00);
+        System.out.println("horario inicial: "+this.horario+':'+"00");
         System.out.println("todas as aulas tem duração de 2 horas");
 
         if (this.sala.isEmpty())
@@ -67,7 +67,7 @@ public class Turma
         System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina + "do semestre: "+semestre);
         System.out.println("vagas totais: "+vagasTotais);
         System.out.println("metodo "+this.metodoAvaliacao+"de avaliação");
-        System.out.println("horario inicial: "+this.horario+':'+00);
+        System.out.println("horario inicial: "+this.horario+':'+"00");
         System.out.println("todas as aulas tem duração de 2 horas");
         System.out.println("turma online");
     }
@@ -94,7 +94,8 @@ public class Turma
     }
     public String getCodigoTurma()
     {
-        return this.codigoDaTurma = codigoDisciplina+numero;
+        this.codigoDaTurma = codigoDisciplina+numero;
+        return codigoDaTurma;
     }
     //setters e getters
     public void setSemestre(int semestre)
@@ -158,11 +159,11 @@ public class Turma
     {
         return this.numero;
     }
-    public void setcodigoDisciplina(String codigoDisciplina)
+    public void setCodigoDisciplina(String codigoDisciplina)
     {
         this.codigoDisciplina = codigoDisciplina;
     }
-    public String getcodigoDisciplina()
+    public String getCodigoDisciplina()
     {
         return this.codigoDisciplina;
     }
@@ -204,13 +205,13 @@ public class Turma
     {
         System.out.println("codigo da turma: "+this.codigoDaTurma);
         System.out.println("nova turma ministrada pelo prof de matricula: "+this.matriculaProf);
-        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina+"do semestre: "+semestre);
+        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina+" do semestre: "+semestre);
         System.out.println("vagas totais: "+vagasTotais);
-        System.out.println("metodo "+this.metodoAvaliacao+"de avaliação");
+        System.out.println("metodo "+this.metodoAvaliacao+" de avaliação");
         System.out.println("horario inicial: "+this.horario+':'+00);
         System.out.println("todas as aulas tem duração de 2 horas");
 
-        if (this.sala.isEmpty())
+        if (this.sala.isEmpty() || this.sala == null)
         {
             System.out.println("turma online");
         }
@@ -219,7 +220,7 @@ public class Turma
             System.out.println("ocorre na sala: "+this.sala);
         }
         System.out.println("vagas atuais: "+vagasAtuais+'/'+vagasTotais);
-        System.out.println("alunos mattriculados: ");
+        System.out.println("alunos matriculados: ");
         ListarAlunos();
     }
 
@@ -239,13 +240,14 @@ public class Turma
     @Override
     public String toString()
     {
-        return this.getMatriculaProf()+';'+this.getSala()+';'+this.getMetodoAvaliacao()+';'+this.getHorario()+';'+this.getNumero()+';'+this.getVagasTotais()+';'+this.getSemestre()+';'+this.getcodigoDisciplina()+';'+juntarAlunos(alunos);
+        return "" + this.getMatriculaProf()+';'+this.getSala()+';'+this.getMetodoAvaliacao()+';'+this.getHorario()+';'+this.getNumero()+';'+this.getVagasTotais()+';'+this.getSemestre()+';'+this.getCodigoDisciplina()+';'+juntarAlunos(alunos);
     }
     public static Turma fromString(String entrada)
     {
         String[] dados = entrada.split(";");
         if (dados.length < 8)
         {
+            System.out.println("erro ao criar turma");
             return null;
         }
         else if (dados.length == 8)

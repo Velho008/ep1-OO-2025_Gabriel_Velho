@@ -29,11 +29,23 @@ public class Professor {
             for (String codTurma : turmas_ministradas)
             {
                 Turma turma = SIGAA2.BuscarTurma(codTurma);
-                System.out.println("turma de: "+turma.getcodigoDisciplina()+"numero: "+turma.getNumero());
+                System.out.println("turma de: "+turma.getCodigoDisciplina()+"numero: "+turma.getNumero());
 
             }
         }
     }
+    //construtor de arquivos (fromstring)
+    public Professor(String nome, int matricula, String turmas) 
+    {
+        this.nome = nome;
+        this.matricula = matricula;
+        this.turmas_ministradas = new ArrayList<>();
+        for (String codTurma : turmas.split(" "))
+        {
+            turmas_ministradas.add(codTurma);
+        }
+    }
+    
 
     public String getNome()
     {
@@ -76,7 +88,8 @@ public class Professor {
         for (String codTurma : turmas_ministradas)
         {
             Turma turma = SIGAA2.BuscarTurma(codTurma);
-            System.out.println("turma de: "+turma.getcodigoDisciplina()+"numero: "+turma.getNumero());
+            if (turma == null) continue;
+            System.out.println("turma de: "+turma.getCodigoDisciplina()+" numero: "+turma.getNumero());
 
         }
     }
@@ -87,5 +100,31 @@ public class Professor {
     {
         String fim = String.join(" ",this.turmas_ministradas);
         return fim;
+    }
+    @Override
+    public String toString()
+    {
+        return ""+this.nome+';'+this.matricula+';'+juntarTurmas();
+    }
+    public static Professor fromString(String entrada)
+    {
+        String[] infos = entrada.split(";");
+        if (infos.length==2)
+        {
+            String nome = infos[0];
+            int matricula = Integer.parseInt(infos[1]);
+            return new Professor(nome,matricula);
+        }
+        else if (infos.length < 2)
+        {
+            return null;
+        }
+        else
+        {
+            String nome = infos[0];
+            int matricula = Integer.parseInt(infos[1]);
+            String turmas = infos[2];
+            return new Professor(nome,matricula,turmas);
+        }
     }
 }
