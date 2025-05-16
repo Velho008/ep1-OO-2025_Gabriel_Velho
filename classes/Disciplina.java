@@ -2,13 +2,15 @@ package classes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Disciplina { //ainda falta muito
+// criar uma arrylist com as turmas da disciplina
+// fazer um construtor pra quando puxar de arquivo n aparecer tudo
+public class Disciplina {
 
     private String nome;
     private String codigo;
     private int carga_horaria;
     private List<String> pre_requisitos; // os pré-requisitos devem referenciar a outras disciplinas existentes, pra quando for mostrar listar codigo, nome e carga horaria dos pré
-    // criar uma arrylist com as turmas da disciplina
+    
 
     //construtores
     public Disciplina(String nome, String codigo, int carga_horaria, String pre_requisitos)

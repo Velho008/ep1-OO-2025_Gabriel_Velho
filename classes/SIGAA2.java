@@ -6,8 +6,10 @@ import java.io.*;
 public class SIGAA2 
 {
     //TESTAR O CRIADOR DE TURMAS
-    //fazer tudo de professor
+    //fazer tudo de professor (criador, salvador, apagador, carregador)
+    // expandir o salvartudo pra tmb salvar professor
     //falta o modo notas inteiro
+    //criar o aluno especial
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
     static ArrayList<Disciplina> disciplinas = new ArrayList<>(); //serve pra manter e criar disciplinas
     static ArrayList<Turma> turmas = new ArrayList<>(); //serve para manter e criar turmas
@@ -20,10 +22,8 @@ public class SIGAA2
         CarregarTurmas();
         CarregarDisciplinas();
 
-        //scanner usado no menu inteiro
-        Scanner input1 = new Scanner(System.in);
-        //variavel de escolha do menu
-        int escolha;
+        Scanner input1 = new Scanner(System.in);//scanner usado no menu inteiro
+        int escolha;//variavel de escolha do menu
 
         do
         {
@@ -72,9 +72,9 @@ public class SIGAA2
             System.out.println("MODO ALUNO"); 
             System.out.println("digite 1 para cadastrar alunos");
             System.out.println("digite 2 para listar os alunos cadastrados");
-            System.out.println("digite 3 para matricular um aluno em uma turma"); //falta mudar os arquivos quando muda aqui
-            System.out.println("digite 4 para editar cadastro de aluno"); //falta mudar os arquivos quando muda aqui
-            System.out.println("digite 5 para trancar a matricula de um aluno"); //falta mudar os arquivos quando muda aqui
+            System.out.println("digite 3 para matricular um aluno em uma turma"); 
+            System.out.println("digite 4 para editar cadastro de aluno"); 
+            System.out.println("digite 5 para trancar a matricula de um aluno"); 
             System.out.println("digite 6 para deletar um aluno do sistema");
             System.out.println("digite 7 para buscar informações sobre um aluno");
             System.out.println("digite 0 voltar ao menu anterior"); 
@@ -96,11 +96,11 @@ public class SIGAA2
 
                     break;
                 case 4:
-                    EditarAluno(input); //editar tambem o arquivo do aluno (apagar o antigo e criar o novo)
+                    EditarAluno(input); 
 
                     break;
                 case 5:
-                    TrancarMatricula(input); //editar o arquivo do aluno (apagar o antigo e criar o novo)
+                    TrancarMatricula(input); 
 
                     break;
                 case 6:
@@ -137,7 +137,6 @@ public class SIGAA2
         }
         System.out.println("digite o curso: ");
         String curso = input.nextLine();
-        // ainda preciso checar se é especial ou não
         System.out.println("o aluno é calouro? digite 1 para sim");
         int escolha = input.nextInt();
         input.nextLine();
@@ -312,7 +311,7 @@ public class SIGAA2
                                 System.out.println("MATRICULA ERRADA");
                             }
                             break;
-                        case 3: //verificar duplicidade de matricula ao digitar a nova, lembre que a matricula já vai existir, por ser a de um aluno existente, mas ão pode colidir com outros
+                        case 3:
                             System.out.println("digite a nova matricula: ");
                             int matriculaNova = input.nextInt();
                             input.nextLine(); //come o enter
@@ -341,7 +340,7 @@ public class SIGAA2
                             }
 
                             break;
-                        case 4: //FALTA CHECAR OS REQUISITOS DA MATERIA A SER ADICIONADA
+                        case 4: 
                             System.out.println("digite o codigo da disciplina que vai ser adicionada");
                             codigo = input.nextLine();
                             if (!ChecarCodigoDisciplina(codigo))
@@ -430,8 +429,6 @@ public class SIGAA2
             input.nextLine(); //come o enter
             if (escolha == 1)
             {
-                //dar uma melhorada nesse sistema de pesquisa
-                //talvez colocar uma lista com as turmas em disciplina pra facilitar a busca
                 for (Turma turma : turmas)
                 {
                     for (int alunoDaTurma : turma.getAlunos())
@@ -500,7 +497,7 @@ public class SIGAA2
             if (teste == matricula)
             {
                 System.out.println("aluno "+BuscarAluno(matricula).getNome()+" removido do sistema");
-                alunos.remove(BuscarAluno(matricula)); //tira d sistema
+                alunos.remove(BuscarAluno(matricula)); //tira do sistema
                 RemoverAlunoArquivo(matricula); //apaga o arquivo
             }
             else
@@ -537,15 +534,15 @@ public class SIGAA2
         {
             System.out.println("MODO TURMA");
             System.out.println("digite 1 para criar uma nova disciplina");
-            System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada"); //falta impossibilitar que 2 turmas existam na mesma sala ao mesmo tempo OU com o mesmo prof ao mesmo tempo
+            System.out.println("digite 2 para criar uma nova turma pertencente a uma disciplina cadastrada");
             System.out.println("digite 3 para listar as disciplinas existentes"); 
             System.out.println("digite 4 para listar as turmas existentes"); 
             System.out.println("digite 5 para remover uma disciplina do sistema"); 
             System.out.println("digite 6 para remover uma turma do sistema");
             System.out.println("digite 7 para ver informações sobre uma disciplina"); 
             System.out.println("digite 8 para ver informações sobre uma turma"); 
-            System.out.println("digite 9 para criar um novo professor"); //falta fazer
-            System.out.println("digite 10 para apagar um professor que existe no sistema"); //falta fazer
+            System.out.println("digite 9 para criar um novo professor"); 
+            System.out.println("digite 10 para apagar um professor que existe no sistema"); 
             System.out.println("digite 0 para voltar ao menu anterior");
             escolha = input.nextInt();
             input.nextLine(); //come o enter
@@ -616,7 +613,7 @@ public class SIGAA2
         input.nextLine();
         if (escolha == 1)
         {
-            boolean veracidadeRequisitos = true;//checa a veracidade de cada codigo de pre_requisito
+            boolean veracidadeRequisitos = true; //checa a veracidade de cada codigo de pre_requisito
             String pre_requisitos;
             do 
             {
@@ -1020,7 +1017,6 @@ public class SIGAA2
 
 
     //parte de arquivos
-    // PARA CADA UM FAZER UM QUE SALVA TUDO
     public static void SalvarAlunoIndividual(Aluno aluno)
     {
         String pasta = "banco_de_dados/alunos"; //caminho do diretorio
@@ -1034,8 +1030,6 @@ public class SIGAA2
             System.out.println("Erro ao salvar aluno "+aluno.getNome()+'/'+aluno.getMatricula()+':'+ erro.getMessage());
         }
     }
-    //criar um pra cada uma das outras coisas, talvez usar herança
-    //talvez criar um que salva todos os alunos de uma vez
     public static void CarregarAlunos()
     {
         File pasta = new File("banco_de_dados/alunos"); //aponta onde vão estar as coisas

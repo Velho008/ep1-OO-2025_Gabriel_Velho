@@ -1,6 +1,8 @@
 package classes;
 import java.util.ArrayList;
 
+//fazer outro construtor que puxa de arquivo
+//tostring e fromstring
 public class Professor {
     private String nome;
     private int matricula;
@@ -86,5 +88,4 @@ public class Professor {
         String fim = String.join(" ",this.turmas_ministradas);
         return fim;
     }
-    //falta o tostring e o fromstring
 }

@@ -1,6 +1,8 @@
 package classes;
 
 import java.util.ArrayList;
+
+// no set vagas totais, recontar quantas vagas atuais tem
 public class Turma 
 {
     private int vagasTotais;
@@ -14,7 +16,7 @@ public class Turma
     private int horario; //toda aula dura 2 horas, exemplo: 8 (começa 8 da manha) e acaba as 10
     private int semestre; //de qual semestre a turma é
     private String codigoDaTurma; //FACILITA BUSCAR A TURMA, é criado de forma automatica
-    // duas turmas de uma mesma sala não podem coexistir no mesmo horario
+    // duas turmas de uma mesma sala ou mesmo prof não podem coexistir no mesmo horario
 
     //construtores
     public Turma(int matriculaProf, String sala, char metodoAvaliacao, int horario,int numero, int vagasTotais, int semestre, String codigoDisciplina)

@@ -2,17 +2,17 @@ package classes;
 import java.util.List;
 import java.util.ArrayList;
 
+//talvez adicionar semestre e turmas que faz parte
+//depois criar um construtor pra quando carregar um aluno ele n aparecer que foi feito
 public class Aluno
 {
-    //talvez adicionar semestre e turmas que faz parte
+    
     private String curso;
     private String nome;
     private int matricula;
     private List<String> disciplinas_cursadas; //serve para checar pré-requisitos, deve ser o codigo da disciplina
-    //fazer um add e um remove disciplinas_cursadas
 
     //construtores
-    //depois criar um construtor pra quando carregar um aluno ele n aparecer que foi feito
     public Aluno(String nome, int matricula, String curso, String disciplinas_cursadas)
     {
         this.nome = nome;
@@ -122,7 +122,7 @@ public class Aluno
         return res;
     }
 
-    public void MostrarInfo() //adicionar as disciplinas cursadas
+    public void MostrarInfo()
     {
         System.out.println("nome: "+nome);
         System.out.println("matricula: "+matricula);
@@ -152,7 +152,7 @@ public class Aluno
     {
         return this.nome +';'+ this.matricula +';'+ this.curso +';'+juntarDisciplinas(this.disciplinas_cursadas);
     }
-    public static Aluno fromString(String entrada) //CRIAR UM PRAS COISAS QUE O ALUNO JA FEZ
+    public static Aluno fromString(String entrada)
     {
         String[] infos = entrada.split(";");
         if (infos.length == 3)
