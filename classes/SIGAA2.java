@@ -5,12 +5,7 @@ import java.io.*;
 
 public class SIGAA2 
 {
-    //ARRUMAR: CONSIGO MATRICULAR O MESMO ALUNO 2 VEZES NA MESMA TURMA para isso
-    //{
-    // criar uma arraylist de turmas em disciplina
-    //quando digitar a disciplina na hora de matricular o aluno, puxar a lista de turmas da disciplina
-    //e para cada turma, puxar a lista de alunos, se ele estiver na lista de alguma turma, dar erro
-    //}
+    //quando for fazer disciplina checar se o metodo de prova é mesmo a ou b
 
     //criar o aluno especial
     //falta o modo notas inteiro
@@ -220,6 +215,21 @@ public class SIGAA2
             {
                 Disciplina disciplina = BuscarDisciplina(codigo);
                 System.out.println("disciplina selecionada: " + disciplina.getNome()+'/'+disciplina.getCodigo()); 
+
+                //AQUI
+                for (String codTurma : disciplina.getTurmasDaDisciplina())
+                {
+                    Turma turma = BuscarTurma(codTurma);
+                    for (Integer matriculaAluno : turma.getAlunos())
+                    {
+                        if (matriculaAluno == matricula)
+                        {
+                            System.out.println("O ALUNO JÁ FAZ ESSA DISCIPLINA");
+                            return;
+                        }
+                    }
+                }
+
                 boolean confirmador = false;
                 if (!disciplina.getPreRequisitos().isEmpty() && !aluno.getDisciplinasCursadas().isEmpty())
                 {
@@ -750,11 +760,18 @@ public class SIGAA2
         input.nextLine(); //come o enter
         System.out.println("digite o metodo de avaliação, a ou b");
         char metodoAvaliacao = input.nextLine().charAt(0);
-        Turma turmanova = new Turma(matriculaProf,sala,metodoAvaliacao,horario,numero, vagas,semestre, codigo);
+        if (!(metodoAvaliacao == 'b') && !(metodoAvaliacao == 'a'))
+        {
+            System.out.println("metodo de avaliação selecionado não existe");
+            return;
+        }
+        Turma turmanova = new Turma(matriculaProf, sala, metodoAvaliacao, horario, numero, vagas, semestre, codigo);
         turmas.add(turmanova);
         SalvarTurma(turmanova);
         Professor professor = BuscarProfessor(matriculaProf);
         professor.addTurma(turmanova.getCodigoTurma());
+        Disciplina disciplina = BuscarDisciplina(codigo);
+        disciplina.addTurma(turmanova.getCodigoTurma());
         System.out.println("turma criada corretamente");
     }
         

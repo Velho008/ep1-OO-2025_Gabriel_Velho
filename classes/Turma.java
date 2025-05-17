@@ -36,7 +36,7 @@ public class Turma
         System.out.println("nova turma ministrada pelo prof de matricula: "+this.matriculaProf);
         System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina+"do semestre: "+semestre);
         System.out.println("vagas totais: "+vagasTotais);
-        System.out.println("metodo "+this.metodoAvaliacao+"de avaliação");
+        System.out.println("metodo "+this.metodoAvaliacao+" de avaliação");
         System.out.println("horario inicial: "+this.horario+':'+"00");
         System.out.println("todas as aulas tem duração de 2 horas");
 
@@ -66,7 +66,7 @@ public class Turma
         System.out.println("nova turma ministrada pelo prof de matricula: "+this.matriculaProf);
         System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina + "do semestre: "+semestre);
         System.out.println("vagas totais: "+vagasTotais);
-        System.out.println("metodo "+this.metodoAvaliacao+"de avaliação");
+        System.out.println("metodo "+this.metodoAvaliacao+" de avaliação");
         System.out.println("horario inicial: "+this.horario+':'+"00");
         System.out.println("todas as aulas tem duração de 2 horas");
         System.out.println("turma online");
@@ -78,6 +78,7 @@ public class Turma
         this.vagasAtuais = vagasTotais;
         this.vagasTotais = vagasTotais;
         this.codigoDisciplina = codigoDisciplina;
+        this.metodoAvaliacao = metodoAvaliacao;
         this.semestre = semestre;
         this.alunos = new ArrayList<>();
         this.codigoDaTurma = codigoDisciplina+numero;
@@ -204,14 +205,14 @@ public class Turma
     public void MostrarInfo()
     {
         System.out.println("codigo da turma: "+this.codigoDaTurma);
-        System.out.println("nova turma ministrada pelo prof de matricula: "+this.matriculaProf);
+        System.out.println("turma ministrada pelo prof de matricula: "+this.matriculaProf);
         System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina+" do semestre: "+semestre);
-        System.out.println("vagas totais: "+vagasTotais);
+        System.out.println("vagas: "+this.vagasAtuais+'/'+this.vagasTotais);
         System.out.println("metodo "+this.metodoAvaliacao+" de avaliação");
         System.out.println("horario inicial: "+this.horario+':'+00);
         System.out.println("todas as aulas tem duração de 2 horas");
 
-        if (this.sala.isEmpty() || this.sala == null)
+        if (this.sala == null || this.sala.isEmpty())
         {
             System.out.println("turma online");
         }
