@@ -5,12 +5,11 @@ import java.io.*;
 
 public class SIGAA2 
 {
-    //quando for fazer disciplina checar se o metodo de prova é mesmo a ou b
 
     //criar o aluno especial
     //falta o modo notas inteiro
     //{ 
-    //criar boletim de aluno por semestre
+    //criar boletim de aluno por semestre para poder lançar a nota
     //lançar notas e presenças (caso o aluno não passe, falar pq, caso passe, adicionar a materia nas que ele já fez)
     //calcular media final e presença e salvar no boletim do semestre
     //relatorio de turma {quantos alunos passaram, quantas aulas tiveram, nota media de cada prova}
@@ -975,13 +974,103 @@ public class SIGAA2
 
     public static void ModoNotas(Scanner input)
     {
-        //meio que falta fazer tudo ainda 
+        int escolha;
+        do
+        {
+            System.out.println("MODO NOTAS");
+            System.out.println("digite 1 para lança notas/presença");
+            System.out.println("digite 2 para calcular media final e presença"); 
+            System.out.println("digite 3 para exibir relatorio de turma");
+            System.out.println("digite 4 para exibir relatorio de disciplina");
+            System.out.println("digite 5 para exibir relatorio de professor");
+            System.out.println("digite 6 para exibir boletim de aluno");
+            escolha = input.nextInt();
+            input.nextLine(); //come o enter
+
+            switch (escolha)
+            {
+                case 1:
+                    LancarNota(input);
+                    break;
+                case 2:
+
+                    break;
+                case 3: 
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+
+                    break;
+                case 6: 
+
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("DIGITO INVALIDO, DIGITE NOVAMENTE");
+                    break;
+            }
+        } while (escolha!=0);
+
+    }
+    public static void LancarNota(Scanner input)
+    {
+        System.out.println("para lançar notas, primeiro identifique a materia da turma");
+        System.out.println("digite o codigo da materia da qual a turma faz parte: ");
+        String codigoDisciplina = input.nextLine();
+        if (!ChecarCodigoDisciplina(codigoDisciplina))
+        {
+            System.out.println("não existe disciplina com esse codigo");
+            return;
+        }
+        System.out.println("digite o numero da turma");
+        int numeroTurma = input.nextInt();
+        input.nextLine(); //come o enter
+        if (!ChecarTurma(numeroTurma, codigoDisciplina))
+        {
+            System.out.println("não existe turma dessa disciplina com esse numero");
+            return;
+        }
+        Turma turma = BuscarTurma(numeroTurma, codigoDisciplina);
+        System.out.println("escolha um aluno da turma: ");
+        turma.ListarAlunos();
+        System.out.println("digite a matricula do aluno cujas notas e presença serão lançadas");
+        int matricula = input.nextInt();
+        input.nextLine(); //come o enter
+        String codigoTurma = turma.getCodigoTurma();
+        if (!ChecarAlunoTurma(matricula, codigoTurma))
+        {
+            System.out.println("o aluno não está matriculado nessa turma");
+            return;
+        }
+        Aluno aluno = BuscarAluno(matricula);
+
+
     }
     public static boolean ChecarMatricula(int matricula)
     {
         for (Aluno aluno: alunos)
         {
             if (aluno.getMatricula()==matricula)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean ChecarAlunoTurma(int matricula, String codigoTurma)
+    {
+        if (!ChecarTurma(codigoTurma))
+        {
+            return false;
+        }
+        Turma turma = BuscarTurma(codigoTurma);
+        for (Integer matriculaAluno : turma.getAlunos())
+        {
+            if (matriculaAluno == matricula)
             {
                 return true;
             }
