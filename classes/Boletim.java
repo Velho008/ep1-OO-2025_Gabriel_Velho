@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Boletim
 {
+    // talvez mudar pro boletim ter todas as turmas de um mesmo semestre que o aluno pegar, e só falar se e como ele reprovou em cada uma, com qual prof pegou...
+    // qual disciplina era e não salvar p1,p2,p3,lista,seminario,presenca,metodoAvaliacao
     //vai ter boletins, dentro vai ter uma pasta pra cada semestre, dentro vai ter uma pasta pra cada disciplina, dentro vai ter um arquivo pra cada aluno
     //todos esses são FINAL, portanto não tem set
     private int matriculaAluno;

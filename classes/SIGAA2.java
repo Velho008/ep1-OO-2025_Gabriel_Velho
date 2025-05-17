@@ -7,6 +7,7 @@ public class SIGAA2
 {
 
     //criar o aluno especial
+    //TERMINAR O BOLETIM
     //falta o modo notas inteiro
     //{ 
     //criar boletim de aluno por semestre para poder lançar a nota
@@ -990,7 +991,7 @@ public class SIGAA2
             switch (escolha)
             {
                 case 1:
-                    LancarNota(input);
+                    LancarNota(input); //falta fazer ainda
                     break;
                 case 2:
 
