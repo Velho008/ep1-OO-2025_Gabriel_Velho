@@ -4,26 +4,71 @@ import java.util.ArrayList;
 
 public class Boletim
 {
-    // talvez mudar pro boletim ter todas as turmas de um mesmo semestre que o aluno pegar, e só falar se e como ele reprovou em cada uma, com qual prof pegou...
-    // qual disciplina era e não salvar p1,p2,p3,lista,seminario,presenca,metodoAvaliacao
-    //vai ter boletins, dentro vai ter uma pasta pra cada semestre, dentro vai ter uma pasta pra cada disciplina, dentro vai ter um arquivo pra cada aluno
+    //fazer o que mostra info do boletim, separado entre com ou sem info da turma
+    //
+    //boletim vai ser salvo em um banco_de_dados/boletins/"matricula aluno"/semestre +'num semestre'
     //todos esses são FINAL, portanto não tem set
-    private int matriculaAluno;
-    private int matriculaProf;
-    private String disciplina;
-    private int semestre;
-    private String turma;
+    private final int matriculaAluno;
+    private final int matriculaProf;
+    private final String disciplina;
+    private final int semestre;
+    private final int turma;
     
-    private int presenca;
-    private char metodoAvaliacao;
-    private int p1;
-    private int p2;
-    private int p3;
-    private int lista;
-    private int seminario;
-    private boolean passou;
+    private final int presenca;
+    private final char metodoAvaliacao;
+    private final int p1;
+    private final int p2;
+    private final int p3;
+    private final int lista;
+    private final int seminario;
+    private int passou; // 0 passa, 1 reprovou por falta, 2 reprovou por nota, 3 reprovou por falta e nota
+    private final int mediaFinal;
+
 
     //construtores
+    public Boletim(int matriculaAluno, Turma turma, int presenca, char metodoAvaliacao, int p1, int p2, int p3, int lista, int seminario)
+    {
+        this.passou = 0;
+        this.matriculaAluno = matriculaAluno;
+        this.matriculaProf = turma.getMatriculaProf();
+        this.disciplina = turma.getCodigoDisciplina();
+        this.semestre = turma.getSemestre();
+        this.turma = turma.getNumero();
+        this.presenca = presenca;
+        this.metodoAvaliacao = turma.getMetodoAvaliacao();
+        this.p1 = p1;
+        this.p2 = p2;
+        this.p3 = p3;
+        this.lista = lista;
+        this.seminario = seminario;
+
+        switch (metodoAvaliacao)
+        {
+            case 'a':
+                mediaFinal = (p1+p2+p3+lista+seminario)/5;
+                break;
+            case 'b':
+                mediaFinal = (p1+(p2*2)+(p3*3)+lista+seminario)/8;
+                break;
+            default:
+                mediaFinal = 0;
+                System.out.println("erro no metodo de avaliação da turma");
+                break;
+        }
+        if ((mediaFinal<5))
+        {
+            passou +=2;
+        }
+        if (presenca<75)
+        {
+            passou++;
+        }
+
+        System.out.println("novo boletim do aluno de matricula: "+this.matriculaAluno+ " criado");
+
+    }
+    
+    //construtor de arquivo
 
     //getters
     public int getMatriculaAluno()
@@ -42,7 +87,7 @@ public class Boletim
     {
         return this.semestre;
     }
-    public String getTurma()
+    public int getTurma()
     {
         return this.turma;
     }
@@ -74,7 +119,7 @@ public class Boletim
     {
         return this.seminario;
     }
-    public boolean passou()
+    public int passou()
     {
         return this.passou;
     }

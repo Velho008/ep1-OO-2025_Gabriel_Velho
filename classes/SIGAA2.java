@@ -7,7 +7,9 @@ public class SIGAA2
 {
 
     //criar o aluno especial
-    //TERMINAR O BOLETIM
+    //TERMINAR O BOLETIM 
+    // quando for lançar nota e presença, pode lançar só de um aluno ou da turma toda
+    // quando for lançar a nota de cada aluno, pode digitar tudo espaçado ou um de cada vez
     //falta o modo notas inteiro
     //{ 
     //criar boletim de aluno por semestre para poder lançar a nota

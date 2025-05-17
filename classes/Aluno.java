@@ -2,7 +2,6 @@ package classes;
 import java.util.List;
 import java.util.ArrayList;
 
-//talvez adicionar semestre e turmas que faz parte
 //depois criar um construtor pra quando carregar um aluno ele n aparecer que foi feito
 public class Aluno
 {
