@@ -16,13 +16,13 @@ public class Boletim
     
     private final int presenca;
     private final char metodoAvaliacao;
-    private final int p1;
-    private final int p2;
-    private final int p3;
-    private final int lista;
-    private final int seminario;
+    private final float p1;
+    private final float p2;
+    private final float p3;
+    private final float lista;
+    private final float seminario;
     private int passou; // 0 passa, 1 reprovou por falta, 2 reprovou por nota, 3 reprovou por falta e nota
-    private final int mediaFinal;
+    private final float mediaFinal;
 
 
     //construtores
@@ -67,7 +67,75 @@ public class Boletim
         System.out.println("novo boletim do aluno de matricula: "+this.matriculaAluno+ " criado");
 
     }
-    
+    public void MostrarInfoExpandido()
+    {
+        Aluno aluno = SIGAA2.BuscarAluno(matriculaAluno);
+        Professor professor = SIGAA2.BuscarProfessor(matriculaAluno);
+        Disciplina disciplina = SIGAA2.BuscarDisciplina(this.disciplina);
+        Turma turma = SIGAA2.BuscarTurma(this.turma+this.disciplina);
+        System.out.println("aluno: "+aluno.getNome()+'/'+aluno.getMatricula());
+        System.out.println("turma: "+this.turma+" da disciplina: "+disciplina.getNome()+'/'+disciplina.getCodigo()+" ministrada pelo prof: "+professor.getNome()+'/'+professor.getMatricula());
+        System.out.println("semestre: "+this.semestre);
+        System.out.println("carga horaria da disciplina: "+disciplina.getCargaHoraria());
+        if (turma.getSala().isEmpty())
+        {
+            System.out.println("turma online");
+        }
+        else
+        {
+            System.out.println("sala: "+turma.getSala());
+        }
+        System.out.println("a presença do aluno foi de: "+this.presenca+'%');
+        System.out.println("NOTAS p1: "+this.p1+" p2: "+this.p2+" p3: "+this.p3+" lista: "+this.lista+" seminario: "+this.seminario);
+        System.out.println("media final: "+this.mediaFinal);
+        switch (passou)
+        {
+            case 1:
+                System.out.println("aluno reprovou por falta");
+                break;
+            case 2:
+                System.out.println("aluno reprovou por nota");
+                break;
+            case 3:
+                System.out.println("aluno reprovou por falta e por nota");
+                break;
+            case 0:
+                System.out.println("aluno aprovado na disciplina");
+                break;
+            default:
+                System.out.println("algum erro ao saber se passou ou não");
+                break;
+        }
+    }
+    public void MostrarInfoSimples()
+    {
+        Aluno aluno = SIGAA2.BuscarAluno(matriculaAluno);
+        Disciplina disciplina = SIGAA2.BuscarDisciplina(this.disciplina);
+        System.out.println("aluno: "+aluno.getNome()+'/'+aluno.getMatricula());
+        System.out.println("turma: "+this.turma+" da disciplina: "+disciplina.getNome()+'/'+disciplina.getCodigo());
+        System.out.println("semestre: "+this.semestre);
+        System.out.println("a presença do aluno foi de: "+this.presenca+'%');
+        System.out.println("NOTAS p1: "+this.p1+" p2: "+this.p2+" p3: "+this.p3+" lista: "+this.lista+" seminario: "+this.seminario);
+        System.out.println("media final: "+this.mediaFinal);
+        switch (passou)
+        {
+            case 1:
+                System.out.println("aluno reprovou por falta");
+                break;
+            case 2:
+                System.out.println("aluno reprovou por nota");
+                break;
+            case 3:
+                System.out.println("aluno reprovou por falta e por nota");
+                break;
+            case 0:
+                System.out.println("aluno aprovado na disciplina");
+                break;
+            default:
+                System.out.println("algum erro ao saber se passou ou não");
+                break;
+        }
+    }
     //construtor de arquivo
 
     //getters
@@ -99,29 +167,33 @@ public class Boletim
     {
         return this.metodoAvaliacao;
     }
-    public int getP1()
+    public float getP1()
     {
         return this.p1;
     }
-    public int getP2()
+    public float getP2()
     {
         return this.p2;
     }
-    public int getP3()
+    public float getP3()
     {
         return this.p3;
     }
-    public int getLista()
+    public float getLista()
     {
         return this.lista;
     }
-    public int getSeminario()
+    public float getSeminario()
     {
         return this.seminario;
     }
     public int passou()
     {
         return this.passou;
+    }
+    public float getMediaFinal()
+    {
+        return this.mediaFinal;
     }
 
 

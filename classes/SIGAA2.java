@@ -7,7 +7,8 @@ public class SIGAA2
 {
 
     //criar o aluno especial
-    //TERMINAR O BOLETIM 
+    //TERMINAR O BOLETIM //quando lançar as notas, passar o aluno que passar na disciplina e colocar na lista de materias feitas pelo aluno
+    // quando lançar nota, adicionar ao relatorio da materia se ele passou ou reprovou, como reprovou, com que nota passou
     // quando for lançar nota e presença, pode lançar só de um aluno ou da turma toda
     // quando for lançar a nota de cada aluno, pode digitar tudo espaçado ou um de cada vez
     //falta o modo notas inteiro
