@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Boletim
 {
     //fazer o que mostra info do boletim, separado entre com ou sem info da turma
-    //
+    // falta o fromstring
     //boletim vai ser salvo em um banco_de_dados/boletins/"matricula aluno"/semestre +'num semestre'
     //todos esses são FINAL, portanto não tem set
     private final int matriculaAluno;
@@ -65,6 +65,47 @@ public class Boletim
         }
 
         System.out.println("novo boletim do aluno de matricula: "+this.matriculaAluno+ " criado");
+
+    }
+    //construtor de arquivo
+    public Boletim(int matriculaAluno, int numTurma, int presenca, char metodoAvaliacao, int p1, int p2, int p3, int lista, int seminario, String codDisciplina)
+    {
+        this.passou = 0;
+        this.matriculaAluno = matriculaAluno;
+        Turma turma = SIGAA2.BuscarTurma(numTurma, codDisciplina);
+        this.matriculaProf = turma.getMatriculaProf();
+        this.disciplina = turma.getCodigoDisciplina();
+        this.semestre = turma.getSemestre();
+        this.turma = turma.getNumero();
+        this.presenca = presenca;
+        this.metodoAvaliacao = turma.getMetodoAvaliacao();
+        this.p1 = p1;
+        this.p2 = p2;
+        this.p3 = p3;
+        this.lista = lista;
+        this.seminario = seminario;
+
+        switch (metodoAvaliacao)
+        {
+            case 'a':
+                mediaFinal = (p1+p2+p3+lista+seminario)/5;
+                break;
+            case 'b':
+                mediaFinal = (p1+(p2*2)+(p3*3)+lista+seminario)/8;
+                break;
+            default:
+                mediaFinal = 0;
+                System.out.println("erro no metodo de avaliação da turma");
+                break;
+        }
+        if ((mediaFinal<5))
+        {
+            passou +=2;
+        }
+        if (presenca<75)
+        {
+            passou++;
+        }
 
     }
     public void MostrarInfoExpandido()
@@ -198,6 +239,10 @@ public class Boletim
 
 
     //parte de arquivos
-
+    @Override
+    public String toString()
+    {
+        return ""+this.matriculaAluno+';'+this.turma+';'+this.presenca+';'+this.metodoAvaliacao+';'+this.p1+';'+this.p2+';'+this.p3+';'+this.lista+';'+this.seminario+';'+this.disciplina;
+    }
 
 }
