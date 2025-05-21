@@ -244,5 +244,27 @@ public class Boletim
     {
         return ""+this.matriculaAluno+';'+this.turma+';'+this.presenca+';'+this.metodoAvaliacao+';'+this.p1+';'+this.p2+';'+this.p3+';'+this.lista+';'+this.seminario+';'+this.disciplina;
     }
+    public static Boletim fromString(String entrada)
+    {
+        String[] dados = entrada.split(";");
+        int matriculaAluno = Integer.parseInt(dados[0]);
+        int numTurma = Integer.parseInt(dados[1]);
+        int presenca = Integer.parseInt(dados[2]);
+        char metodoAvaliacao = dados[3].charAt(0);
+        int p1 = Integer.parseInt(dados[4]);
+        int p2 = Integer.parseInt(dados[5]);
+        int p3 = Integer.parseInt(dados[6]);
+        int lista = Integer.parseInt(dados[7]);
+        int seminario = Integer.parseInt(dados[8]);
+        try
+        {
+            return new Boletim(matriculaAluno, numTurma, presenca, metodoAvaliacao, p1, p2, p3, lista, seminario, dados[9]);
+        } catch (Exception e)
+        {
+            System.out.println("erro desconhecido ao carregar boletim do aluno "+matriculaAluno);
+            return null;
+        }
+        
+    }
 
 }

@@ -6,6 +6,9 @@ import java.io.*;
 public class SIGAA2 
 {
 
+    //talvez não salva boletins, só relatorio, talvez fazer um txt formatado pro boletim e o usuario faz o que quiser com isso
+    //nesse txt do boletim, adicionar novas turmas que o aluno fizer
+
     //criar o aluno especial
     //TERMINAR O BOLETIM //quando lançar as notas, passar o aluno que passar na disciplina e colocar na lista de materias feitas pelo aluno
     // quando lançar nota, adicionar ao relatorio da materia se ele passou ou reprovou, como reprovou, com que nota passou
@@ -1428,6 +1431,7 @@ public class SIGAA2
             arquivo.delete();
         }
     }
+    public static void SalvarBoletim
     public static void SalvarTudo()
     {
         for (Aluno aluno : alunos)
