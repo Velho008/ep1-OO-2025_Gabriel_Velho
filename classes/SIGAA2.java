@@ -5,6 +5,11 @@ import java.io.*;
 
 public class SIGAA2 
 {
+    // BUGS CONHECIDOS PRA ARRUMAR
+    //{
+    // NA HORA DE LANÇAR NOTAS (ao tirar o aluno da turma, ele usa a matricula como index de remoção da lista)
+    // talvez na hora de colocar um aluno na turma, ele consiga entrar mesmo tendo zero vagas
+    //}
     //criar o aluno especial
     //TERMINAR O BOLETIM //conseguir lançar a nota aluno por aluno, ou facilitar pra fazer isso
     // quando lançar nota, adicionar ao relatorio da materia se ele passou ou reprovou, como reprovou, com que nota passou
