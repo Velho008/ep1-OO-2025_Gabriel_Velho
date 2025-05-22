@@ -242,7 +242,7 @@ public class Boletim
     @Override
     public String toString()
     {
-        return ""+this.matriculaAluno+';'+this.turma+';'+this.presenca+';'+this.metodoAvaliacao+';'+this.p1+';'+this.p2+';'+this.p3+';'+this.lista+';'+this.seminario+';'+this.disciplina;
+        return ""+this.getMatriculaAluno()+';'+this.getTurma()+';'+this.getPresenca()+';'+this.getMetodoAvaliacao()+';'+this.getP1()+';'+this.getP2()+';'+this.getP3()+';'+this.getLista()+';'+this.getSeminario()+';'+this.getDisciplina();
     }
     public static Boletim fromString(String entrada)
     {

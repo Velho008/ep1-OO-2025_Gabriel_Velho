@@ -182,14 +182,26 @@ public class Turma
         alunos.add(aluno.getMatricula());
         this.vagasAtuais-=1;
     }
-    public void removerAluno(int matricula)
+    public void removerAluno(int matricula) //ARRUMAR ESSE
     {
-        alunos.remove(matricula);
+        for (int aluno : alunos)
+        {
+            if (aluno == matricula)
+            {
+                alunos.remove(aluno);
+            }
+        }
         this.vagasAtuais+=1;
     }
-    public void removerAluno(Aluno aluno)
-    {
-        alunos.remove(aluno.getMatricula());
+    public void removerAluno(Aluno alunoEntrada) //ARRUMAR ESSE
+    {   
+        for (int aluno : alunos)
+        {
+            if (aluno == alunoEntrada.getMatricula())
+            {
+                alunos.remove(aluno);
+            }
+        }
         this.vagasAtuais+=1;
     }
     

@@ -6,7 +6,7 @@ import java.io.*;
 public class SIGAA2 
 {
     //criar o aluno especial
-    //TERMINAR O BOLETIM
+    //TERMINAR O BOLETIM //conseguir lançar a nota aluno por aluno, ou facilitar pra fazer isso
     // quando lançar nota, adicionar ao relatorio da materia se ele passou ou reprovou, como reprovou, com que nota passou
     // quando for lançar nota e presença, pode lançar só de um aluno ou da turma toda
     //falta o modo notas inteiro
@@ -981,6 +981,7 @@ public class SIGAA2
             System.out.println("digite 4 para exibir relatorio de disciplina");
             System.out.println("digite 5 para exibir relatorio de professor");
             System.out.println("digite 6 para exibir boletim de aluno");
+            System.out.println("digite 0 para voltar ao menu anterior");
             escolha = input.nextInt();
             input.nextLine(); //come o enter
 
@@ -1100,8 +1101,8 @@ public class SIGAA2
         float notaMedia = boletim.getMediaFinal();
         if (boletim.getPassou() == 0)
         {
+            turma.removerAluno(matricula);
             aluno.addDisciplina(codigoDisciplina); //adiciona a disciplina que o aluno passou
-            turma.removerAluno(aluno);
             //adicionar que ele passou no relatorio do prof/turma/disciplina
             System.out.println("o aluno passou");
         }
@@ -1497,9 +1498,9 @@ public class SIGAA2
     }
     public static void SalvarBoletim(Boletim boletim)
     {
-        String pasta = "banco_de_dados/boletins";
+        String pasta = "banco_de_dados/boletins/"+boletim.getMatriculaAluno();
         new File(pasta).mkdirs();
-        String caminhoArquivo = (pasta+'/'+boletim.getMatriculaAluno()+'/'+"semestre"+boletim.getSemestre()+"disciplina"+boletim.getDisciplina()+"boletim.txt");
+        String caminhoArquivo = (pasta+'/'+"semestre"+boletim.getSemestre()+"disciplina"+boletim.getDisciplina()+"boletim.txt");
         try (BufferedWriter salvar = new BufferedWriter(new FileWriter(caminhoArquivo)))
         {
             salvar.write(boletim.toString());
