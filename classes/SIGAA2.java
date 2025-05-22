@@ -6,15 +6,11 @@ import java.io.*;
 public class SIGAA2 
 {
     //criar o aluno especial
-    //TERMINAR O BOLETIM //quando lançar as notas, passar o aluno que passar na disciplina e colocar na lista de materias feitas pelo aluno
+    //TERMINAR O BOLETIM
     // quando lançar nota, adicionar ao relatorio da materia se ele passou ou reprovou, como reprovou, com que nota passou
     // quando for lançar nota e presença, pode lançar só de um aluno ou da turma toda
-    // quando for lançar a nota de cada aluno, pode digitar tudo espaçado ou um de cada vez
     //falta o modo notas inteiro
     //{ 
-    //criar boletim de aluno por semestre para poder lançar a nota
-    //lançar notas e presenças (caso o aluno não passe, falar pq, caso passe, adicionar a materia nas que ele já fez)
-    //calcular media final e presença e salvar no boletim do semestre
     //relatorio de turma {quantos alunos passaram, quantas aulas tiveram, nota media de cada prova}
     //relatorio de disciplina {quantas turmas tem, quantos alunos passaram, nota media de cada prova}
     //relatorio de professor {quantos alunos tem (soma das turmas que ministra) quantos passaram, media de cada prova}
@@ -34,6 +30,7 @@ public class SIGAA2
         CarregarDisciplinas();
         CarregarTurmas();
         CarregarAlunos();
+        CarregarBoletins();
         
 
         Scanner input1 = new Scanner(System.in);//scanner usado no menu inteiro
@@ -41,12 +38,11 @@ public class SIGAA2
 
         do
         {
-            
             System.out.println("SIGAA2.0");
             System.out.println("digite 1 para o modo aluno");
             System.out.println("digite 2 para o modo turma");
             System.out.println("digite 3 para o modo notas");
-            System.out.println("digite 0 para sair"); //falta salvar tudo quando for fechar
+            System.out.println("digite 0 para sair"); 
             escolha = input1.nextInt();
 
             switch (escolha)
@@ -60,22 +56,19 @@ public class SIGAA2
 
                     break;
                 case 3:
-                    System.out.println("MODO NOTAS");
-
+                    ModoNotas(input1);
 
                     break;
                 case 0:
                     SalvarTudo(); //salva tudo antes de fechar
-                    input1.close();
+                    input1.close(); //fecha o scanner para impedir perda de memoria
                     System.exit(0);
                     break;
                 default:
                     System.out.println("numero invalido, digite novamente");
                     continue;
             }
-            
         } while (escolha !=0); //garante o loop enquanto algo diferente for digitado
-        
     }
     public static void ModoAluno(Scanner input)
     {
@@ -994,7 +987,7 @@ public class SIGAA2
             switch (escolha)
             {
                 case 1:
-                    LancarNota(input); //falta fazer ainda
+                    LancarNota(input);
                     break;
                 case 2:
 
@@ -1063,53 +1056,70 @@ public class SIGAA2
         float seminario;
         int presenca;
         Boletim boletim;
-        switch (num)
+        if (num == 1)
         {
-            case 1:
-                System.out.println("digite a nota da p1 no formato float: ");
-                p1 = input.nextFloat();
-                input.nextLine();
-                System.out.println("digite a nota da p2 no formato float: ");
-                p2 = input.nextFloat();
-                input.nextLine();
-                System.out.println("digite a nota da p3 no formato float: ");
-                p3 = input.nextFloat();
-                input.nextLine();
-                System.out.println("digite a nota da lista no formato float: ");
-                lista = input.nextFloat();
-                input.nextLine();
-                System.out.println("digite a nota do seminario no formato float: ");
-                seminario = input.nextFloat();
-                input.nextLine();
-                System.out.println("digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
-                presenca = input.nextInt();
-                input.nextLine();
-                boletim = new Boletim(matricula, turma, presenca, turma.getMetodoAvaliacao(), p1, p2, p3, lista, seminario);
-                boletins.add(boletim);
-                SalvarBoletim(boletim);
-                break;
-            case 2:
-                System.out.println("digite a nota da p1, nota da p2, nota da p3, nota da lista, nota do seminario e a presenca");
-                System.out.println("todas as notas devem ser no formato float");
-                System.out.println("a presença deve ser escrita sem a porcentagem, exemplo: 75 para 75%");
-                System.out.println("todas as entradas devem ser separadas por espaço, exemplo: p1 p2 p3 lista seminario presença");
-                String[] entrada = input.nextLine().split(" ");
-                p1 = Float.parseFloat(entrada[0]);
-                p2 = Float.parseFloat(entrada[1]);
-                p3 = Float.parseFloat(entrada[2]);
-                lista = Float.parseFloat(entrada[3]);
-                seminario = Float.parseFloat(entrada[4]);
-                presenca = Integer.parseInt(entrada[5]);
-                boletim = new Boletim(matricula, turma, presenca, turma.getMetodoAvaliacao(), p1, p2, p3, lista, seminario);
-                boletins.add(boletim);
-                SalvarBoletim(boletim);
-                break;
-            default:
-                System.out.println("escolha invalida, voltando ao menu anterior");
-                break;
+            System.out.println("digite a nota da p1 no formato float: ");
+            p1 = input.nextFloat();
+            input.nextLine();
+            System.out.println("digite a nota da p2 no formato float: ");
+            p2 = input.nextFloat();
+            input.nextLine();
+            System.out.println("digite a nota da p3 no formato float: ");
+            p3 = input.nextFloat();
+            input.nextLine();
+            System.out.println("digite a nota da lista no formato float: ");
+            lista = input.nextFloat();
+            input.nextLine();
+            System.out.println("digite a nota do seminario no formato float: ");
+            seminario = input.nextFloat();
+            input.nextLine();
+            System.out.println("digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
+            presenca = input.nextInt();
+            input.nextLine();
+            boletim = new Boletim(matricula, turma, presenca, turma.getMetodoAvaliacao(), p1, p2, p3, lista, seminario);
+            boletins.add(boletim);
+            SalvarBoletim(boletim);
         }
-
-
+        else
+        {
+            System.out.println("digite a nota da p1, nota da p2, nota da p3, nota da lista, nota do seminario e a presenca");
+            System.out.println("todas as notas devem ser no formato float");
+            System.out.println("a presença deve ser escrita sem a porcentagem, exemplo: 75 para 75%");
+            System.out.println("todas as entradas devem ser separadas por espaço, exemplo: p1 p2 p3 lista seminario presença");
+            String[] entrada = input.nextLine().split(" ");
+            p1 = Float.parseFloat(entrada[0]);
+            p2 = Float.parseFloat(entrada[1]);
+            p3 = Float.parseFloat(entrada[2]);
+            lista = Float.parseFloat(entrada[3]);
+            seminario = Float.parseFloat(entrada[4]);
+            presenca = Integer.parseInt(entrada[5]);
+            boletim = new Boletim(matricula, turma, presenca, turma.getMetodoAvaliacao(), p1, p2, p3, lista, seminario);
+            boletins.add(boletim);
+            SalvarBoletim(boletim);
+        }
+        float notaMedia = boletim.getMediaFinal();
+        if (boletim.getPassou() == 0)
+        {
+            aluno.addDisciplina(codigoDisciplina); //adiciona a disciplina que o aluno passou
+            turma.removerAluno(aluno);
+            //adicionar que ele passou no relatorio do prof/turma/disciplina
+            System.out.println("o aluno passou");
+        }
+        else if (boletim.getPassou() == 1)
+        {
+            turma.removerAluno(aluno);
+            System.out.println("reprovado por faltas (frequencia abaixo de 75%)");
+        }
+        else if (boletim.getPassou() == 2)
+        {
+            turma.removerAluno(aluno);
+            System.out.println("reprovado por nota, media abaixo de 5");
+        }
+        else 
+        {
+            turma.removerAluno(aluno);
+            System.out.println("reprovado por nota e falta");
+        }
     }
     public static boolean ChecarMatricula(int matricula)
     {

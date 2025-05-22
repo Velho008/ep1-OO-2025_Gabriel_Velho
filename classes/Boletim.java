@@ -228,7 +228,7 @@ public class Boletim
     {
         return this.seminario;
     }
-    public int passou()
+    public int getPassou()
     {
         return this.passou;
     }
