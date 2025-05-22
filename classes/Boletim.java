@@ -26,7 +26,7 @@ public class Boletim
 
 
     //construtores
-    public Boletim(int matriculaAluno, Turma turma, int presenca, char metodoAvaliacao, int p1, int p2, int p3, int lista, int seminario)
+    public Boletim(int matriculaAluno, Turma turma, int presenca, char metodoAvaliacao, float p1, float p2, float p3, float lista, float seminario)
     {
         this.passou = 0;
         this.matriculaAluno = matriculaAluno;

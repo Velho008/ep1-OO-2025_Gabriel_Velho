@@ -5,10 +5,6 @@ import java.io.*;
 
 public class SIGAA2 
 {
-
-    //talvez não salva boletins, só relatorio, talvez fazer um txt formatado pro boletim e o usuario faz o que quiser com isso
-    //nesse txt do boletim, adicionar novas turmas que o aluno fizer
-
     //criar o aluno especial
     //TERMINAR O BOLETIM //quando lançar as notas, passar o aluno que passar na disciplina e colocar na lista de materias feitas pelo aluno
     // quando lançar nota, adicionar ao relatorio da materia se ele passou ou reprovou, como reprovou, com que nota passou
@@ -29,6 +25,7 @@ public class SIGAA2
     static ArrayList<Disciplina> disciplinas = new ArrayList<>(); //serve pra manter e criar disciplinas
     static ArrayList<Turma> turmas = new ArrayList<>(); //serve para manter e criar turmas
     static ArrayList<Professor> professores = new ArrayList<>(); //serve pra criar e manter professores
+    static ArrayList<Boletim> boletins = new ArrayList<>();//server pra criar e manter boletins
 
         public static void main(String[] args)
     {
@@ -1042,8 +1039,8 @@ public class SIGAA2
             return;
         }
         Turma turma = BuscarTurma(numeroTurma, codigoDisciplina);
-        System.out.println("escolha um aluno da turma: ");
         turma.ListarAlunos();
+        System.out.println("escolha um aluno da turma: ");
         System.out.println("digite a matricula do aluno cujas notas e presença serão lançadas");
         int matricula = input.nextInt();
         input.nextLine(); //come o enter
@@ -1054,6 +1051,63 @@ public class SIGAA2
             return;
         }
         Aluno aluno = BuscarAluno(matricula);
+        System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
+        System.out.println("digite 1 para lançar nota por nota");
+        System.out.println("digite 2 para lançar todas as notas de uma vez");
+        int num = input.nextInt();
+        input.nextLine();
+        float p1;
+        float p2;
+        float p3;
+        float lista;
+        float seminario;
+        int presenca;
+        Boletim boletim;
+        switch (num)
+        {
+            case 1:
+                System.out.println("digite a nota da p1 no formato float: ");
+                p1 = input.nextFloat();
+                input.nextLine();
+                System.out.println("digite a nota da p2 no formato float: ");
+                p2 = input.nextFloat();
+                input.nextLine();
+                System.out.println("digite a nota da p3 no formato float: ");
+                p3 = input.nextFloat();
+                input.nextLine();
+                System.out.println("digite a nota da lista no formato float: ");
+                lista = input.nextFloat();
+                input.nextLine();
+                System.out.println("digite a nota do seminario no formato float: ");
+                seminario = input.nextFloat();
+                input.nextLine();
+                System.out.println("digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
+                presenca = input.nextInt();
+                input.nextLine();
+                boletim = new Boletim(matricula, turma, presenca, turma.getMetodoAvaliacao(), p1, p2, p3, lista, seminario);
+                boletins.add(boletim);
+                SalvarBoletim(boletim);
+                break;
+            case 2:
+                System.out.println("digite a nota da p1, nota da p2, nota da p3, nota da lista, nota do seminario e a presenca");
+                System.out.println("todas as notas devem ser no formato float");
+                System.out.println("a presença deve ser escrita sem a porcentagem, exemplo: 75 para 75%");
+                System.out.println("todas as entradas devem ser separadas por espaço, exemplo: p1 p2 p3 lista seminario presença");
+                String[] entrada = input.nextLine().split(" ");
+                p1 = Float.parseFloat(entrada[0]);
+                p2 = Float.parseFloat(entrada[1]);
+                p3 = Float.parseFloat(entrada[2]);
+                lista = Float.parseFloat(entrada[3]);
+                seminario = Float.parseFloat(entrada[4]);
+                presenca = Integer.parseInt(entrada[5]);
+                boletim = new Boletim(matricula, turma, presenca, turma.getMetodoAvaliacao(), p1, p2, p3, lista, seminario);
+                boletins.add(boletim);
+                SalvarBoletim(boletim);
+                break;
+            default:
+                System.out.println("escolha invalida, voltando ao menu anterior");
+                break;
+        }
 
 
     }
@@ -1431,7 +1485,42 @@ public class SIGAA2
             arquivo.delete();
         }
     }
-    public static void SalvarBoletim
+    public static void SalvarBoletim(Boletim boletim)
+    {
+        String pasta = "banco_de_dados/boletins";
+        new File(pasta).mkdirs();
+        String caminhoArquivo = (pasta+'/'+boletim.getMatriculaAluno()+'/'+"semestre"+boletim.getSemestre()+"disciplina"+boletim.getDisciplina()+"boletim.txt");
+        try (BufferedWriter salvar = new BufferedWriter(new FileWriter(caminhoArquivo)))
+        {
+            salvar.write(boletim.toString());
+        } catch (IOException erro)
+        {
+            System.out.println("Erro ao salvar Boletim");
+        }
+    }
+    public static void CarregarBoletins()
+    {
+        File pasta = new File("banco_de_dados/boletins");
+        if (pasta.exists() && pasta.isDirectory())
+        {
+            File[] arquivos = pasta.listFiles((dir, nome) -> nome.endsWith("boletim.txt"));
+            if (arquivos !=null)
+            {
+                for (File arquivo : arquivos)
+                {
+                    try (BufferedReader leitor = new BufferedReader(new FileReader(arquivo)))
+                    {
+                        String dados = leitor.readLine();
+                        Boletim boletim = Boletim.fromString(dados);
+                        boletins.add(boletim);
+                    } catch (IOException | NullPointerException e)
+                    {
+                        System.out.println("erro ao carregar boletins iniciais do sistema: "+arquivo.getName());
+                    }
+                }
+            }
+        }
+    }
     public static void SalvarTudo()
     {
         for (Aluno aluno : alunos)
@@ -1449,6 +1538,10 @@ public class SIGAA2
         for (Professor professor : professores)
         {
             SalvarProfessor(professor);
+        }
+        for (Boletim boletim : boletins)
+        {
+            SalvarBoletim(boletim);
         }
     }
 
