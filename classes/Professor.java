@@ -104,27 +104,26 @@ public class Professor {
     @Override
     public String toString()
     {
-        return ""+this.nome+';'+this.matricula+';'+juntarTurmas();
+        return ""+this.nome+';'+String.valueOf(this.matricula)+';'+juntarTurmas(); //o string. previne bugs
     }
     public static Professor fromString(String entrada)
     {
-        String[] infos = entrada.split(";");
-        if (infos.length==2)
+        if (entrada == null || entrada.isEmpty())
         {
-            String nome = infos[0];
-            int matricula = Integer.parseInt(infos[1]);
-            return new Professor(nome,matricula);
-        }
-        else if (infos.length < 2)
-        {
+            System.out.println("Erro: entrada nula ou vazia ao carregar professor");
             return null;
         }
-        else
+
+        String[] infos = entrada.split(";");
+        
+        if (infos.length < 2)
         {
-            String nome = infos[0];
-            int matricula = Integer.parseInt(infos[1]);
-            String turmas = infos[2];
-            return new Professor(nome,matricula,turmas);
+            System.out.println("Erro: tentando carregar professor com dados insuficientes");
+            return null;
         }
+        String nome = infos[0];
+        int matricula = Integer.parseInt(infos[1]);
+        String turmas = (infos.length > 2) ? infos [2] : "";
+        return new Professor(nome, matricula, turmas);
     }
 }
