@@ -8,9 +8,8 @@ public class SIGAA2
     // O QUE FALTA
     //{
     // implementar os relatorios
-    // facilitar lançar multiplas notas de uma vez
     // criar o aluno especial
-    // colocar uma nova var em relatorios, trancou para mostrar quantos alunos já trancaram
+    // colocar uma nova var em relatorios, "trancou para" mostrar quantos alunos já trancaram
     // quando trancar, colocar isso no relatorio
     //}
 
@@ -28,9 +27,11 @@ public class SIGAA2
 
     //otimização super opcional
     //{
+    // poder a qualquer momento voltar pro menu anterior, pra caso tenha digitado e entrado em um menu sem querer
     // melhorar todos os inputs, na hora que digitar errado, não dar erro e fechar o programa, e sim falar qual foi o erro e receber outra entrada
     // deixar os menus mais formatados e bonitos
-    // 
+    // salvar as coisas quando mudar, não só quando criar e fechar o programa
+    // facilitar lançar multiplas notas de uma vez
     //}
     
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
@@ -268,6 +269,7 @@ public class SIGAA2
             System.out.println("o aluno não tem algum dos pré-requisitos para cursar a disciplina");
             System.out.println("são eles");
             System.out.println(disciplina.getPreRequisitos()); 
+            return;
         }
 
         System.out.println("digite o numero da turma que o aluno "+aluno.getNome()+" será matriculado:");

@@ -33,7 +33,7 @@ public class Turma
         this.codigoDaTurma = codigoDisciplina+numero;
         System.out.println("codigo da turma: "+this.codigoDaTurma);
         System.out.println("nova turma ministrada pelo prof de matricula: "+this.matriculaProf);
-        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina+"do semestre: "+semestre);
+        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina+" do semestre: "+semestre);
         System.out.println("vagas totais: "+vagasTotais);
         System.out.println("metodo "+this.metodoAvaliacao+" de avaliação");
         System.out.println("horario inicial: "+this.horario+':'+"00");
@@ -63,7 +63,7 @@ public class Turma
         this.codigoDaTurma = codigoDisciplina+numero;
         System.out.println("codigo da turma: "+this.codigoDaTurma);
         System.out.println("nova turma ministrada pelo prof de matricula: "+this.matriculaProf);
-        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina + "do semestre: "+semestre);
+        System.out.println("turma num: "+numero+" da disciplina de codigo: "+codigoDisciplina + " do semestre: "+semestre);
         System.out.println("vagas totais: "+vagasTotais);
         System.out.println("metodo "+this.metodoAvaliacao+" de avaliação");
         System.out.println("horario inicial: "+this.horario+':'+"00");
