@@ -7,12 +7,10 @@ public class SIGAA2
 {
     // O QUE FALTA
     //{
-    // na hora de mostrar o boletim, mostrar todos, para o simples e completo
-    // implementar os relatorios e a parte de arquivos (salvar e carregar)
+    // implementar os relatorios
     // facilitar lançar multiplas notas de uma vez
     // criar o aluno especial
     // arrumar os bugs conhecidos
-    //
     //}
 
     // BUGS CONHECIDOS PRA ARRUMAR
@@ -214,6 +212,7 @@ public class SIGAA2
         System.out.println("digite a matricula do aluno que vai ser matriculado");
         int matricula = input.nextInt();
         input.nextLine(); //come o espaço
+
         if (ChecarMatricula(matricula))
         {
             Aluno aluno = BuscarAluno(matricula);
@@ -225,7 +224,7 @@ public class SIGAA2
                 Disciplina disciplina = BuscarDisciplina(codigo);
                 System.out.println("disciplina selecionada: " + disciplina.getNome()+'/'+disciplina.getCodigo()); 
 
-                //AQUI
+                //AQUI FALTA OTIMIZAR, TÁ MTO RUIM
                 for (String codTurma : disciplina.getTurmasDaDisciplina())
                 {
                     Turma turma = BuscarTurma(codTurma);
