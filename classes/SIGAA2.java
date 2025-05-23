@@ -5,20 +5,27 @@ import java.io.*;
 
 public class SIGAA2 
 {
-    //CADA BOLETIM É SALVO EM UM ARQUIVO SEPARADO, MAS NA HORA DE MOSTRAR ELE MOSTRA TODOS DO SEMESTRE (PRA FUNCIONAR COMO UM BOLETIM MESMO)
-    //TESTAR O EXIBIR BOLETIM
+    // O QUE FALTA
+    //{
+    // na hora de mostrar o boletim, mostrar todos, para o simples e completo
+    // implementar os relatorios e a parte de arquivos (salvar e carregar)
+    // facilitar lançar multiplas notas de uma vez
+    // criar o aluno especial
+    // arrumar os bugs conhecidos
+    //
+    //}
+
     // BUGS CONHECIDOS PRA ARRUMAR
     //{
     // talvez na hora de colocar um aluno na turma, ele consiga entrar mesmo tendo zero vagas
     //}
-    //criar o aluno especial
-    //TERMINAR O BOLETIM //conseguir lançar a nota aluno por aluno, ou facilitar pra fazer isso
+
     // quando lançar nota, adicionar ao relatorio da materia se ele passou ou reprovou, como reprovou, com que nota passou
     //MODO NOTAS
     //{ 
-    //relatorio de turma {quantos alunos passaram, quantas aulas tiveram, nota media de cada prova}
-    //relatorio de disciplina {quantas turmas tem, quantos alunos passaram, nota media de cada prova}
-    //relatorio de professor {quantos alunos tem (soma das turmas que ministra) quantos passaram, media de cada prova}
+    //relatorio de turma {quantos alunos passaram, nota media final}
+    //relatorio de disciplina {quantos alunos passaram, nota media final}
+    //relatorio de professor {quantos passaram, media final}
     //}
     
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
@@ -26,6 +33,7 @@ public class SIGAA2
     static ArrayList<Turma> turmas = new ArrayList<>(); //serve para manter e criar turmas
     static ArrayList<Professor> professores = new ArrayList<>(); //serve pra criar e manter professores
     static ArrayList<Boletim> boletins = new ArrayList<>();//server pra criar e manter boletins
+    static ArrayList<Relatorio> relatorios = new ArrayList<>(); //serve pra criar e manter relatorios
 
         public static void main(String[] args)
     {
@@ -35,6 +43,7 @@ public class SIGAA2
         CarregarTurmas();
         CarregarAlunos();
         CarregarBoletins();
+        CarregarRelatorios();
         
 
         Scanner input1 = new Scanner(System.in);//scanner usado no menu inteiro
@@ -1135,7 +1144,7 @@ public class SIGAA2
             turma.removerAluno(aluno);
             System.out.println("reprovado por nota e falta");
         }
-        System.out.println("todos os boletins pode ser encontrados na pasta banco_de_dados/boletins, eles estão separados por aluno")
+        System.out.println("todos os boletins pode ser encontrados na pasta banco_de_dados/boletins, eles estão separados por aluno");
     }
     public static void MostrarBoletimSimples(Scanner input)
     {
@@ -1639,6 +1648,42 @@ public class SIGAA2
             }
         }
     }
+    public static void SalvarRelatorio(Relatorio relatorio)
+    {
+        String pasta = "banco_de_dados/relatorios";
+        new File(pasta).mkdirs();
+        String caminhoArquivo = pasta+'/'+relatorio.getCharTipo()+"ID"+relatorio.getIdentificador()+"relatorio.txt";
+        try (BufferedWriter salvar = new BufferedWriter(new FileWriter(caminhoArquivo)))
+        {
+            salvar.write(relatorio.toString());
+        }catch (IOException erro)
+        {
+            System.out.println("Erro ao salvar Relatorio");
+        }
+    }
+    public static void CarregarRelatorios()
+    {
+        File pasta = new File("banco_de_dados/relatorios");
+        if (pasta.exists() && pasta.isDirectory())
+        {
+            File[] arquivos = pasta.listFiles((dir, nome) -> nome.endsWith("relatorio.txt"));
+            if (arquivos !=null)
+            {
+                for (File arquivo : arquivos)
+                {
+                    try (BufferedReader leitor = new BufferedReader(new FileReader(arquivo)))
+                    {
+                        String dados = leitor.readLine();
+                        Relatorio relatorio = Relatorio.fromString(dados);
+                        relatorios.add(relatorio);
+                    } catch (IOException | NullPointerException e)
+                    {
+                        System.out.println("Erro ao carregar arquivos iniciais do sistema: "+arquivo.getName());
+                    }
+                }
+            }
+        }
+    }
     
     public static void SalvarTudo()
     {
@@ -1661,6 +1706,10 @@ public class SIGAA2
         for (Boletim boletim : boletins)
         {
             SalvarBoletim(boletim);
+        }
+        for (Relatorio relatorio : relatorios)
+        {
+            SalvarRelatorio(relatorio);
         }
     }
 
