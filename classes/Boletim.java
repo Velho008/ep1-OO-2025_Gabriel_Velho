@@ -13,6 +13,8 @@ public class Boletim
     private final String disciplina;
     private final int semestre;
     private final int turma;
+    private final int cargaHoraria;
+    private final String sala;
     
     private final int presenca;
     private final char metodoAvaliacao;
@@ -34,6 +36,8 @@ public class Boletim
         this.disciplina = turma.getCodigoDisciplina();
         this.semestre = turma.getSemestre();
         this.turma = turma.getNumero();
+        this.cargaHoraria = SIGAA2.BuscarDisciplina(turma.getCodigoDisciplina()).getCargaHoraria();
+        this.sala = turma.getSala();
         this.presenca = presenca;
         this.metodoAvaliacao = turma.getMetodoAvaliacao();
         this.p1 = p1;
@@ -73,6 +77,8 @@ public class Boletim
         this.passou = 0;
         this.matriculaAluno = matriculaAluno;
         Turma turma = SIGAA2.BuscarTurma(numTurma, codDisciplina);
+        this.cargaHoraria = SIGAA2.BuscarDisciplina(turma.getCodigoDisciplina()).getCargaHoraria();
+        this.sala = turma.getSala();
         this.matriculaProf = turma.getMatriculaProf();
         this.disciplina = turma.getCodigoDisciplina();
         this.semestre = turma.getSemestre();
@@ -117,14 +123,14 @@ public class Boletim
         System.out.println("aluno: "+aluno.getNome()+'/'+aluno.getMatricula());
         System.out.println("turma: "+this.turma+" da disciplina: "+disciplina.getNome()+'/'+disciplina.getCodigo()+" ministrada pelo prof: "+professor.getNome()+'/'+professor.getMatricula());
         System.out.println("semestre: "+this.semestre);
-        System.out.println("carga horaria da disciplina: "+disciplina.getCargaHoraria());
-        if (turma.getSala().isEmpty())
+        System.out.println("carga horaria da disciplina: "+this.cargaHoraria);
+        if (this.sala.isEmpty())
         {
             System.out.println("turma online");
         }
         else
         {
-            System.out.println("sala: "+turma.getSala());
+            System.out.println("sala: "+this.sala);
         }
         System.out.println("a presença do aluno foi de: "+this.presenca+'%');
         System.out.println("NOTAS p1: "+this.p1+" p2: "+this.p2+" p3: "+this.p3+" lista: "+this.lista+" seminario: "+this.seminario);
@@ -242,7 +248,16 @@ public class Boletim
     @Override
     public String toString()
     {
-        return ""+this.getMatriculaAluno()+';'+this.getTurma()+';'+this.getPresenca()+';'+this.getMetodoAvaliacao()+';'+this.getP1()+';'+this.getP2()+';'+this.getP3()+';'+this.getLista()+';'+this.getSeminario()+';'+this.getDisciplina();
+        return String.valueOf(this.getMatriculaAluno())+';'+
+               String.valueOf(this.getTurma())+';'+
+               String.valueOf(this.getPresenca())+';'+
+               this.getMetodoAvaliacao()+';'+
+               String.valueOf(this.getP1())+';'+
+               String.valueOf(this.getP2())+';'+
+               String.valueOf(this.getP3())+';'+
+               String.valueOf(this.getLista())+';'+
+               String.valueOf(this.getSeminario())+';'+
+               this.getDisciplina();
     }
     public static Boletim fromString(String entrada)
     {

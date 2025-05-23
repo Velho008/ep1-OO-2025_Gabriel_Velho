@@ -188,12 +188,12 @@ public class Turma
         alunos.add(aluno.getMatricula());
         this.vagasAtuais-=1;
     }
-    public void removerAluno(int matricula) //ARRUMAR ESSE
+    public void removerAluno(int matricula) 
     {
         alunos.remove(Integer.valueOf(matricula));
         this.vagasAtuais+=1;
     }
-    public void removerAluno(Aluno alunoEntrada) //ARRUMAR ESSE
+    public void removerAluno(Aluno alunoEntrada) 
     {   
         alunos.remove(Integer.valueOf(alunoEntrada.getMatricula()));
         this.vagasAtuais+=1;

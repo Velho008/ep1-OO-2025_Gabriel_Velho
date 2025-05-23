@@ -5,12 +5,11 @@ import java.io.*;
 
 public class SIGAA2 
 {
+    //CADA BOLETIM É SALVO EM UM ARQUIVO SEPARADO, MAS NA HORA DE MOSTRAR ELE MOSTRA TODOS DO SEMESTRE (PRA FUNCIONAR COMO UM BOLETIM MESMO)
     //TESTAR O EXIBIR BOLETIM
-    //TESTAR LANÇAR AS NOTAS DE UM ALUNO TODAS DE UMA VEZ
     // BUGS CONHECIDOS PRA ARRUMAR
     //{
     // talvez na hora de colocar um aluno na turma, ele consiga entrar mesmo tendo zero vagas
-    // testar salvar VARIOS arquivos de varios tipos e ver como o programa se comporta
     //}
     //criar o aluno especial
     //TERMINAR O BOLETIM //conseguir lançar a nota aluno por aluno, ou facilitar pra fazer isso
@@ -1028,37 +1027,44 @@ public class SIGAA2
         System.out.println("para lançar notas, primeiro identifique a materia da turma");
         System.out.println("digite o codigo da materia da qual a turma faz parte: ");
         String codigoDisciplina = input.nextLine();
+
         if (!ChecarCodigoDisciplina(codigoDisciplina))
         {
             System.out.println("não existe disciplina com esse codigo");
             return;
         }
+
         System.out.println("digite o numero da turma");
         int numeroTurma = input.nextInt();
         input.nextLine(); //come o enter
+
         if (!ChecarTurma(numeroTurma, codigoDisciplina))
         {
             System.out.println("não existe turma dessa disciplina com esse numero");
             return;
         }
+
         Turma turma = BuscarTurma(numeroTurma, codigoDisciplina);
         turma.ListarAlunos();
-        System.out.println("escolha um aluno da turma: ");
-        System.out.println("digite a matricula do aluno cujas notas e presença serão lançadas");
+        System.out.println("lista dos alunos acima");
+        System.out.println("digite a matricula do aluno cujas notas e presença serão lançadas: ");
         int matricula = input.nextInt();
         input.nextLine(); //come o enter
+
         String codigoTurma = turma.getCodigoTurma();
         if (!ChecarAlunoTurma(matricula, codigoTurma))
         {
             System.out.println("o aluno não está matriculado nessa turma");
             return;
         }
+
         Aluno aluno = BuscarAluno(matricula);
         System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
         System.out.println("digite 1 para lançar nota por nota");
         System.out.println("digite 2 para lançar todas as notas de uma vez");
         int num = input.nextInt();
         input.nextLine();
+
         float p1;
         float p2;
         float p3;
@@ -1086,9 +1092,6 @@ public class SIGAA2
             System.out.println("digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
             presenca = input.nextInt();
             input.nextLine();
-            boletim = new Boletim(matricula, turma, presenca, turma.getMetodoAvaliacao(), p1, p2, p3, lista, seminario);
-            boletins.add(boletim);
-            SalvarBoletim(boletim);
         }
         else
         {
@@ -1103,10 +1106,12 @@ public class SIGAA2
             lista = Float.parseFloat(entrada[3]);
             seminario = Float.parseFloat(entrada[4]);
             presenca = Integer.parseInt(entrada[5]);
-            boletim = new Boletim(matricula, turma, presenca, turma.getMetodoAvaliacao(), p1, p2, p3, lista, seminario);
-            boletins.add(boletim);
-            SalvarBoletim(boletim);
         }
+
+        boletim = new Boletim(matricula, turma, presenca, turma.getMetodoAvaliacao(), p1, p2, p3, lista, seminario);
+        boletins.add(boletim);
+        SalvarBoletim(boletim);
+
         float notaMedia = boletim.getMediaFinal();
         if (boletim.getPassou() == 0)
         {
@@ -1136,19 +1141,31 @@ public class SIGAA2
         System.out.println("digite a matricula do aluno");
         int matricula = input.nextInt();
         input.nextLine(); //come o enter
+
         if (!ChecarMatricula(matricula))
         {
             System.out.println("a matricula digitada não existe");
             return;
         }
+
         Aluno aluno = BuscarAluno(matricula);
         System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
+
+        System.out.println("Exibindo todos os boletins do aluno...");
+
+        boolean encontrado = false;
         for (Boletim boletim : boletins)
         {
             if (boletim.getMatriculaAluno() == matricula)
             {
                 boletim.MostrarInfoSimples();
+                encontrado=true;
             }
+        }
+
+        if (!encontrado)
+        {
+            System.out.println("Esse aluno não possui boletins registrados no sistema");
         }
     }
     public static void MostrarBoletimCompleto(Scanner input)
@@ -1156,21 +1173,32 @@ public class SIGAA2
         System.out.println("digite a matricula do aluno");
         int matricula = input.nextInt();
         input.nextLine(); //come o enter
+
         if (!ChecarMatricula(matricula))
         {
             System.out.println("a matricula digitada não existe");
             return;
         }
+
         Aluno aluno = BuscarAluno(matricula);
         System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
+
+        boolean encontrado = false;
         for (Boletim boletim : boletins)
         {
             if (boletim.getMatriculaAluno() == matricula)
             {
                 boletim.MostrarInfoExpandido();
+                encontrado=true;
             }
         }
+
+        if (!encontrado)
+        {
+            System.out.println("Esse aluno não possui boletins registrados no sistema");
+        }
     }
+
     public static boolean ChecarMatricula(int matricula)
     {
         for (Aluno aluno: alunos)
