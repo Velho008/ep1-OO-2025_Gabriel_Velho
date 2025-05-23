@@ -188,22 +188,21 @@ public class Disciplina {
         return (this.nome +';'+ this.codigo+';' + this.carga_horaria +';'+ juntarRequisitos(this.pre_requisitos)+';'+juntarTurmas(this.turmasDaDisciplina));
     }
 
-    public static Disciplina fromString(String entrada)
+    public static Disciplina fromString(String entrada) //MELHOR FROMSTRING ATÉ AGORA
     {
         String[] dados = entrada.split(";");
-        if (dados.length == 3)
-        {
-            int carga_horaria = Integer.parseInt(dados[2]);
-            return new Disciplina(dados[0],dados[1],carga_horaria);
-        }
-        else if (dados.length < 3)
+        if (dados.length < 3)
         {
             return null;
         }
-        else
-        {
-            int carga_horaria = Integer.parseInt(dados[2]);
-            return new Disciplina(dados[0],dados[1],carga_horaria,dados[3],dados[4]);
-        }
+        String nome = dados[0];
+        String codigo = dados[1];
+        int cargaHoraria = Integer.parseInt(dados[2]);
+
+        //formato: (condição)? valorCasoSejaVerdadeiro : ValorCasoSejaFalso;
+        String preRequisitos = (dados.length > 3) ? dados[3] : ""; //caso exista é o dados 3, caso não, é ""
+        String restoInfos = (dados.length > 4) ? dados[4] : ""; 
+
+        return new Disciplina(nome, codigo, cargaHoraria, preRequisitos, restoInfos);
     }
 }
