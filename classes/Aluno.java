@@ -58,6 +58,19 @@ public class Aluno
         System.out.println("um novo aluno "+nome+" sem info foi criado");
         this.nome = nome;
     }
+    //construtor de arquivo
+    public Aluno(String nome, int matricula, String curso, String disciplinas_cursadas,char arq)
+    {
+        // o char só serve pra puxar esse no lugar do outro
+        this.nome = nome;
+        this.matricula = matricula;
+        this.curso = curso;
+        this.disciplinas_cursadas = new ArrayList<>();
+        for (String disciplina : disciplinas_cursadas.split(" "))
+        {
+            this.disciplinas_cursadas.add(disciplina);
+        }
+    }
 
     //setters e getters
     public String getCurso()
@@ -154,19 +167,16 @@ public class Aluno
     public static Aluno fromString(String entrada)
     {
         String[] infos = entrada.split(";");
-        if (infos.length == 3)
-        {
-            int matricula = Integer.parseInt(infos[1]); //torna a matricula de volta em int
-            return new Aluno(infos[0],matricula,infos[2]);
-        }
-        else if (infos.length <3)
+        if (infos.length < 3)
         {
             return null;
         }
-        else
-        {
-            int matricula = Integer.parseInt(infos[1]); //torna a matricula de volta em int
-            return new Aluno(infos[0],matricula,infos[2],infos[3]);
-        }
+
+        String nome = infos[0];
+        int matricula = Integer.parseInt(infos[1]);
+        String disciplinasCursadas = infos[2];
+        String turmasAtuais = infos.length > 3 ? infos[3] : "";
+
+        return new Aluno(nome, matricula, disciplinasCursadas, turmasAtuais, 'a'); //sempre puxa o correto
     }
 }

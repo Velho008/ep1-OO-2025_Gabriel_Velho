@@ -16,7 +16,6 @@ public class Turma
     private int horario; //toda aula dura 2 horas, exemplo: 8 (começa 8 da manha) e acaba as 10
     private int semestre; //de qual semestre a turma é
     private String codigoDaTurma; //FACILITA BUSCAR A TURMA, é criado de forma automatica
-    // duas turmas de uma mesma sala ou mesmo prof não podem coexistir no mesmo horario
 
     //construtores
     public Turma(int matriculaProf, String sala, char metodoAvaliacao, int horario,int numero, int vagasTotais, int semestre, String codigoDisciplina)
@@ -72,7 +71,7 @@ public class Turma
         System.out.println("turma online");
     }
     //construtor pra quando puxar de arquivo
-    public Turma(int matriculaProf, String sala, char metodoAvaliacao, char[] horario, int numero, int vagasTotais,int semestre, String codigoDisciplina, String matriculaAlunos)
+    public Turma(int matriculaProf, String sala, char metodoAvaliacao, int horario, int numero, int vagasTotais,int semestre, String codigoDisciplina, String matriculaAlunos)
     {
         this.numero = numero;
         this.vagasAtuais = vagasTotais;
@@ -84,8 +83,12 @@ public class Turma
         this.codigoDaTurma = codigoDisciplina+numero;
         for (String aluno : matriculaAlunos.split(" "))
         {
-            int matricula = Integer.parseInt(aluno);
-            addAluno(matricula);
+            if (!aluno.isEmpty()) //não gera problemas quando não tiver alunos
+            {
+                int matricula = Integer.parseInt(aluno);
+                addAluno(matricula);
+            }
+            
         }
     }
 
@@ -248,34 +251,20 @@ public class Turma
         String[] dados = entrada.split(";");
         if (dados.length < 8)
         {
-            System.out.println("erro ao criar turma");
+            System.out.println("erro ao criar turma: dados insuficientes");
             return null;
         }
-        else if (dados.length == 8)
-        {
-            int matriculaProf = Integer.parseInt(dados[0]);
-            String sala = dados[1];
-            char metodoAvaliacao = dados[2].charAt(0);
-            int horario = Integer.parseInt(dados[3]);
-            int numero = Integer.parseInt(dados[4]);
-            int vagasTotais = Integer.parseInt(dados[5]);
-            int semestre = Integer.parseInt(dados[6]);
-            String codigoDisciplina = dados[7];
-            return new Turma(matriculaProf,sala,metodoAvaliacao,horario,numero,vagasTotais,semestre,codigoDisciplina);
-        }
-        else
-        {
+        int matriculaProf = Integer.parseInt(dados[0]);
+        String sala = dados[1];
+        char metodoAvaliacao = dados[2].charAt(0);
+        int horario = Integer.parseInt(dados[3]);
+        int numero = Integer.parseInt(dados[4]);
+        int vagasTotais = Integer.parseInt(dados[5]);
+        int semestre = Integer.parseInt(dados[6]);
+        String codigoDisciplina = dados[7];
+        String alunos = (dados.length > 8) ? dados[8] : "";
 
-            int matriculaProf = Integer.parseInt(dados[0]);
-            String sala = dados[1];
-            char metodoAvaliacao = dados[2].charAt(0);
-            char[] horario = dados[3].toCharArray();
-            int numero = Integer.parseInt(dados[4]);
-            int vagasTotais = Integer.parseInt(dados[5]);
-            int semestre = Integer.parseInt(dados[6]);
-            String codigoDisciplina = dados[7];
-            return new Turma(matriculaProf,sala,metodoAvaliacao,horario,numero,vagasTotais,semestre,codigoDisciplina,dados[8]);
-        }
+        return new Turma(matriculaProf, sala, metodoAvaliacao, horario, numero, vagasTotais, semestre, codigoDisciplina, alunos);
     }
     
 }

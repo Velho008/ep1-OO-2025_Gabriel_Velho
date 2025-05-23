@@ -67,14 +67,14 @@ public class Disciplina {
         this.pre_requisitos = new ArrayList<>();
         this.turmasDaDisciplina = new ArrayList<>();
 
-        if (! (pre_requisitos == null) || !(pre_requisitos.isEmpty()))
+        if ( (pre_requisitos != null) && !(pre_requisitos.isEmpty()))
         {
             for (String requisito : pre_requisitos.split(" "))
             {
             this.pre_requisitos.add(requisito);
             }
         }
-        if (!(turmas == null) || !(turmas.isEmpty()))
+        if ((turmas != null) && !(turmas.isEmpty()))
         {
             for (String turma : turmas.split(" "))
             {
