@@ -742,7 +742,7 @@ public class SIGAA2
             System.out.println("não existe professor com essa matricula");
             return;
         }
-        System.out.println("digite o horario de inicio da aula no formato: 8 (8AM) ou 12(meio dia)");
+        System.out.println("digite o horario de inicio da aula no formato: 8 (8AM) ou 12(meio dia) NÃO USE APENAS O 0");
         System.out.println("lembre que as aulas duram sempre 2 horas");
         int horario = input.nextInt();
         input.nextLine(); //come o enter
@@ -1403,6 +1403,19 @@ public class SIGAA2
     }
     public static void SalvarTurma(Turma turma)
     {
+        if ( //verifica dados invalidos
+            turma == null ||
+            turma.getMatriculaProf() == 0 ||
+            turma.getCodigoDisciplina() == null ||
+            (turma.getMetodoAvaliacao() !='a' && turma.getMetodoAvaliacao() !='b') ||
+            turma.getHorario() == 0 ||
+            turma.getNumero() == 0 ||
+            turma.getSemestre() == 0 
+        ){
+            System.out.println("Erro: salvando turmas com dados invalidos");
+            return;
+         }
+
         String pasta = "banco_de_dados/turmas";
         new File(pasta).mkdirs();
         String caminhoArquivo = (pasta+'/'+turma.getNumero()+"DE"+turma.getCodigoDisciplina()+"turma.txt");

@@ -73,6 +73,9 @@ public class Turma
     //construtor pra quando puxar de arquivo
     public Turma(int matriculaProf, String sala, char metodoAvaliacao, int horario, int numero, int vagasTotais,int semestre, String codigoDisciplina, String matriculaAlunos)
     {
+        this.matriculaProf = matriculaProf;
+        this.sala = sala;
+        this.horario = horario;
         this.numero = numero;
         this.vagasAtuais = vagasTotais;
         this.vagasTotais = vagasTotais;
@@ -244,14 +247,28 @@ public class Turma
     @Override
     public String toString()
     {
-        return "" + this.getMatriculaProf()+';'+this.getSala()+';'+this.getMetodoAvaliacao()+';'+this.getHorario()+';'+this.getNumero()+';'+this.getVagasTotais()+';'+this.getSemestre()+';'+this.getCodigoDisciplina()+';'+juntarAlunos(alunos);
+        String salaStr = (this.getSala()== null) ? "" : this.getSala();
+        return String.valueOf(this.getMatriculaProf())+';'+ //TRANSFORMO EM STRING PRA EVITAR ERROS
+               salaStr+';'+
+               this.getMetodoAvaliacao()+';'+
+               this.getHorario()+';'+
+               this.getNumero()+';'+
+               this.getVagasTotais()+';'+
+               this.getSemestre()+';'+
+               this.getCodigoDisciplina()+';'+
+               juntarAlunos(alunos);
     }
     public static Turma fromString(String entrada)
     {
+        if (entrada == null || entrada.isEmpty())
+        {
+            System.out.println("Erro ao criar turma: entrada vazia ou nula na hora de criar a turma");
+            return null;
+        }
         String[] dados = entrada.split(";");
         if (dados.length < 8)
         {
-            System.out.println("erro ao criar turma: dados insuficientes");
+            System.out.println("Erro ao criar turma: dados insuficientes");
             return null;
         }
         int matriculaProf = Integer.parseInt(dados[0]);
