@@ -72,7 +72,7 @@ public class Boletim
 
     }
     //construtor de arquivo
-    public Boletim(int matriculaAluno, int numTurma, int presenca, char metodoAvaliacao, int p1, int p2, int p3, int lista, int seminario, String codDisciplina)
+    public Boletim(int matriculaAluno, int numTurma, int presenca, char metodoAvaliacao, float p1, float p2, float p3, float lista, float seminario, String codDisciplina)
     {
         this.passou = 0;
         this.matriculaAluno = matriculaAluno;
@@ -116,10 +116,10 @@ public class Boletim
     }
     public void MostrarInfoExpandido()
     {
+        System.out.println("========================================================");
         Aluno aluno = SIGAA2.BuscarAluno(matriculaAluno);
-        Professor professor = SIGAA2.BuscarProfessor(matriculaAluno);
+        Professor professor = SIGAA2.BuscarProfessor(matriculaProf);
         Disciplina disciplina = SIGAA2.BuscarDisciplina(this.disciplina);
-        Turma turma = SIGAA2.BuscarTurma(this.turma+this.disciplina);
         System.out.println("aluno: "+aluno.getNome()+'/'+aluno.getMatricula());
         System.out.println("turma: "+this.turma+" da disciplina: "+disciplina.getNome()+'/'+disciplina.getCodigo()+" ministrada pelo prof: "+professor.getNome()+'/'+professor.getMatricula());
         System.out.println("semestre: "+this.semestre);
@@ -153,9 +153,11 @@ public class Boletim
                 System.out.println("algum erro ao saber se passou ou não");
                 break;
         }
+        System.out.println("========================================================");
     }
     public void MostrarInfoSimples()
     {
+        System.out.println("========================================================");
         Aluno aluno = SIGAA2.BuscarAluno(matriculaAluno);
         Disciplina disciplina = SIGAA2.BuscarDisciplina(this.disciplina);
         System.out.println("aluno: "+aluno.getNome()+'/'+aluno.getMatricula());
@@ -182,6 +184,7 @@ public class Boletim
                 System.out.println("algum erro ao saber se passou ou não");
                 break;
         }
+        System.out.println("========================================================");
     }
     //construtor de arquivo
 
@@ -266,11 +269,11 @@ public class Boletim
         int numTurma = Integer.parseInt(dados[1]);
         int presenca = Integer.parseInt(dados[2]);
         char metodoAvaliacao = dados[3].charAt(0);
-        int p1 = Integer.parseInt(dados[4]);
-        int p2 = Integer.parseInt(dados[5]);
-        int p3 = Integer.parseInt(dados[6]);
-        int lista = Integer.parseInt(dados[7]);
-        int seminario = Integer.parseInt(dados[8]);
+        float p1 = Float.parseFloat(dados[4]);
+        float p2 = Float.parseFloat(dados[5]);
+        float p3 = Float.parseFloat(dados[6]);
+        float lista = Float.parseFloat(dados[7]);
+        float seminario = Float.parseFloat(dados[8]);
         try
         {
             return new Boletim(matriculaAluno, numTurma, presenca, metodoAvaliacao, p1, p2, p3, lista, seminario, dados[9]);

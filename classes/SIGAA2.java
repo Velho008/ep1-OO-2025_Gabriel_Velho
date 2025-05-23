@@ -1135,6 +1135,7 @@ public class SIGAA2
             turma.removerAluno(aluno);
             System.out.println("reprovado por nota e falta");
         }
+        System.out.println("todos os boletins pode ser encontrados na pasta banco_de_dados/boletins, eles estão separados por aluno")
     }
     public static void MostrarBoletimSimples(Scanner input)
     {
@@ -1182,6 +1183,8 @@ public class SIGAA2
 
         Aluno aluno = BuscarAluno(matricula);
         System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
+
+        System.out.println("Exibindo todos os boletins do aluno...");
 
         boolean encontrado = false;
         for (Boletim boletim : boletins)
@@ -1604,24 +1607,39 @@ public class SIGAA2
         File pasta = new File("banco_de_dados/boletins");
         if (pasta.exists() && pasta.isDirectory())
         {
-            File[] arquivos = pasta.listFiles((dir, nome) -> nome.endsWith("boletim.txt"));
-            if (arquivos !=null)
+            CarregarBoletinsRecursivamente(pasta);
+        }
+    }
+    public static void CarregarBoletinsRecursivamente(File pasta)
+    {
+        File[] arquivos = pasta.listFiles();
+        if (arquivos !=null)
+        {
+            for (File arquivo : arquivos)
             {
-                for (File arquivo : arquivos)
+                if (arquivo.isDirectory()) //caso seja diretorio
+                {
+                    CarregarBoletinsRecursivamente(arquivo); //serve pra buscar subpastas
+                }
+                else if (arquivo.getName().endsWith("boletim.txt")) //caso seja um arquivo de boletim mesmo
                 {
                     try (BufferedReader leitor = new BufferedReader(new FileReader(arquivo)))
                     {
                         String dados = leitor.readLine();
                         Boletim boletim = Boletim.fromString(dados);
-                        boletins.add(boletim);
+                        if (boletim !=null)
+                        {
+                            boletins.add(boletim);
+                        }
                     } catch (IOException | NullPointerException e)
                     {
-                        System.out.println("erro ao carregar boletins iniciais do sistema: "+arquivo.getName());
+                        System.out.println("Erro ao carregar boletim do arquivo: "+arquivo.getName());
                     }
                 }
             }
         }
     }
+    
     public static void SalvarTudo()
     {
         for (Aluno aluno : alunos)

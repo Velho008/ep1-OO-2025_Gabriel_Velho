@@ -2,25 +2,113 @@ package classes;
 
 public class Relatorio 
 {
-    //falta a identificação, codigo da turma ou disciplina, ou matricula do prof
+    // talvez adicionar os que trancaram
+    // na hora de colocar a nota, fazer o relatorio, se ele já existir, extender ele
+    // para iniciar o relatorio, precisa do tipo, 
+    // para buscar o relatorio, precisa do tipo e do identificador
     //falta a parte de arquivos 
     // tirando notaMedia todos os outros são numeros absolutos
-    private final Object tipo; //se é de professor, turma ou disciplina
+    private final char charTipo; //se é de professor, turma ou disciplina (p,t,d) respectivamente
+    private String identificador; //prof ->matricula //disciplina ->codigo //turma ->codigo
+    private int identificadorP; //para o caso de ser professor, vai ser a matricula dele
     private float notaMedia; //esse é calculado
-    private float passaram; 
-    private float reprovaram;
-    private float reprovaramFalta;
-    private float reprovaramNota;
-    private float reprovaramNotaEFalta;
+    private int passaram;
+    private int reprovaram;
+    private int reprovaramFalta;
+    private int reprovaramNota;
+    private int reprovaramNotaEFalta;
+    private int totalAlunos; //total de alunos que já fizeram parte
+
+    private final String tipo; // "professor" , "turma" , "disciplina"
 
     //construtores
-    public Relatorio(Object tipo)
+    public Relatorio(char charTipo, String identificador)
     {
-        this.tipo = tipo;
+        this.identificador = identificador;
+        this.charTipo = charTipo;
+        switch (charTipo)
+        {
+            case 'p':
+                this.identificadorP = Integer.parseInt(identificador); //somente para o caso de ser professor, pois a matricula é int
+                this.tipo = "professor";
+                break;
+            case 't':
+                this.tipo = "turma";
+                break;
+            case 'd':
+                this.tipo = "disciplina";
+                break;
+            default:
+                this.tipo = "";
+                System.out.println("Erro ao criar relatorio, tipo invalido");
+                break;
+        }
+    }
+
+    //construtor de arquivo
+    public Relatorio(char charTipo, String identificador, float notaMedia, int passaram, int reprovaramFalta, int reprovaramNota, int reprovaramNotaEFalta)
+    {
+        this.identificador = identificador;
+        this.charTipo = charTipo;
+        switch (charTipo)
+        {
+            case 'p':
+                this.identificadorP = Integer.parseInt(identificador); //somente para o caso de ser professor, pois a matricula é int
+                this.tipo = "professor";
+                break;
+            case 't':
+                this.tipo = "turma";
+                break;
+            case 'd':
+                this.tipo = "disciplina";
+                break;
+            default:
+                this.tipo = "";
+                System.out.println("Erro ao criar relatorio, tipo invalido");
+                break;
+        }
+        this.notaMedia = notaMedia;
+        this.passaram = passaram;
+        this.reprovaramFalta = reprovaramFalta;
+        this.reprovaramNota = reprovaramNota;
+        this.reprovaramNotaEFalta = reprovaramNotaEFalta;
+        this.reprovaram = reprovaramFalta + reprovaramNota + reprovaramNotaEFalta;
+        this.totalAlunos = passaram + reprovaram;
+
+    }
+
+    public void MostrarRelatorio()
+    {
+        System.out.println("=================================================");
+        System.out.println("RELATORIO DE "+this.tipo); 
+        System.out.println("Media final das notas: "+notaMedia);
+        if (totalAlunos == 0)
+        {
+            System.out.println("sem alunos no relatorio para mostrar, fechando relatorio...");
+            return;
+        }
+        System.out.println("Aprovados: "+passaram+'('+(Porcentagem(passaram, totalAlunos))+'%'+')');
+        System.out.println("Reprovados no total: "+reprovaram+'('+(Porcentagem(reprovaram, totalAlunos))+'%'+')');
+        System.out.println("Reprovados somente por falta: "+reprovaramFalta+'('+(Porcentagem(reprovaramFalta, totalAlunos))+'%'+')');
+        System.out.println("Reprovados somente por nota: "+reprovaramNota+'('+(Porcentagem(reprovaramNota, totalAlunos))+'%'+')');
+        System.out.println("Reprovados por nota e falta: "+reprovaramNotaEFalta+'('+(Porcentagem(reprovaramNotaEFalta, totalAlunos))+'%'+')');
+        System.out.println("=================================================");
     }
     
     //get e set
-    public Object getTipo()
+    public String getIdentificador()
+    {
+        return this.identificador;
+    }
+    public int getIdentificadorP()
+    {
+        return this.identificadorP;
+    }
+    public char getCharTipo()
+    {
+        return this.charTipo;
+    }
+    public String getTipo()
     {
         return this.tipo;
     }
@@ -28,82 +116,161 @@ public class Relatorio
     {
         return this.notaMedia;
     }
-    public float getPassaram()
+    public int getPassaram()
     {
         return this.passaram;
     }
-    public float getReprovaram()
+    public int getReprovaram()
     {
         return this.reprovaram;
     }
-    public float getReprovaramFalta()
+    public int getReprovaramFalta()
     {
         return this.reprovaramFalta;
     }
-    public float getReprovaramNota()
+    public int getReprovaramNota()
     {
         return this.reprovaramNota;
     }
-    public float getReprovaramNotaEFalta()
+    public int getReprovaramNotaEFalta()
     {
         return this.reprovaramNotaEFalta;
+    }
+    public int getTotalAlunos()
+    {
+        return this.totalAlunos;
+    }
+
+    public void addTotalAlunos()
+    {
+        this.totalAlunos++;
+    }
+    public void removeTotalAlunos()
+    {
+        this.totalAlunos--;
     }
     public void addPassaram()
     {
         this.passaram++;
+        addTotalAlunos();
     }
     public void removePassaram()
     {
         this.passaram--;
+        removeTotalAlunos();
     }
     public void addReprovaram()
     {
         this.reprovaram++;
     }
-    public void removeReprovarm()
+    public void removeReprovaram()
     {
         this.reprovaram--;
     }
     public void addReprovaramFalta()
     {
         this.reprovaramFalta++;
+        addTotalAlunos();
+        addReprovaram();
     }
     public void removeReprovaramFalta()
     {
         this.reprovaramFalta--;
+        removeTotalAlunos();
+        removeReprovaram();
     }
     public void addReprovaramNota()
     {
         this.reprovaramNota++;
+        addTotalAlunos();
+        addReprovaram();
     }
     public void removeReprovaramNota()
     {
         this.reprovaramNota--;
+        removeTotalAlunos();
+        removeReprovaram();
     }
     public void addReprovaramNotaEFalta()
     {
         this.reprovaramNotaEFalta++;
+        addTotalAlunos();
+        addReprovaram();
     }
     public void removeReprovaramNotaEFalta()
     {
         this.reprovaramNotaEFalta--;
+        removeTotalAlunos();
+        removeReprovaram();
     }
+
     public void addNotaMedia(float nota)
     {
-        this.notaMedia+=nota;
-        this.notaMedia/=2;
+        int total = getTotalAlunos();
+        if (total <=1)
+        {
+            this.notaMedia = nota;
+        }
+        else
+        {
+            this.notaMedia = ((this.notaMedia * (total - 1))+nota) / total;
+        }
     }
     public void setNotaMedia(float nota)
     {
         this.notaMedia = nota;
     }
+
     public float Porcentagem(float coisa1, float coisa2)
     {
+        if (coisa2 == 0) return 0;
         return (coisa1/coisa2)*100;
     }
     public float Porcentagem(int coisa1, int coisa2)
     {
+        if (coisa2 == 0) return 0;
         return (coisa1/coisa2)*100;
     }
+
     //parte de arquivos
+
+    @Override
+    public String toString()
+    {
+        return this.getCharTipo()+';'+
+               this.getIdentificador()+';'+
+               this.getNotaMedia()+';'+
+               this.getPassaram()+';'+
+               this.getReprovaramFalta()+';'+
+               this.getReprovaramNota()+';'+
+               this.getReprovaramNotaEFalta()+';';
+    }
+
+    public static Relatorio fromString(String entrada)
+    {
+        if (entrada == null || entrada.isEmpty())
+        {
+            System.out.println("Erro ao carregar relatorios: dados insuficientes");
+            return null;
+        }
+
+        String[] dados = entrada.split(";");
+
+        if (dados.length < 7)
+        {
+            System.out.println("Erro ao carregar relatorios: dados insuficientes");
+            return null;
+        }
+
+        char charTipo = dados[0].charAt(0);
+        String identificador = dados[1];
+        float notaMedia = Float.parseFloat(dados[2]);
+        int passaram = Integer.parseInt(dados[3]);
+        int reprovaramFalta = Integer.parseInt(dados[4]);
+        int reprovaramNota = Integer.parseInt(dados[5]);
+        int reprovaramNotaEFalta = Integer.parseInt(dados[6]);
+
+        return new Relatorio(charTipo, identificador, notaMedia, passaram, reprovaramFalta, reprovaramNota, reprovaramNotaEFalta);
+
+    }
 }
