@@ -10,12 +10,12 @@ public class SIGAA2
     // implementar os relatorios
     // facilitar lançar multiplas notas de uma vez
     // criar o aluno especial
-    // arrumar os bugs conhecidos
+    // colocar uma nova var em relatorios, trancou para mostrar quantos alunos já trancaram
+    // quando trancar, colocar isso no relatorio
     //}
 
     // BUGS CONHECIDOS PRA ARRUMAR
     //{
-    // talvez na hora de colocar um aluno na turma, ele consiga entrar mesmo tendo zero vagas
     //}
 
     // quando lançar nota, adicionar ao relatorio da materia se ele passou ou reprovou, como reprovou, com que nota passou
@@ -24,6 +24,13 @@ public class SIGAA2
     //relatorio de turma {quantos alunos passaram, nota media final}
     //relatorio de disciplina {quantos alunos passaram, nota media final}
     //relatorio de professor {quantos passaram, media final}
+    //}
+
+    //otimização super opcional
+    //{
+    // melhorar todos os inputs, na hora que digitar errado, não dar erro e fechar o programa, e sim falar qual foi o erro e receber outra entrada
+    // deixar os menus mais formatados e bonitos
+    // 
     //}
     
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
@@ -213,74 +220,83 @@ public class SIGAA2
         int matricula = input.nextInt();
         input.nextLine(); //come o espaço
 
-        if (ChecarMatricula(matricula))
+        if (!ChecarMatricula(matricula))
         {
-            Aluno aluno = BuscarAluno(matricula);
-            System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
-            System.out.println("digite o codigo da disciplina: ");
-            String codigo = input.nextLine();
-            if (ChecarCodigoDisciplina(codigo))
+            System.out.println("matricula não existe no sistema");
+            return;
+        }
+        Aluno aluno = BuscarAluno(matricula);
+        System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
+
+        System.out.println("digite o codigo da disciplina: ");
+        String codigoDisciplina = input.nextLine();
+
+        if (!ChecarCodigoDisciplina(codigoDisciplina))
+        {
+            System.out.println("não existe disciplina com esse codigo");
+            return;
+        }
+
+        Disciplina disciplina = BuscarDisciplina(codigoDisciplina);
+        System.out.println("disciplina selecionada: " + disciplina.getNome()+'/'+disciplina.getCodigo()); 
+
+        //AQUI FALTA OTIMIZAR, TÁ MTO RUIM
+        for (String codTurma : disciplina.getTurmasDaDisciplina())
+        {
+            Turma turma = BuscarTurma(codTurma);
+            for (Integer matriculaAluno : turma.getAlunos())
             {
-                Disciplina disciplina = BuscarDisciplina(codigo);
-                System.out.println("disciplina selecionada: " + disciplina.getNome()+'/'+disciplina.getCodigo()); 
-
-                //AQUI FALTA OTIMIZAR, TÁ MTO RUIM
-                for (String codTurma : disciplina.getTurmasDaDisciplina())
+                if (matriculaAluno == matricula)
                 {
-                    Turma turma = BuscarTurma(codTurma);
-                    for (Integer matriculaAluno : turma.getAlunos())
-                    {
-                        if (matriculaAluno == matricula)
-                        {
-                            System.out.println("O ALUNO JÁ FAZ ESSA DISCIPLINA");
-                            return;
-                        }
-                    }
-                }
-
-                boolean confirmador = false;
-                if (!disciplina.getPreRequisitos().isEmpty() && !aluno.getDisciplinasCursadas().isEmpty())
-                {
-                    if (aluno.getDisciplinasCursadas().containsAll(disciplina.getPreRequisitos()))
-                    {
-                        confirmador = true;
-                    }
-                }
-                if (disciplina.getPreRequisitos().isEmpty() || confirmador)
-                {
-                    System.out.println("digite o numero da turma que o aluno "+aluno.getNome()+" será matriculado:");
-                    int num = input.nextInt();
-                    input.nextLine(); //come o enter
-                    if (ChecarTurma(num, codigo))
-                    {
-                        Turma turma = BuscarTurma(num, codigo);
-                        System.out.println("turma selecionada: "+turma.getNumero());
-                        turma.addAluno(aluno);
-                        System.out.println("aluno matriculado com sucesso, vagas atuais da turma: "+turma.getVagasAtuais()+'/'+turma.getVagasTotais());
-                    }
-                    else
-                    {
-                        System.out.println("a turma selecionada não existe");
-                    }
-                    
-                }
-                else
-                {
-                    System.out.println("o aluno não tem algum dos pré-requisitos para cursar a disciplina");
-                    System.out.println("são eles");
-                    System.out.println(disciplina.getPreRequisitos());
+                    System.out.println("O ALUNO JÁ MATRICULADO NESSA DISCIPLINA");
+                    return;
                 }
             }
-            else
+        }
+
+        boolean confirmador = false;
+        if (!disciplina.getPreRequisitos().isEmpty() && !aluno.getDisciplinasCursadas().isEmpty()) //checa requisitos
+        {
+            if (aluno.getDisciplinasCursadas().containsAll(disciplina.getPreRequisitos()))
             {
-                System.out.println("codigo da disciplina inexistente");
+                confirmador = true;
             }
         }
-        else
+
+        if (!(disciplina.getPreRequisitos().isEmpty() || confirmador))
         {
-            System.out.println("matricula não existe");
+            System.out.println("o aluno não tem algum dos pré-requisitos para cursar a disciplina");
+            System.out.println("são eles");
+            System.out.println(disciplina.getPreRequisitos()); 
         }
+
+        System.out.println("digite o numero da turma que o aluno "+aluno.getNome()+" será matriculado:");
+        int numTurma = input.nextInt();
+        input.nextLine(); //come o enter
+
+        if (!ChecarTurma(numTurma, codigoDisciplina))
+        {
+            System.out.println("a turma selecionada não existe");
+            return;
+        }
+
+        Turma turma = BuscarTurma(numTurma, codigoDisciplina);
+        System.out.println("turma selecionada: "+turma.getNumero());
+
+        if (turma.getVagasAtuais() <=0)
+        {
+            System.out.println("não existem mais vagas disponiveis na turma");
+            System.out.println("não foi possivel matricular o aluno na turma");
+            return;
+        }
+
+        turma.addAluno(aluno);
+        System.out.println("aluno matriculado com sucesso, vagas atuais da turma: "+turma.getVagasAtuais()+'/'+turma.getVagasTotais());   
     }
+    
+
+
+    
     public static void EditarAluno(Scanner input)
     {
         int escolha;
