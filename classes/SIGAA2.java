@@ -8,7 +8,11 @@ public class SIGAA2
     // O QUE FALTA
     //{
     // implementar os relatorios
-    // criar o aluno especial
+    // criar o aluno especial (falta tudo)
+    //{
+    // parte de arquivos (salvar, carregar e apagar e editar, igual aluno) (ver como fazer isso já que vou extender aluno)
+    // todo o resto
+    //}
     // colocar uma nova var em relatorios, "trancou para" mostrar quantos alunos já trancaram
     // quando trancar, colocar isso no relatorio
     //}
