@@ -18,12 +18,22 @@ public class Relatorio
     private int reprovaramNota;
     private int reprovaramNotaEFalta;
     private int totalAlunos; //total de alunos que já fizeram parte
+    private int trancaram; //numero total dos alunos que trancaram
 
     private final String tipo; // "professor" , "turma" , "disciplina"
 
     //construtores
     public Relatorio(char charTipo, String identificador)
     {
+        //todos iniciam em 0 pois o relatorio tá sendo criado
+        this.trancaram = 0;
+        this.notaMedia = 0;
+        this.passaram = 0;
+        this.reprovaram = 0;
+        this.reprovaramFalta = 0;
+        this.reprovaramNota = 0;
+        this.reprovaramNotaEFalta = 0;
+        this.totalAlunos = 0;
         this.identificador = identificador;
         this.charTipo = charTipo;
         switch (charTipo)
@@ -46,7 +56,7 @@ public class Relatorio
     }
 
     //construtor de arquivo
-    public Relatorio(char charTipo, String identificador, float notaMedia, int passaram, int reprovaramFalta, int reprovaramNota, int reprovaramNotaEFalta)
+    public Relatorio(char charTipo, String identificador, float notaMedia, int passaram, int reprovaramFalta, int reprovaramNota, int reprovaramNotaEFalta, int trancaram)
     {
         this.identificador = identificador;
         this.charTipo = charTipo;
@@ -74,7 +84,7 @@ public class Relatorio
         this.reprovaramNotaEFalta = reprovaramNotaEFalta;
         this.reprovaram = reprovaramFalta + reprovaramNota + reprovaramNotaEFalta;
         this.totalAlunos = passaram + reprovaram;
-
+        this.trancaram = trancaram;
     }
 
     public void MostrarRelatorio()
@@ -92,10 +102,23 @@ public class Relatorio
         System.out.println("Reprovados somente por falta: "+reprovaramFalta+'('+(Porcentagem(reprovaramFalta, totalAlunos))+'%'+')');
         System.out.println("Reprovados somente por nota: "+reprovaramNota+'('+(Porcentagem(reprovaramNota, totalAlunos))+'%'+')');
         System.out.println("Reprovados por nota e falta: "+reprovaramNotaEFalta+'('+(Porcentagem(reprovaramNotaEFalta, totalAlunos))+'%'+')');
+        System.out.println(trancaram+" alunos já trancaram a materia");
         System.out.println("=================================================");
     }
     
     //get e set
+    public int getTrancaram()
+    {
+        return this.trancaram;
+    }
+    public void addTrancaram()
+    {
+        this.trancaram++;
+    }
+    public void removerTrancaram()
+    {
+        this.trancaram--;
+    }
     public String getIdentificador()
     {
         return this.identificador;
@@ -145,7 +168,7 @@ public class Relatorio
     {
         this.totalAlunos++;
     }
-    public void removeTotalAlunos()
+    public void removerTotalAlunos()
     {
         this.totalAlunos--;
     }
@@ -154,16 +177,16 @@ public class Relatorio
         this.passaram++;
         addTotalAlunos();
     }
-    public void removePassaram()
+    public void removerPassaram()
     {
         this.passaram--;
-        removeTotalAlunos();
+        removerTotalAlunos();
     }
     public void addReprovaram()
     {
         this.reprovaram++;
     }
-    public void removeReprovaram()
+    public void removerReprovaram()
     {
         this.reprovaram--;
     }
@@ -173,11 +196,11 @@ public class Relatorio
         addTotalAlunos();
         addReprovaram();
     }
-    public void removeReprovaramFalta()
+    public void removerReprovaramFalta()
     {
         this.reprovaramFalta--;
-        removeTotalAlunos();
-        removeReprovaram();
+        removerTotalAlunos();
+        removerReprovaram();
     }
     public void addReprovaramNota()
     {
@@ -188,8 +211,8 @@ public class Relatorio
     public void removeReprovaramNota()
     {
         this.reprovaramNota--;
-        removeTotalAlunos();
-        removeReprovaram();
+        removerTotalAlunos();
+        removerReprovaram();
     }
     public void addReprovaramNotaEFalta()
     {
@@ -200,8 +223,8 @@ public class Relatorio
     public void removeReprovaramNotaEFalta()
     {
         this.reprovaramNotaEFalta--;
-        removeTotalAlunos();
-        removeReprovaram();
+        removerTotalAlunos();
+        removerReprovaram();
     }
 
     public void addNotaMedia(float nota)
@@ -237,13 +260,14 @@ public class Relatorio
     @Override
     public String toString()
     {
-        return this.getCharTipo()+';'+
+        return String.valueOf(this.getCharTipo())+';'+
                this.getIdentificador()+';'+
                this.getNotaMedia()+';'+
                this.getPassaram()+';'+
                this.getReprovaramFalta()+';'+
                this.getReprovaramNota()+';'+
-               this.getReprovaramNotaEFalta()+';';
+               this.getReprovaramNotaEFalta()+';'+
+               this.getTrancaram();
     }
 
     public static Relatorio fromString(String entrada)
@@ -256,7 +280,7 @@ public class Relatorio
 
         String[] dados = entrada.split(";");
 
-        if (dados.length < 7)
+        if (dados.length < 8)
         {
             System.out.println("Erro ao carregar relatorios: dados insuficientes");
             return null;
@@ -269,8 +293,9 @@ public class Relatorio
         int reprovaramFalta = Integer.parseInt(dados[4]);
         int reprovaramNota = Integer.parseInt(dados[5]);
         int reprovaramNotaEFalta = Integer.parseInt(dados[6]);
+        int trancaram = Integer.parseInt(dados[7]);
 
-        return new Relatorio(charTipo, identificador, notaMedia, passaram, reprovaramFalta, reprovaramNota, reprovaramNotaEFalta);
+        return new Relatorio(charTipo, identificador, notaMedia, passaram, reprovaramFalta, reprovaramNota, reprovaramNotaEFalta, trancaram);
 
     }
 }

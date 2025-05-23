@@ -7,21 +7,19 @@ public class SIGAA2
 {
     // O QUE FALTA 
     //{
-    // implementar os relatorios
+    // implementar os relatorios (ver se consigo mostar relatorio)
+    // testar lançar notas com numero quebrado
     // criar o aluno especial (falta tudo)
     //{
     // parte de arquivos (salvar, carregar e apagar e editar, igual aluno) (ver como fazer isso já que vou extender aluno)
     // todo o resto
     //}
-    // colocar uma nova var em relatorios, "trancou para" mostrar quantos alunos já trancaram
-    // quando trancar, colocar isso no relatorio
     //}
 
     // BUGS CONHECIDOS PRA ARRUMAR
     //{
+    //
     //}
-
-    // quando lançar nota, adicionar ao relatorio da materia se ele passou ou reprovou, como reprovou, com que nota passou
     //MODO NOTAS
     //{ 
     //relatorio de turma {quantos alunos passaram, nota media final}
@@ -470,70 +468,102 @@ public class SIGAA2
     }
     public static void TrancarMatricula(Scanner input)
     {
+        System.out.println("LEMBRE-SE...");
         System.out.println("trancar matricula geral = sair de todas as turmas");
         System.out.println("trancar matricula de materia = sair da turma da materia");
+        System.out.println("sabendo disso...");
         System.out.println("digite a matricula do aluno: ");
+
         int matricula = input.nextInt();
         input.nextLine(); //come o enter
-        if (ChecarMatricula(matricula))
-        {
-            Aluno aluno = BuscarAluno(matricula);
-            System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
-            System.out.println("digite 1 para realizar o trancamento geral de matricula");
-            int escolha = input.nextInt();
-            input.nextLine(); //come o enter
-            if (escolha == 1)
-            {
-                for (Turma turma : turmas)
-                {
-                    for (int alunoDaTurma : turma.getAlunos())
-                    {
-                        if (alunoDaTurma == aluno.getMatricula())
-                        {
-                            turma.removerAluno(aluno);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                System.out.println("digite o codigo da disciplina que será trancada: ");
-                String codigo = input.nextLine();
-                if (ChecarCodigoDisciplina(codigo))
-                {
-                    System.out.println("digite o numero da turma: ");
-                    int num = input.nextInt();
-                    input.nextLine(); //come o enter 
 
-                    if (ChecarTurma(num, codigo))
-                    {
-                        Turma turma = BuscarTurma(num, codigo);
-                        System.out.println("digite novamente a matricula do aluno para confirmar o trancamento");
-                        int teste = input.nextInt();
-                        input.nextLine(); //come o enter
-                        if (teste == aluno.getMatricula())
-                        {
-                            turma.removerAluno(aluno);
-                        }
-                        else
-                        {
-                            System.out.println("matricula errada, voltando ao menu anterior");
-                        }
-                    }
-                    else
-                    {
-                        System.out.println("turma selecionada não existe");
-                    }
-                }
-                else
+        if (!ChecarMatricula(matricula))
+        {
+            System.out.println("a matricula digitada não existe");
+            return;
+        }
+
+        Aluno aluno = BuscarAluno(matricula);
+        System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
+        System.out.println("digite 1 para realizar o trancamento geral de matricula ou outro numero para trancar apenas uma disciplina");
+        int escolha = input.nextInt();
+        input.nextLine(); //come o enter
+
+        if (escolha == 1)
+        {
+            System.out.println("digite novamente a matricula do aluno para confirmar o trancamento geral");
+            int teste = input.nextInt();
+            input.nextLine(); // come o enter
+
+            if (aluno.getMatricula() != teste)
+            {
+                System.out.println("matricula errada digitada na confirmação");
+                System.out.println("voltando ao menu anterior");
+                return;
+            }
+            List<Turma> turmasParaTrancar = new ArrayList<>();
+
+            for (Turma turma : turmas)
+            {
+                if (turma.getAlunos().contains(aluno.getMatricula()))
                 {
-                    System.out.println("o codigo da disciplina não existe");
+                    turmasParaTrancar.add(turma);
                 }
             }
+            
+            for (Turma turma: turmasParaTrancar)
+            {
+                turma.removerAluno(aluno);
+                Relatorio relatorioTurma = AcessaOuCriaRelatorio('t', turma.getCodigoTurma());
+                Relatorio relatorioDisciplina = AcessaOuCriaRelatorio('d', turma.getCodigoDisciplina());
+                Relatorio relatorioProfessor = AcessaOuCriaRelatorio('p', String.valueOf(turma.getMatriculaProf()));
+                relatorioTurma.addTrancaram();
+                relatorioDisciplina.addTrancaram();
+                relatorioProfessor.addTrancaram();
+            }
+            System.out.println("trancamento geral realizado com sucesso");
+            return;
+        }
+
+        System.out.println("digite o codigo da disciplina que será trancada: ");
+        String codigo = input.nextLine();
+
+        if (!ChecarCodigoDisciplina(codigo))
+        {
+            System.out.println("o codigo digitado não existe");
+            return;
+        }
+
+        System.out.println("digite o numero da turma: ");
+        int num = input.nextInt();
+        input.nextLine(); //come o enter 
+
+        if (!ChecarTurma(num, codigo))
+            {
+                System.out.println("não existe turma com esse numero e codigo");
+                return;
+            }
+        Turma turma = BuscarTurma(num, codigo);
+
+        System.out.println("digite novamente a matricula do aluno para confirmar o trancamento");
+        int teste = input.nextInt();
+        input.nextLine(); //come o enter
+
+        if (teste == aluno.getMatricula())
+        {
+            turma.removerAluno(aluno);
+            System.out.println("disciplina trancada corretamente");
+            Relatorio relatorioTurma = AcessaOuCriaRelatorio('t', turma.getCodigoTurma());
+            Relatorio relatorioDisciplina = AcessaOuCriaRelatorio('d', turma.getCodigoDisciplina());
+            Relatorio relatorioProfessor = AcessaOuCriaRelatorio('p', String.valueOf(turma.getMatriculaProf()));
+            relatorioTurma.addTrancaram();
+            relatorioDisciplina.addTrancaram();
+            relatorioProfessor.addTrancaram();
         }
         else
         {
-            System.out.println("o aluno selecionado não existe");
+            System.out.println("matricula errada, voltando ao menu anterior");
+            return;
         }
     }
     public static void RemoverAluno(Scanner input)
@@ -1104,6 +1134,7 @@ public class SIGAA2
         Boletim boletim;
         if (num == 1)
         {
+            System.out.println("as notas devem ser escritas com , exemplo: 5,5");
             System.out.println("digite a nota da p1 no formato float: ");
             p1 = input.nextFloat();
             input.nextLine();
@@ -1143,28 +1174,51 @@ public class SIGAA2
         SalvarBoletim(boletim);
 
         float notaMedia = boletim.getMediaFinal();
+
+        Relatorio relatorioTurma = AcessaOuCriaRelatorio('t', codigoTurma);
+        Relatorio relatorioProfessor = AcessaOuCriaRelatorio('p', String.valueOf(turma.getMatriculaProf()));
+        Relatorio relatorioDisciplina = AcessaOuCriaRelatorio('d', codigoDisciplina);
         if (boletim.getPassou() == 0)
         {
             turma.removerAluno(matricula);
             aluno.addDisciplina(codigoDisciplina); //adiciona a disciplina que o aluno passou
             //adicionar que ele passou no relatorio do prof/turma/disciplina
             System.out.println("o aluno passou");
+            relatorioDisciplina.addPassaram();
+            relatorioTurma.addPassaram();
+            relatorioProfessor.addPassaram();
         }
         else if (boletim.getPassou() == 1)
         {
             turma.removerAluno(aluno);
             System.out.println("reprovado por faltas (frequencia abaixo de 75%)");
+            relatorioDisciplina.addReprovaramFalta();
+            relatorioTurma.addReprovaramFalta();
+            relatorioProfessor.addReprovaramFalta();
         }
         else if (boletim.getPassou() == 2)
         {
             turma.removerAluno(aluno);
             System.out.println("reprovado por nota, media abaixo de 5");
+            relatorioDisciplina.addReprovaramNota();
+            relatorioTurma.addReprovaramNota();
+            relatorioProfessor.addReprovaramNota();
         }
         else 
         {
             turma.removerAluno(aluno);
             System.out.println("reprovado por nota e falta");
+            relatorioDisciplina.addReprovaramNotaEFalta();
+            relatorioTurma.addReprovaramNotaEFalta();
+            relatorioProfessor.addReprovaramNotaEFalta();
         }
+        relatorioDisciplina.addNotaMedia(notaMedia);
+        relatorioTurma.addNotaMedia(notaMedia);
+        relatorioProfessor.addNotaMedia(notaMedia);
+        SalvarRelatorio(relatorioDisciplina);
+        SalvarRelatorio(relatorioTurma);
+        SalvarRelatorio(relatorioProfessor);
+        System.out.println("relatorios criados ou atualizados");
         System.out.println("todos os boletins pode ser encontrados na pasta banco_de_dados/boletins, eles estão separados por aluno");
     }
     public static void MostrarBoletimSimples(Scanner input)
@@ -1232,6 +1286,19 @@ public class SIGAA2
         }
     }
 
+    public static Relatorio AcessaOuCriaRelatorio(char tipo, String identificador)
+    {
+        for (Relatorio relatorio : relatorios)
+        {
+            if (relatorio.getCharTipo() == tipo && relatorio.getIdentificador().equals(identificador))
+            {
+                return relatorio; //caso encontre um que já existe
+            }
+        }
+        Relatorio criado = new Relatorio(tipo, identificador); //caso não encontre, cria um
+        relatorios.add(criado);
+        return criado;
+    }
     public static boolean ChecarMatricula(int matricula)
     {
         for (Aluno aluno: alunos)
