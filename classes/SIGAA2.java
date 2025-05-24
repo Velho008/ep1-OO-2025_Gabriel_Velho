@@ -7,18 +7,16 @@ public class SIGAA2
 {
     // O QUE FALTA 
     //{
-    // (ver se consigo mostar relatorio)
     // criar o aluno especial (falta tudo)
     //{
     // parte de arquivos (salvar, carregar e apagar e editar, igual aluno) (ver como fazer isso já que vou extender aluno)
     // todo o resto
     //}
-    // talvez mudar a exibição de boletins pra selecionar por semestre
     //}
 
     // BUGS CONHECIDOS PRA ARRUMAR
     //{
-    //
+    // ao abrir e fechar o programa, o aluno especial fica salvo errado
     //}
 
     //otimização super opcional
@@ -28,6 +26,7 @@ public class SIGAA2
     // deixar os menus mais formatados e bonitos
     // salvar as coisas quando mudar, não só quando criar e fechar o programa
     // facilitar lançar multiplas notas de uma vez
+    // talvez mudar a exibição de boletins pra selecionar por semestre
     //}
     
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
@@ -182,12 +181,33 @@ public class SIGAA2
                     }
                 }
             }while(!checar);
+
+            System.out.println("digite 1 caso o aluno seja especial (pode cursar apenas 2 disciplinas e não recebe nota, apenas presença)");
+            escolha = input.nextInt();
+            input.nextLine(); //come o enter
+            if (escolha == 1)
+            {
+                AlunoEspecial aluno = new AlunoEspecial(nome, matricula, curso);
+                SalvarAlunoIndividual(aluno);
+                alunos.add(aluno);
+                return;
+            }
             Aluno aluno = new Aluno(nome,matricula,curso,disciplinas_cursadas);//cria de fato o aluno e cadastra no sistema (adiciona na lista)
             alunos.add(aluno);
             SalvarAlunoIndividual(aluno);
         }
         else
         {
+        System.out.println("digite 1 caso o aluno seja especial (pode cursar apenas 2 disciplinas e não recebe nota, apenas presença)");
+        escolha = input.nextInt();
+        input.nextLine(); //come o enter
+        if (escolha == 1)
+        {
+            AlunoEspecial aluno = new AlunoEspecial(nome, matricula, curso);
+            SalvarAlunoIndividual(aluno);
+            alunos.add(aluno);
+            return;
+        }
         Aluno aluno = new Aluno(nome,matricula,curso); //calouro
         SalvarAlunoIndividual(aluno);
         alunos.add(aluno); //coloca o aluno na lista do sistema
@@ -1354,7 +1374,6 @@ public class SIGAA2
             return;
         }
 
-        Disciplina disciplina = BuscarDisciplina(codigoDisciplina);
         Relatorio relatorio = AcessaOuCriaRelatorio('d', codigoDisciplina);
 
         if (relatorio.getNotaMedia() == 0 &&

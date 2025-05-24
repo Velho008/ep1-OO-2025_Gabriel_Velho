@@ -2,7 +2,6 @@ package classes;
 import java.util.List;
 import java.util.ArrayList;
 
-//depois criar um construtor pra quando carregar um aluno ele n aparecer que foi feito
 public class Aluno
 {
     
@@ -58,6 +57,7 @@ public class Aluno
         System.out.println("um novo aluno "+nome+" sem info foi criado");
         this.nome = nome;
     }
+    
     //construtor de arquivo
     public Aluno(String nome, int matricula, String curso, String disciplinas_cursadas,char arq)
     {
