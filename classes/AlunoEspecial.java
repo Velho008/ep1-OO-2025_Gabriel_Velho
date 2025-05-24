@@ -31,29 +31,29 @@ public class AlunoEspecial extends Aluno
     }
 
     //partes especificas do aluno especial
-    @Override
-    public void addDisciplina(String codigo) {
+    
+    public void addDisciplinaAtual() {
         if (this.disciplinasAtuais >= maxDisciplinas) {
             System.out.println("Aluno especial só pode cursar até " + maxDisciplinas + " disciplinas.");
             System.out.println("como atualmente ele cursa o maximo de disciplinas, não será possivel realizar a matricula ");
         } else 
         {
-            super.addDisciplina(codigo);
+            this.disciplinasAtuais++;
         }
     }
 
-    @Override
-    public void addDisciplina(Disciplina disciplina) 
+    public void removerDisciplinaAtual()
     {
-        if (super.getDisciplinasCursadas().size() >= maxDisciplinas) 
+        if (this.disciplinasAtuais > 0)
         {
-            System.out.println("Aluno especial só pode cursar até " + maxDisciplinas + " disciplinas.");
-            System.out.println("como atualmente ele cursa o maximo de disciplinas, não será possivel realizar a matricula ");
-        } else 
+        this.disciplinasAtuais--;
+        }
+        else
         {
-            super.addDisciplina(disciplina);
+            System.out.println("o aluno não cursa nenhuma disciplina atualmente, não é possivel remover");
         }
     }
+
 
     @Override
     public void MostrarInfo() 
@@ -67,6 +67,12 @@ public class AlunoEspecial extends Aluno
         return especial;
     }
 
+    //get e set
+    public int getDisciplinasAtuais()
+    {
+        return this.disciplinasAtuais;
+    }
+
     //parte de arquivos
      @Override
     public String toString() {
@@ -78,6 +84,7 @@ public class AlunoEspecial extends Aluno
         if (!infos[0].equals("ESPECIAL")) {
             return null;
         }
+
         int disciplinasAtuais = Integer.parseInt(infos[1]);
         String nome = infos[2];
         int matricula = Integer.parseInt(infos[3]);

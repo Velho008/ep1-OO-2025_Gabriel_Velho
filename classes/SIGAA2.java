@@ -7,18 +7,25 @@ public class SIGAA2
 {
     // O QUE FALTA 
     //{
-    // criar o aluno especial (falta tudo)
+    // criar o aluno especial falta
     //{
-    // parte de arquivos (salvar, carregar e apagar e editar, igual aluno) (ver como fazer isso já que vou extender aluno)
-    // todo o resto
+    // na hora de lançar notas lançar só presença
+    // ter um boletim diferente
+    // testar trancar matricula de uma turma e entrar em mais do que 2 dps
+    // testar trancar matricula geral e dps entrar em mais do que 2
+    // ter um mostrar info proprio que mostra que é especial
     //}
     //}
 
     // BUGS CONHECIDOS PRA ARRUMAR
-    //{
-    // ao abrir e fechar o programa, o aluno especial fica salvo errado
+    //{ 
+    // quando remover turmas do sistema, tirar da disciplina e do professor e da conta de disciplinas atuais do aluno especial
+    // quando remover disciplina apagar todas as turmas da disciplina tirar da lista das feitas por aluno
+    // quando remover professor, as turmas dele são removidas tmb, desencadeando as coisas de remover turma
+    // quando editar a matricula do aluno e trocar a matricula, mudar isso na lista da turma
+    // quando remover o aluno do sistema, tirar ele da lista da turma
     //}
-
+    
     //otimização super opcional
     //{
     // poder a qualquer momento voltar pro menu anterior, pra caso tenha digitado e entrado em um menu sem querer
@@ -308,12 +315,22 @@ public class SIGAA2
             return;
         }
 
+        if (aluno instanceof AlunoEspecial)
+        {
+            AlunoEspecial especial = (AlunoEspecial) aluno;
+            if (especial.getDisciplinasAtuais() >=2)
+            {
+                System.out.println("Esse aluno especial já cursa o maximo de disciplinas permitidas");
+                return;
+            } else
+            {
+                especial.addDisciplinaAtual();
+            }
+        }
         turma.addAluno(aluno);
         System.out.println("aluno matriculado com sucesso, vagas atuais da turma: "+turma.getVagasAtuais()+'/'+turma.getVagasTotais());   
+
     }
-    
-
-
     
     public static void EditarAluno(Scanner input)
     {
@@ -330,7 +347,7 @@ public class SIGAA2
             {
                 Aluno aluno = BuscarAluno(matriculaVelha);
                 System.out.println("aluno escolhido: "+aluno.getNome()+" matricula: "+aluno.getMatricula());
-                System.out.println("CUIDADO AO EDITAR DADOS DE ALUNOS");
+                System.out.println("CUIDADO AO EDITAR DADOS DE ALUNOS, ISSO PODE CAUSAR ERROS EM ARQUIVOS!");
                 System.out.println("digite 1 para alterar o nome");
                 System.out.println("digite 2 para alterar o curso");
                 System.out.println("digite 3 para alterar a matricula");
@@ -379,6 +396,7 @@ public class SIGAA2
                             }
                             break;
                         case 3:
+                            System.out.println("não recomendado!!! caso o aluno já esteja em uma turma pode causar erro!");
                             System.out.println("digite a nova matricula: ");
                             int matriculaNova = input.nextInt();
                             input.nextLine(); //come o enter
@@ -534,6 +552,11 @@ public class SIGAA2
                 relatorioTurma.addTrancaram();
                 relatorioDisciplina.addTrancaram();
                 relatorioProfessor.addTrancaram();
+                if (aluno instanceof AlunoEspecial)
+                {
+                    AlunoEspecial especial = (AlunoEspecial) aluno;
+                    especial.removerDisciplinaAtual();
+                }
             }
             System.out.println("trancamento geral realizado com sucesso");
             return;
@@ -573,6 +596,11 @@ public class SIGAA2
             relatorioTurma.addTrancaram();
             relatorioDisciplina.addTrancaram();
             relatorioProfessor.addTrancaram();
+            if (aluno instanceof AlunoEspecial)
+            {
+                AlunoEspecial especial = (AlunoEspecial) aluno;
+                especial.removerDisciplinaAtual();
+            }
         }
         else
         {
@@ -1054,7 +1082,7 @@ public class SIGAA2
         {
             System.out.println("MODO NOTAS");
             System.out.println("digite 1 para lança notas/presença e criar boletim");
-            System.out.println("digite 2 para calcular media final e presença"); //vai funcionar como uma calculadora, sem armazenar nenhum dado
+            System.out.println("digite 2 para calcular media final e presença");
             System.out.println("digite 3 para exibir relatorio de turma");
             System.out.println("digite 4 para exibir relatorio de disciplina");
             System.out.println("digite 5 para exibir relatorio de professor");
@@ -1704,8 +1732,20 @@ public class SIGAA2
                     try (BufferedReader leitor = new BufferedReader(new FileReader(arquivo))) //cria o leitor de arquivo
                     {
                         String dados = leitor.readLine(); //TEM QUE SER OBRIGATORIAMENTE UMA LINHA SÓ
-                        Aluno aluno = Aluno.fromString(dados); //cria o aluno usando fromstring
-                        alunos.add(aluno); //adiciona no sistema
+                        Aluno aluno;
+                        if (dados.startsWith("ESPECIAL;"))
+                        {
+                            aluno = AlunoEspecial.fromString(dados);
+                        }
+                        else
+                        {
+                            aluno = Aluno.fromString(dados);//cria o aluno usando fromstring
+                        }
+                        if (aluno != null)
+                        {
+                            alunos.add(aluno); //adiciona no sistema
+                        }
+                        
                     } catch (IOException | NullPointerException erro)
                     {
                         System.out.println("erro ao carregar arquivos iniciais do sistema: "+arquivo.getName());
