@@ -90,8 +90,9 @@ public class Relatorio
     public void MostrarRelatorio()
     {
         System.out.println("=================================================");
-        System.out.println("RELATORIO DE "+this.tipo); 
+        System.out.println("RELATORIO DE: "+this.tipo); 
         System.out.println("Media final das notas: "+notaMedia);
+        System.out.println(trancaram+" alunos já trancaram a materia");
         if (totalAlunos == 0)
         {
             System.out.println("sem alunos no relatorio para mostrar, fechando relatorio...");
@@ -102,7 +103,6 @@ public class Relatorio
         System.out.println("Reprovados somente por falta: "+reprovaramFalta+'('+(Porcentagem(reprovaramFalta, totalAlunos))+'%'+')');
         System.out.println("Reprovados somente por nota: "+reprovaramNota+'('+(Porcentagem(reprovaramNota, totalAlunos))+'%'+')');
         System.out.println("Reprovados por nota e falta: "+reprovaramNotaEFalta+'('+(Porcentagem(reprovaramNotaEFalta, totalAlunos))+'%'+')');
-        System.out.println(trancaram+" alunos já trancaram a materia");
         System.out.println("=================================================");
     }
     

@@ -7,7 +7,7 @@ public class SIGAA2
 {
     // O QUE FALTA 
     //{
-    // implementar os relatorios (ver se consigo mostar relatorio)
+    // (ver se consigo mostar relatorio)
     // criar o aluno especial (falta tudo)
     //{
     // parte de arquivos (salvar, carregar e apagar e editar, igual aluno) (ver como fazer isso já que vou extender aluno)
@@ -19,12 +19,6 @@ public class SIGAA2
     // BUGS CONHECIDOS PRA ARRUMAR
     //{
     //
-    //}
-    //MODO NOTAS
-    //{ 
-    //relatorio de turma {quantos alunos passaram, nota media final}
-    //relatorio de disciplina {quantos alunos passaram, nota media final}
-    //relatorio de professor {quantos passaram, media final}
     //}
 
     //otimização super opcional
@@ -1056,7 +1050,7 @@ public class SIGAA2
                     LancarNota(input);
                     break;
                 case 2:
-                    
+                    CalculadoraNota(input);
                     break;
                 case 3: 
                     MostrarRelatorioTurma(input);
@@ -1157,7 +1151,7 @@ public class SIGAA2
         else
         {
             System.out.println("digite a nota da p1, nota da p2, nota da p3, nota da lista, nota do seminario e a presenca");
-            System.out.println("todas as notas devem ser no formato float");
+            System.out.println("todas as notas devem ser no formato float (exemplo: 5.5 ou 7.3)");
             System.out.println("a presença deve ser escrita sem a porcentagem, exemplo: 75 para 75%");
             System.out.println("todas as entradas devem ser separadas por espaço, exemplo: p1 p2 p3 lista seminario presença");
             String[] entrada = input.nextLine().split(" ");
@@ -1221,18 +1215,187 @@ public class SIGAA2
         System.out.println("relatorios criados ou atualizados");
         System.out.println("todos os boletins pode ser encontrados na pasta banco_de_dados/boletins, eles estão separados por aluno");
     }
+    public static void CalculadoraNota(Scanner input)
+    {
+        System.out.println("vamos fazer uma simulação de notas e presença");
+        System.out.println("digite 1 para lançar nota por nota");
+        System.out.println("digite 2 para lançar todas as notas de uma vez");
+
+        int num = input.nextInt();
+        input.nextLine();
+
+        float p1;
+        float p2;
+        float p3;
+        float lista;
+        float seminario;
+        int presenca;
+
+        if (num == 1)
+        {
+            System.out.println("as notas devem ser escritas com , exemplo: 5,5");
+            System.out.println("digite a nota da p1 no formato float: ");
+            p1 = input.nextFloat();
+            input.nextLine();
+
+            System.out.println("digite a nota da p2 no formato float: ");
+            p2 = input.nextFloat();
+            input.nextLine();
+
+            System.out.println("digite a nota da p3 no formato float: ");
+            p3 = input.nextFloat();
+            input.nextLine();
+
+            System.out.println("digite a nota da lista no formato float: ");
+            lista = input.nextFloat();
+            input.nextLine();
+
+            System.out.println("digite a nota do seminario no formato float: ");
+            seminario = input.nextFloat();
+            input.nextLine();
+
+            System.out.println("digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
+            presenca = input.nextInt();
+            input.nextLine();
+        }
+        else
+        {
+            System.out.println("digite a nota da p1, nota da p2, nota da p3, nota da lista, nota do seminario e a presenca");
+            System.out.println("todas as notas devem ser no formato float, exemplo: 5.5 ou 4.8");
+            System.out.println("a presença deve ser escrita sem a porcentagem, exemplo: 75 para 75%");
+            System.out.println("todas as entradas devem ser separadas por espaço, exemplo: p1 p2 p3 lista seminario presença");
+            String[] entrada = input.nextLine().split(" ");
+            p1 = Float.parseFloat(entrada[0]);
+            p2 = Float.parseFloat(entrada[1]);
+            p3 = Float.parseFloat(entrada[2]);
+            lista = Float.parseFloat(entrada[3]);
+            seminario = Float.parseFloat(entrada[4]);
+            presenca = Integer.parseInt(entrada[5]);
+        }
+
+        float notaMediaA = (p1+p2+p3+lista+seminario)/5;
+        float notaMediaB = (p1+(p2*2)+(p3*3)+lista+seminario)/8;
+        System.out.println("a media final do aluno para o metodo a de avaliação seria: "+notaMediaA);
+        System.out.println("a media final do aluno para o metodo b de avaliação seria: "+notaMediaB);
+
+        System.out.println("a situação final do aluno seria: ");
+
+        if (presenca < 75)
+        {
+            System.out.println("reprovado por falta");
+        }
+        else
+        {
+            System.out.println("aprovado por presença");
+        }
+        if (notaMediaA < 5)
+        {
+            System.out.println("reprovado por nota no metodo a");
+        }
+        else
+        {
+            System.out.println("aprovado por nota no metodo a");
+        }
+        if (notaMediaB < 5)
+        {
+            System.out.println("reprovado por nota no metodo b");
+        }
+        else
+        {
+            System.out.println("aprovado por nota no metodo b");
+        }
+        
+    }
     public static void MostrarRelatorioTurma(Scanner input)
     {
         System.out.println("digite o codigo da disciplina da turma");
         String codigoDisciplina = input.nextLine();
+
+        if (!ChecarCodigoDisciplina(codigoDisciplina))
+        {
+            System.out.println("não existe disciplina com esse codigo");
+            return;
+        }
+
+        System.out.println("para exibir o relatorio, digite o numero da turma");
+        int numTurma = input.nextInt();
+        input.nextLine(); //come o enter
+
+        if (!ChecarTurma(numTurma, codigoDisciplina))
+        {
+            System.out.println("não existe turma dessa disciplina com esse numero ");
+            return;
+        }
+
+        Turma turma = BuscarTurma(numTurma, codigoDisciplina);
+        Relatorio relatorio = AcessaOuCriaRelatorio('t', turma.getCodigoTurma());
+
+        if (relatorio.getNotaMedia() == 0 &&
+            relatorio.getPassaram() == 0 &&
+            relatorio.getReprovaram() == 0 &&
+            relatorio.getTotalAlunos() == 0 &&
+            relatorio.getTrancaram() == 0)
+            {
+                System.out.println("essa turma ainda não tem relatorio");
+                System.out.println("lançar notas ou trancar disciplinas cria relatorios...");
+                return;
+            }
+
+        relatorio.MostrarRelatorio();
     }
     public static void MostrarRelatorioDisciplina(Scanner input)
     {
+        System.out.println("para exibir o relatorio, digite o codigo da disciplina: ");
+        String codigoDisciplina = input.nextLine();
 
+        if (!ChecarCodigoDisciplina(codigoDisciplina))
+        {
+            System.out.println("não existe disciplina com esse codigo");
+            return;
+        }
+
+        Disciplina disciplina = BuscarDisciplina(codigoDisciplina);
+        Relatorio relatorio = AcessaOuCriaRelatorio('d', codigoDisciplina);
+
+        if (relatorio.getNotaMedia() == 0 &&
+            relatorio.getPassaram() == 0 &&
+            relatorio.getReprovaram() == 0 &&
+            relatorio.getTotalAlunos() == 0 &&
+            relatorio.getTrancaram() == 0)
+            {
+                System.out.println("essa disciplina ainda não tem relatorio");
+                System.out.println("lançar notas ou trancar disciplinas cria relatorios...");
+                return;
+            }
+
+        relatorio.MostrarRelatorio();
     }
     public static void MostrarRelatorioProfessor(Scanner input)
     {
+        System.out.println("para mostrar o relatorio de professor, digite a matricula do profesor: ");
+        int matricula = input.nextInt();
+        input.nextLine(); //come o enter
 
+        if (!ChecarMatriculaProf(matricula))
+        {
+            System.out.println("não existe professor com essa matricula");
+            return;
+        }
+
+        Relatorio relatorio = AcessaOuCriaRelatorio('p', String.valueOf(matricula));
+
+        if (relatorio.getNotaMedia() == 0 &&
+            relatorio.getPassaram() == 0 &&
+            relatorio.getReprovaram() == 0 &&
+            relatorio.getTotalAlunos() == 0 &&
+            relatorio.getTrancaram() == 0)
+            {
+                System.out.println("esse professor ainda não tem relatorio");
+                System.out.println("lançar notas ou trancar disciplinas cria relatorios...");
+                return;
+            }
+
+        relatorio.MostrarRelatorio();
     }
     public static void MostrarBoletimSimples(Scanner input)
     {
