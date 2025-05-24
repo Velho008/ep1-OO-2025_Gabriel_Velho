@@ -8,12 +8,12 @@ public class SIGAA2
     // O QUE FALTA 
     //{
     // implementar os relatorios (ver se consigo mostar relatorio)
-    // testar lançar notas com numero quebrado
     // criar o aluno especial (falta tudo)
     //{
     // parte de arquivos (salvar, carregar e apagar e editar, igual aluno) (ver como fazer isso já que vou extender aluno)
     // todo o resto
     //}
+    // talvez mudar a exibição de boletins pra selecionar por semestre
     //}
 
     // BUGS CONHECIDOS PRA ARRUMAR
@@ -1056,16 +1056,16 @@ public class SIGAA2
                     LancarNota(input);
                     break;
                 case 2:
-
+                    
                     break;
                 case 3: 
-
+                    MostrarRelatorioTurma(input);
                     break;
                 case 4:
-
+                    MostrarRelatorioDisciplina(input);
                     break;
                 case 5:
-
+                    MostrarRelatorioProfessor(input);
                     break;
                 case 6: 
                     MostrarBoletimSimples(input);
@@ -1220,6 +1220,19 @@ public class SIGAA2
         SalvarRelatorio(relatorioProfessor);
         System.out.println("relatorios criados ou atualizados");
         System.out.println("todos os boletins pode ser encontrados na pasta banco_de_dados/boletins, eles estão separados por aluno");
+    }
+    public static void MostrarRelatorioTurma(Scanner input)
+    {
+        System.out.println("digite o codigo da disciplina da turma");
+        String codigoDisciplina = input.nextLine();
+    }
+    public static void MostrarRelatorioDisciplina(Scanner input)
+    {
+
+    }
+    public static void MostrarRelatorioProfessor(Scanner input)
+    {
+
     }
     public static void MostrarBoletimSimples(Scanner input)
     {
