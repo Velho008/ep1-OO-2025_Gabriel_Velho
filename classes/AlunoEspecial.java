@@ -58,8 +58,8 @@ public class AlunoEspecial extends Aluno
     @Override
     public void MostrarInfo() 
     {
-        super.MostrarInfo();
         System.out.println("Tipo: ALUNO ESPECIAL");
+        super.MostrarInfo();
     }
 
     public boolean isEspecial() 

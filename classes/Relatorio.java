@@ -2,11 +2,6 @@ package classes;
 
 public class Relatorio 
 {
-    // talvez adicionar os que trancaram
-    // na hora de colocar a nota, fazer o relatorio, se ele já existir, extender ele
-    // para iniciar o relatorio, precisa do tipo, 
-    // para buscar o relatorio, precisa do tipo e do identificador
-    //falta a parte de arquivos 
     // tirando notaMedia todos os outros são numeros absolutos
     private final char charTipo; //se é de professor, turma ou disciplina (p,t,d) respectivamente
     private String identificador; //prof ->matricula //disciplina ->codigo //turma ->codigo
@@ -17,8 +12,8 @@ public class Relatorio
     private int reprovaramFalta;
     private int reprovaramNota;
     private int reprovaramNotaEFalta;
-    private int totalAlunos; //total de alunos que já fizeram parte
-    private int trancaram; //numero total dos alunos que trancaram
+    private int totalAlunos; //total de alunos que já fizeram parte (até o fim, não conta trancar)
+    private int trancaram; //numero total dos alunos que trancaram 
 
     private final String tipo; // "professor" , "turma" , "disciplina"
 

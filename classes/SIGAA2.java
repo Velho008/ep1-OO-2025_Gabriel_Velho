@@ -9,11 +9,12 @@ public class SIGAA2
     //{
     // criar o aluno especial falta
     //{
-    // na hora de lançar notas lançar só presença
-    // ter um boletim diferente
     // testar trancar matricula de uma turma e entrar em mais do que 2 dps
     // testar trancar matricula geral e dps entrar em mais do que 2
-    // ter um mostrar info proprio que mostra que é especial
+    // testar lançar notas
+    // testar se ele adiciona nota ou só resultado ao relatorio
+    // testar mostrar boletim
+    // testar o mostra info
     //}
     //}
 
@@ -1161,7 +1162,49 @@ public class SIGAA2
         }
 
         Aluno aluno = BuscarAluno(matricula);
+        int presenca;
+        Boletim boletim;
+
+        Relatorio relatorioTurma = AcessaOuCriaRelatorio('t', codigoTurma);
+        Relatorio relatorioProfessor = AcessaOuCriaRelatorio('p', String.valueOf(turma.getMatriculaProf()));
+        Relatorio relatorioDisciplina = AcessaOuCriaRelatorio('d', codigoDisciplina);
+
         System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
+        if (aluno instanceof AlunoEspecial)
+        {
+            System.out.println("o aluno selecionado é do tipo especial");
+            System.out.println("alunos especiais recebem apenas presença");
+            System.out.println("digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
+            presenca = input.nextInt();
+            input.nextLine(); //come o enter
+
+            if (presenca < 75)
+            {
+                turma.removerAluno(aluno);
+                System.out.println("aluno reprovado por presença");
+                relatorioDisciplina.addReprovaramFalta();
+                relatorioTurma.addReprovaramFalta();
+                relatorioProfessor.addReprovaramFalta();
+            }
+            else
+            {
+                System.out.println("aluno aprovado");
+                turma.removerAluno(matricula);
+                aluno.addDisciplina(codigoDisciplina);
+                relatorioDisciplina.addPassaram();
+                relatorioTurma.addPassaram();
+                relatorioProfessor.addPassaram();
+            }
+            boletim = new Boletim(matricula, turma, presenca, turma.getMetodoAvaliacao(), 10, 10, 10, 10, 10);
+            boletins.add(boletim);
+            SalvarBoletim(boletim);
+            SalvarRelatorio(relatorioDisciplina);
+            SalvarRelatorio(relatorioTurma);
+            SalvarRelatorio(relatorioProfessor);
+            System.out.println("relatorios criados ou atualizados");
+            System.out.println("todos os boletins pode ser encontrados na pasta banco_de_dados/boletins, eles estão separados por aluno");
+            return;
+        }
         System.out.println("digite 1 para lançar nota por nota");
         System.out.println("digite 2 para lançar todas as notas de uma vez");
         int num = input.nextInt();
@@ -1172,8 +1215,7 @@ public class SIGAA2
         float p3;
         float lista;
         float seminario;
-        int presenca;
-        Boletim boletim;
+        
         if (num == 1)
         {
             System.out.println("as notas devem ser escritas com , exemplo: 5,5");
@@ -1217,14 +1259,10 @@ public class SIGAA2
 
         float notaMedia = boletim.getMediaFinal();
 
-        Relatorio relatorioTurma = AcessaOuCriaRelatorio('t', codigoTurma);
-        Relatorio relatorioProfessor = AcessaOuCriaRelatorio('p', String.valueOf(turma.getMatriculaProf()));
-        Relatorio relatorioDisciplina = AcessaOuCriaRelatorio('d', codigoDisciplina);
         if (boletim.getPassou() == 0)
         {
             turma.removerAluno(matricula);
             aluno.addDisciplina(codigoDisciplina); //adiciona a disciplina que o aluno passou
-            //adicionar que ele passou no relatorio do prof/turma/disciplina
             System.out.println("o aluno passou");
             relatorioDisciplina.addPassaram();
             relatorioTurma.addPassaram();
@@ -1253,7 +1291,7 @@ public class SIGAA2
             relatorioDisciplina.addReprovaramNotaEFalta();
             relatorioTurma.addReprovaramNotaEFalta();
             relatorioProfessor.addReprovaramNotaEFalta();
-        }
+        } 
         relatorioDisciplina.addNotaMedia(notaMedia);
         relatorioTurma.addNotaMedia(notaMedia);
         relatorioProfessor.addNotaMedia(notaMedia);

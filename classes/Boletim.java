@@ -1,12 +1,7 @@
 package classes;
-import java.util.List;
-import java.util.ArrayList;
 
 public class Boletim
 {
-    //fazer o que mostra info do boletim, separado entre com ou sem info da turma
-    // falta o fromstring
-    //boletim vai ser salvo em um banco_de_dados/boletins/"matricula aluno"/semestre +'num semestre'
     //todos esses são FINAL, portanto não tem set
     private final int matriculaAluno;
     private final int matriculaProf;
@@ -133,6 +128,19 @@ public class Boletim
             System.out.println("sala: "+this.sala);
         }
         System.out.println("a presença do aluno foi de: "+this.presenca+'%');
+        if (aluno instanceof AlunoEspecial)
+        {
+            if (this.presenca > 75)
+            {
+                System.out.println("aluno especial aprovado na disciplina");
+            }
+            else
+            {
+                System.out.println("aluno especial reprovado por falta");
+            }
+            System.out.println("========================================================");
+            return;
+        }
         System.out.println("NOTAS p1: "+this.p1+" p2: "+this.p2+" p3: "+this.p3+" lista: "+this.lista+" seminario: "+this.seminario);
         System.out.println("media final: "+this.mediaFinal);
         switch (passou)
@@ -164,6 +172,19 @@ public class Boletim
         System.out.println("turma: "+this.turma+" da disciplina: "+disciplina.getNome()+'/'+disciplina.getCodigo());
         System.out.println("semestre: "+this.semestre);
         System.out.println("a presença do aluno foi de: "+this.presenca+'%');
+        if (aluno instanceof AlunoEspecial)
+        {
+            if (this.presenca > 75)
+            {
+                System.out.println("aluno especial aprovado na disciplina");
+            }
+            else
+            {
+                System.out.println("aluno especial reprovado por falta");
+            }
+            System.out.println("========================================================");
+            return;
+        }
         System.out.println("NOTAS p1: "+this.p1+" p2: "+this.p2+" p3: "+this.p3+" lista: "+this.lista+" seminario: "+this.seminario);
         System.out.println("media final: "+this.mediaFinal);
         switch (passou)

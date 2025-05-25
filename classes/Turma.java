@@ -147,8 +147,16 @@ public class Turma
     }
     public void setVagasTotais(int vagasTotais)
     {
+        int vagasOcupadas = this.vagasTotais - this.vagasAtuais;
+
+        if (vagasTotais < vagasOcupadas)
+        {
+            System.out.println("não é possivel definir um novo numero de vagas menor do que o numero de vagas ocupadas");
+            return;
+        }
+
         this.vagasTotais = vagasTotais;
-        //talvez recontar quantas vagas tem ao fazer isso, pois pode já ter alunos
+        this.vagasAtuais = vagasTotais - vagasOcupadas;
     }
     public int getVagasTotais()
     {
