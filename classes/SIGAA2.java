@@ -15,7 +15,8 @@ public class SIGAA2
 
     // BUGS CONHECIDOS PRA ARRUMAR
     //{
-    // quando remover disciplina apagar todas as turmas da disciplina tirar da lista das feitas por aluno, avisar quais outras disciplinas ficarão sem pré requisito existente ao retirar essa e apagar relatorios de disciplina e boletins de aluno que dependem da disciplina
+    // quando remover disciplina apagar todas as turmas da disciplina tirar da lista das feitas por aluno, avisar quais outras disciplinas ficarão sem pré requisito existente ao retirar essa e
+    // apagar relatorios de disciplina e boletins de aluno que dependem da disciplina quando uma disciplina for removida
     // quando remover professor, as turmas dele são removidas tmb, desencadeando as coisas de remover turma e apagar relatorios de professor
     //quando trocar a matricula do aluno, o boletim continua linkado na matricula antiga
     //}
@@ -26,10 +27,10 @@ public class SIGAA2
     // melhorar todos os inputs, na hora que digitar errado, não dar erro e fechar o programa, e sim falar qual foi o erro e receber outra entrada (provavelmente fazer isso usando um metodo padrão)
     // deixar os menus mais formatados e bonitos
     // salvar as coisas quando mudar, não só quando criar e fechar o programa
-    // facilitar lançar multiplas notas de uma vez
+    // facilitar lançar multiplas notas de varios alunos de uma vez
     // talvez mudar a exibição de boletins pra selecionar por semestre
-    // rever por completo o editar aluno, tá uma bagunça da porra
     // quando digitar uma matricula/codigo que já existe, falar a quem pertence
+    // mostrar listas em mais momentos, por exemplo, quando for apagar uma turma, listar todas as que existem, fazer isso sempre que for digitar algo que seleciona turma/aluno etc..
     // no boletim do aluno, ao apagar uma turma, ele segue referenciando a turma apagada, talvez mudar isso
     //}
     
