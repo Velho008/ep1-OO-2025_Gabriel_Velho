@@ -8,7 +8,6 @@ public class SIGAA2
     // O QUE FALTA 
     //{
     // bugs conhecidos
-    //
     //}
 
     // BUGS CONHECIDOS PRA ARRUMAR
@@ -44,8 +43,8 @@ public class SIGAA2
         //carregar as coisas dos arquivos
         CarregarProfessor();
         CarregarDisciplinas();
-        CarregarTurmas();
         CarregarAlunos();
+        CarregarTurmas();
         CarregarBoletins();
         CarregarRelatorios();
         
@@ -329,162 +328,210 @@ public class SIGAA2
 
         System.out.println("digite a matricula do aluno cujo cadastro vai ser editado");
         matriculaVelha = input.nextInt();
-        input.nextLine();
-        if (ChecarMatricula(matriculaVelha))
-        {
-            do
-            {
-                Aluno aluno = BuscarAluno(matriculaVelha);
-                System.out.println("aluno escolhido: "+aluno.getNome()+" matricula: "+aluno.getMatricula());
-                System.out.println("CUIDADO AO EDITAR DADOS DE ALUNOS, ISSO PODE CAUSAR ERROS EM ARQUIVOS!");
-                System.out.println("digite 1 para alterar o nome");
-                System.out.println("digite 2 para alterar o curso");
-                System.out.println("digite 3 para alterar a matricula");
-                System.out.println("digite 4 para adicionar disciplinas que o aluno já fez");
-                System.out.println("digite 5 para remover disciplinas que o aluno já fez");
-                System.out.println("digite 0 para voltar ao menu anterior");
+        input.nextLine(); //come o enter
 
-                escolha = input.nextInt();
-                String codigo;
-                Disciplina disciplina;
-                input.nextLine(); //come o enter
-                    switch (escolha)
-                    {
-                        case 1:
-                            System.out.println("digite o novo nome: ");
-                            String nome = input.nextLine();
-                            System.out.println("o nome antigo era: "+aluno.getNome()+" o novo nome será: "+nome);
-                            System.out.println("digite a matricula do aluno para confirmar a mudança");
-                            teste = input.nextInt();
-                            input.nextLine(); //come o enter
-                            if (teste == matriculaVelha)
-                            {
-                                aluno.setNome(nome);
-                                System.out.println("nome alterado com sucesso");
-                            }
-                            else
-                            {
-                                System.out.println("MATRICULA ERRADA");
-                            }
-                            break;
-                        case 2:
-                            System.out.println("digite o novo curso: ");
-                            String curso = input.nextLine();
-                            System.out.println("o curso antigo era: "+aluno.getCurso()+" o novo curso será: "+curso);
-                            System.out.println("digite a matricula do aluno para confirmar a mudança");
-                            teste = input.nextInt();
-                            input.nextLine(); //come o enter
-                            if (teste == matriculaVelha)
-                            {
-                                aluno.setCurso(curso);
-                                System.out.println("curso alterado com sucesso");
-                            }
-                            else
-                            {
-                                System.out.println("MATRICULA ERRADA");
-                            }
-                            break;
-                        case 3:
-                            System.out.println("não recomendado!!! caso o aluno já esteja em uma turma pode causar erro!");
-                            System.out.println("digite a nova matricula: ");
-                            int matriculaNova = input.nextInt();
-                            input.nextLine(); //come o enter
-                            Aluno alunoComNovaMatricula = BuscarAluno(matriculaNova);
-                            if (alunoComNovaMatricula != null && alunoComNovaMatricula != aluno)
-                            {
-                                System.out.println("essa matricula já existe");
-                            }
-                            else
-                            {
-                                System.out.println("a matricula antiga era: "+aluno.getMatricula()+" a nova matricula será: "+matriculaNova);
-                                System.out.println("digite a matricula ANTIGA do aluno para confirmar a mudança");
-                                teste = input.nextInt();
-                                input.nextLine(); //come o enter
-                                if (teste == matriculaVelha)
-                                {
-                                    aluno.setMatricula(matriculaNova);
-                                    System.out.println("matricula alterada com sucesso");
-                                    matriculaVelha = matriculaNova;
-                                    break;
-                                }
-                                else
-                                {
-                                    System.out.println("MATRICULA ERRADA");
-                                }
-                            }
-
-                            break;
-                        case 4: 
-                            System.out.println("digite o codigo da disciplina que vai ser adicionada");
-                            codigo = input.nextLine();
-                            if (!ChecarCodigoDisciplina(codigo))
-                            {
-                                System.out.println("o codigo digitado não existe");
-                                break;
-                            }
-                            disciplina = BuscarDisciplina(codigo);
-                            System.out.println("a disciplina selecionada é: "+disciplina.getNome()+'/'+disciplina.getCodigo());
-                            if (!aluno.getDisciplinasCursadas().containsAll(disciplina.getPreRequisitos()))
-                            {
-                                System.out.println("o aluno não fez os requisitos da materia selecionada");
-                                System.out.println("portanto não poderá ter essa materia como já feita");
-                                System.out.println("os requisitos da materia são:");
-                                for (String requisito : disciplina.getPreRequisitos())
-                                {
-                                    System.out.println(requisito);
-                                }
-                                break;
-                            }
-                            System.out.println("digite novamente a matricula do aluno para confirmar: ");
-                            teste = input.nextInt();
-                            input.nextLine(); //come o enter
-                            if (!(teste == matriculaVelha))
-                            {
-                                System.out.println("matricula invalida");
-                                break;
-                            }
-                            aluno.addDisciplina(disciplina);
-                            System.out.println("disciplina adicionada com sucesso");
-                            ;
-                            break;
-                        case 5: 
-                            System.out.println("digite o codigo da disciplina que vai ser removida");
-                            codigo = input.nextLine();
-                            if (!ChecarCodigoDisciplina(codigo))
-                            {
-                                System.out.println("o codigo digitado não existe");
-                                break;
-                            }
-                            if (!aluno.fezDisciplina(codigo))
-                            {
-                                System.out.println("o aluno não fez a disciplina selecionada");
-                                break;
-                            }
-                            disciplina = BuscarDisciplina(codigo);
-                            System.out.println("a disciplina selecionada é: "+disciplina.getNome()+'/'+disciplina.getCodigo());
-                            System.out.println("digite novamente a matricula do aluno para confirmar: ");
-                            teste = input.nextInt();
-                            input.nextLine(); //come o enter
-                            if (!(teste == matriculaVelha))
-                            {
-                                System.out.println("matricula invalida");
-                                break;
-                            }
-                            aluno.removerDisciplina(disciplina);
-                            System.out.println("disciplina removida com sucesso");
-                            break;
-                        case 0:
-                            break;
-                        default:
-                            System.out.println("digite novamente");
-                                
-                    }
-            } while (escolha !=0);
-        }  
-        else
+        if (!ChecarMatricula(matriculaVelha))
         {
-            System.out.println("matricula não existe");
+            System.out.println("a matricula digitada não existe...");
+            System.out.println("voltando ao menu anterior");
+            return;
         }
+
+        do
+        {
+            Aluno aluno = BuscarAluno(matriculaVelha);
+            System.out.println("aluno escolhido: "+aluno.getNome()+" matricula: "+aluno.getMatricula());
+
+            System.out.println("CUIDADO AO EDITAR DADOS DE ALUNOS, ISSO PODE CAUSAR ERROS EM ARQUIVOS!");
+            System.out.println("digite 1 para alterar o nome");
+            System.out.println("digite 2 para alterar o curso");
+            System.out.println("digite 3 para alterar a matricula");
+            System.out.println("digite 4 para adicionar disciplinas que o aluno já fez");
+            System.out.println("digite 5 para remover disciplinas que o aluno já fez");
+            System.out.println("digite 0 para voltar ao menu anterior");
+
+            escolha = input.nextInt();
+            input.nextLine(); //come o enter
+
+            String codigo;
+            Disciplina disciplina;
+            switch (escolha)
+            {
+                case 1:
+                    System.out.println("digite o novo nome: ");
+                    String nome = input.nextLine();
+
+                    System.out.println("o nome antigo era: "+aluno.getNome()+" o novo nome será: "+nome);
+
+                    System.out.println("digite a matricula do aluno para confirmar a mudança");
+                    teste = input.nextInt();
+                    input.nextLine(); //come o enter
+
+                    if (!(teste == matriculaVelha))
+                    {
+                        System.out.println("matricula errada digitada...");
+                        System.out.println("voltando ao menu anterior");
+                        return;
+                    }
+
+                    aluno.setNome(nome);
+                    System.out.println("nome alterado com sucesso");
+                    
+                    SalvarTudo();
+                    break;
+                case 2:
+                    System.out.println("digite o novo curso: ");
+                    String curso = input.nextLine();
+
+                    System.out.println("o curso antigo era: "+aluno.getCurso()+" o novo curso será: "+curso);
+
+                    System.out.println("digite a matricula do aluno para confirmar a mudança");
+                    teste = input.nextInt();
+                    input.nextLine(); //come o enter
+
+                    if (!(teste == matriculaVelha))
+                    {
+                        System.out.println("matricula errada digitada...");
+                        System.out.println("voltando ao menu anterior");
+                        return;
+                    }
+                    aluno.setCurso(curso);
+                    System.out.println("curso alterado com sucesso");
+                    
+                    SalvarTudo();
+                    break;
+                case 3:
+                    System.out.println("não recomendado!!! caso o aluno já esteja em uma turma pode causar erro!");
+
+                    System.out.println("digite a nova matricula: ");
+                    int matriculaNova = input.nextInt();
+                    input.nextLine(); //come o enter
+
+                    Aluno alunoComNovaMatricula = BuscarAluno(matriculaNova);
+
+                    if (alunoComNovaMatricula != null && alunoComNovaMatricula != aluno)
+                    {
+                        System.out.println("essa matricula já existe");
+                        System.out.println("voltando ao menu anterior");
+                        return;
+                    }
+
+                    System.out.println("a matricula antiga era: "+aluno.getMatricula()+" a nova matricula será: "+matriculaNova);
+
+                    System.out.println("digite a matricula ANTIGA do aluno para confirmar a mudança");
+                    teste = input.nextInt();
+                    input.nextLine(); //come o enter
+
+                    if (!(teste == matriculaVelha))
+                    {
+                        System.out.println("matricula errada digitada...");
+                        System.out.println("voltando ao menu anterior");
+                        return;
+                    }
+
+                    aluno.setMatricula(matriculaNova);
+                    System.out.println("matricula alterada com sucesso");
+                    matriculaVelha = matriculaNova; // na hora de voltar pra parte de editar, tem que voltar com a nova matricula selecionada
+                    
+                    SalvarTudo();
+                    break;
+                case 4: 
+                    aluno.MostrarInfo();
+
+                    System.out.println("digite o codigo da disciplina que vai ser adicionada");
+                    codigo = input.nextLine();
+
+                    if (!ChecarCodigoDisciplina(codigo))
+                    {
+                        System.out.println("o codigo digitado não existe");
+                        System.out.println("voltando ao menu anterior");
+                        return;
+                    }
+
+                    disciplina = BuscarDisciplina(codigo);
+                    System.out.println("a disciplina selecionada é: "+disciplina.getNome()+'/'+disciplina.getCodigo());
+                    if (!aluno.getDisciplinasCursadas().containsAll(disciplina.getPreRequisitos()))
+                    {
+                        System.out.println("o aluno não fez os requisitos da materia selecionada");
+                        System.out.println("portanto não poderá ter essa materia como já feita");
+                        System.out.println("os requisitos da materia são:");
+                        for (String requisito : disciplina.getPreRequisitos())
+                        {
+                            System.out.println(requisito);
+                        }
+                        break;
+                    }
+
+                    for (String disciplinaJaFeita : aluno.getDisciplinasCursadas()) //checa se o aluno já fez a disciplina
+                    {
+                        if (disciplinaJaFeita.equals(codigo))
+                        {
+                            System.out.println("o aluno já tem essa disciplina como feita...");
+                            break;
+                        }
+                    }
+
+                    System.out.println("digite novamente a matricula do aluno para confirmar: ");
+                    teste = input.nextInt();
+                    input.nextLine(); //come o enter
+
+                    if (!(teste == matriculaVelha))
+                    {
+                        System.out.println("matricula invalida");
+                        break;
+                    }
+
+                    aluno.addDisciplina(disciplina); 
+                    System.out.println("disciplina adicionada com sucesso");
+
+                    // não cria boletim nem adiciona aos relatorios pq isso já tem que ser feito pela outra faculdade
+                    // de onde veio a conclusão da disciplina pelo aluno
+                    // sem falar que ao lançar nota tudo isso já é feito automaticamente
+                    SalvarTudo();
+                    break;
+                case 5: 
+                    aluno.MostrarInfo();
+
+                    System.out.println("digite o codigo da disciplina que vai ser removida");
+                    codigo = input.nextLine();
+
+                    if (!ChecarCodigoDisciplina(codigo))
+                    {
+                        System.out.println("o codigo digitado não existe");
+                        break;
+                    }
+
+                    if (!aluno.fezDisciplina(codigo))
+                    {
+                        System.out.println("o aluno não fez a disciplina selecionada");
+                        break;
+                    }
+
+                    disciplina = BuscarDisciplina(codigo);
+                    System.out.println("a disciplina selecionada é: "+disciplina.getNome()+'/'+disciplina.getCodigo());
+                    System.out.println("digite novamente a matricula do aluno para confirmar: ");
+                    teste = input.nextInt();
+                    input.nextLine(); //come o enter
+
+                    if (!(teste == matriculaVelha))
+                    {
+                        System.out.println("matricula invalida");
+                        break;
+                    }
+
+                    aluno.removerDisciplina(disciplina);
+                    System.out.println("disciplina removida com sucesso");
+
+
+                    // relatorios/boletins não removidos, pois o aluno continua tendo feito a disciplina
+                    SalvarTudo();
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("digite novamente");
+                }
+        } while (escolha !=0);
 
     }
     public static void TrancarMatricula(Scanner input)
