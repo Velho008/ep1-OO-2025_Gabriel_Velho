@@ -7,15 +7,8 @@ public class SIGAA2
 {
     // O QUE FALTA 
     //{
-    // criar o aluno especial falta
-    //{
-    // testar trancar matricula de uma turma e entrar em mais do que 2 dps
-    // testar trancar matricula geral e dps entrar em mais do que 2
-    // testar lançar notas
-    // testar se ele adiciona nota ou só resultado ao relatorio
-    // testar mostrar boletim
-    // testar o mostra info
-    //}
+    // bugs conhecidos
+    //
     //}
 
     // BUGS CONHECIDOS PRA ARRUMAR
@@ -1461,7 +1454,7 @@ public class SIGAA2
         int matricula = input.nextInt();
         input.nextLine(); //come o enter
 
-        if (!ChecarMatriculaProf(matricula))
+        if (ChecarMatriculaProf(matricula))
         {
             System.out.println("não existe professor com essa matricula");
             return;

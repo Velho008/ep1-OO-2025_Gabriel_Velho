@@ -68,7 +68,7 @@ public class Aluno
         this.disciplinas_cursadas = new ArrayList<>();
         for (String disciplina : disciplinas_cursadas.split(" "))
         {
-            this.disciplinas_cursadas.add(disciplina);
+            this.disciplinas_cursadas.add(disciplina.trim());
         }
     }
 
@@ -146,9 +146,12 @@ public class Aluno
         else
         {
             System.out.println("atualmente cursou: ");
-            for (String discuplina_cursada : this.disciplinas_cursadas)
+            for (String disciplina_cursada : this.disciplinas_cursadas)
             {
-                System.out.println(discuplina_cursada);
+                if (!(disciplina_cursada.isEmpty() || disciplina_cursada == null))
+                {
+                System.out.println(disciplina_cursada);
+                }
             }
         }
     }

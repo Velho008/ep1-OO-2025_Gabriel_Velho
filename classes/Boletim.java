@@ -128,6 +128,7 @@ public class Boletim
             System.out.println("sala: "+this.sala);
         }
         System.out.println("a presença do aluno foi de: "+this.presenca+'%');
+
         if (aluno instanceof AlunoEspecial)
         {
             if (this.presenca > 75)
