@@ -14,8 +14,6 @@ public class SIGAA2
 
     // BUGS CONHECIDOS PRA ARRUMAR
     //{
-    // quando apaga um professor, o boletim do aluno segue referenciando o professor apagado
-    // no boletim do aluno, ao apagar uma turma, ele segue referenciando a turma apagada
     //}
     
     //otimização super opcional
@@ -1069,6 +1067,7 @@ public class SIGAA2
     public static void RemoverTurma(Scanner input)
     {
         System.out.println("CUIDADO AO REMOVER TURMAS, pois seus relatorios são apagados");
+        System.out.println("alem disso, todos os boletins de alunos que dependem da turma serão apagados");
         System.out.println("digite o codigo da disciplina da turma");
         String codigoDisciplina = input.nextLine();
 
@@ -1165,7 +1164,8 @@ public class SIGAA2
     }
     public static void RemoverProfessor(Scanner input)
     {
-        System.out.println("CUIDADO AO REMOVER PROFESSORES");
+        System.out.println("CUIDADO AO REMOVER PROFESSORES, seus relatorios serão perdidos");
+        System.out.println("suas turmas serão apagadas e os boletins de alunos que dependem do professor tambem serão");
         System.out.println("digite a matricula do professor");
         int matricula = input.nextInt();
         input.nextLine(); //come o enter
@@ -1189,13 +1189,18 @@ public class SIGAA2
             return;
         }
 
+        ArrayList<Turma> turmasParaApagar = new ArrayList<>();
         for (String codTurma : professor.getTurmas())
         {
             if (codTurma != null)
             {
                 Turma turma = BuscarTurma(codTurma);
-                DesencadeamentoRemoverTurma(turma); //coisas que desencadeiam quando as turmas do professor deixam de existir
+                turmasParaApagar.add(turma);
             }
+        }
+        for (Turma turma : turmasParaApagar)
+        {
+            DesencadeamentoRemoverTurma(turma);//coisas que desencadeiam quando as turmas do professor deixam de existir
         }
 
         Relatorio relatorio = AcessaOuCriaRelatorio('p', String.valueOf(professor.getMatricula()));
@@ -1746,6 +1751,24 @@ public class SIGAA2
                 {
                     ((AlunoEspecial)aluno).removerDisciplinaAtual(); //arruma o calculo de disciplinas atuais de aluno especial
                 }
+            }
+        }
+
+        // apaga os boletins de alunos da turma
+        ArrayList<Boletim> boletinsParaApagar = new ArrayList<>();
+        for (Boletim boletim : boletins)
+        {
+            if (boletim.getTurma() == (turma.getNumero()) && boletim.getDisciplina().equals(turma.getCodigoDisciplina()))
+            {
+                boletinsParaApagar.add(boletim); //só faz isso se tiver o mesmo codigo e o mesmo num de turma
+            }
+        }
+        for (Boletim boletim : boletinsParaApagar)
+        {
+            if (boletim !=null)
+            {
+                boletins.remove(boletim); //tira os boletins da lista do sistema
+                RemoverBoletimArquivo(boletim); // tira o arquivo do boletim
             }
         }
 

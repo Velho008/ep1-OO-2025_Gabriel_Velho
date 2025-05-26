@@ -4,10 +4,10 @@ public class Boletim
 {
     //todos esses são FINAL, portanto não tem set
     private int matriculaAluno; // a matricula do aluno pode ser editada
-    private final int matriculaProf;
-    private final String disciplina;
+    private final int matriculaProf; // ao apagar professor, o boletim some
+    private final String disciplina; // ao apagar disciplina, o boletim some
     private final int semestre;
-    private final int turma;
+    private final int turma; // ao apagar turma, o boletim some
     private final int cargaHoraria;
     private final String sala;
     
