@@ -11,12 +11,11 @@ public class SIGAA2
     //}
 
     // BUGS CONHECIDOS PRA ARRUMAR
-    //{ 
+    //{
     // quando apagar um aluno, o boletim dele continua existindo, isso pode causar problemas quando iniciar o sistema novamente
     // quando remover turmas do sistema, tirar da disciplina e do professor e da conta de disciplinas atuais do aluno especial e apagar o relatorio da turma
     // quando remover disciplina apagar todas as turmas da disciplina tirar da lista das feitas por aluno, avisar quais outras disciplinas ficarão sem pré requisito existente ao retirar essa e apagar relatorios de disciplina
     // quando remover professor, as turmas dele são removidas tmb, desencadeando as coisas de remover turma e apagar relatorios de professor
-    // quando editar a matricula do aluno e trocar a matricula, mudar isso na lista da turma
     //}
     
     //otimização super opcional
@@ -342,7 +341,6 @@ public class SIGAA2
             Aluno aluno = BuscarAluno(matriculaVelha);
             System.out.println("aluno escolhido: "+aluno.getNome()+" matricula: "+aluno.getMatricula());
 
-            System.out.println("CUIDADO AO EDITAR DADOS DE ALUNOS, ISSO PODE CAUSAR ERROS EM ARQUIVOS!");
             System.out.println("digite 1 para alterar o nome");
             System.out.println("digite 2 para alterar o curso");
             System.out.println("digite 3 para alterar a matricula");
@@ -401,7 +399,6 @@ public class SIGAA2
                     SalvarTudo();
                     break;
                 case 3:
-                    System.out.println("não recomendado!!! caso o aluno já esteja em uma turma pode causar erro!");
 
                     System.out.println("digite a nova matricula: ");
                     int matriculaNova = input.nextInt();
@@ -428,8 +425,29 @@ public class SIGAA2
                         System.out.println("voltando ao menu anterior");
                         return;
                     }
-
+                    RemoverAlunoArquivo(matriculaVelha); //apaga o arquivo antigo
                     aluno.setMatricula(matriculaNova);
+
+                    ArrayList<Turma> turmasPraTirarOAluno = new ArrayList<>();
+
+                    for (Turma turma : turmas) //tira o aluno da lista das turmas
+                    {
+                        for (int alunosDaTurma : turma.getAlunos())
+                        {
+                            if (alunosDaTurma == matriculaVelha)
+                            {
+                                turmasPraTirarOAluno.add(turma);
+                            }
+                        }
+                    }
+
+                    for (Turma turma : turmasPraTirarOAluno) //tira da turma a antiga e coloca a nova
+                    {
+                        turma.removerAluno(matriculaVelha);
+                        turma.addAluno(aluno.getMatricula());
+                        SalvarTurma(turma);
+                    }
+
                     System.out.println("matricula alterada com sucesso");
                     matriculaVelha = matriculaNova; // na hora de voltar pra parte de editar, tem que voltar com a nova matricula selecionada
                     
