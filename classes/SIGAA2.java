@@ -19,7 +19,7 @@ public class SIGAA2
     //otimização super opcional
     //{
     // poder a qualquer momento voltar pro menu anterior, pra caso tenha digitado e entrado em um menu sem querer
-    // melhorar todos os inputs, na hora que digitar errado, não dar erro e fechar o programa, e sim falar qual foi o erro e receber outra entrada (provavelmente fazer isso usando um metodo padrão)
+    // quando vai lançar a nota, não bugar ao escrever o float errado ou outro tipo de entrada, fazer igual o LerInt(Scanner, String)
     // deixar os menus mais formatados e bonitos
     // salvar as coisas quando mudar, não só quando criar e fechar o programa
     // facilitar lançar multiplas notas de varios alunos de uma vez
@@ -55,7 +55,8 @@ public class SIGAA2
             System.out.println("digite 2 para o modo turma");
             System.out.println("digite 3 para o modo notas");
             System.out.println("digite 0 para sair"); 
-            escolha = input1.nextInt();
+
+            escolha = LerInt(input1, "");
 
             switch (escolha)
             {
@@ -95,8 +96,7 @@ public class SIGAA2
             System.out.println("digite 7 para buscar informações sobre um aluno");
             System.out.println("digite 0 voltar ao menu anterior"); 
 
-            escolha = input.nextInt();
-            input.nextLine(); //come o enter
+            escolha = LerInt(input, "");
 
             switch (escolha)
             {
@@ -135,9 +135,7 @@ public class SIGAA2
         System.out.println("digite o nome: ");
         String nome = input.nextLine();
 
-        System.out.println("digite a matricula: ");
-        int matricula = input.nextInt();
-        input.nextLine(); // come o enter
+        int matricula = LerInt(input, "digite a matricula: ");
 
         for (Aluno aluno : alunos) //checa matricula dupla
         {
@@ -147,11 +145,11 @@ public class SIGAA2
                 return;
             }
         }
+
         System.out.println("digite o curso: ");
         String curso = input.nextLine();
-        System.out.println("o aluno é calouro? digite 1 para sim");
-        int escolha = input.nextInt();
-        input.nextLine();
+
+        int escolha = LerInt(input, "o aluno é calouro? digite 1 para sim ou outro num para não");
         if (escolha !=1)
         {
             boolean checar = false;
@@ -173,9 +171,7 @@ public class SIGAA2
                 }
             }while(!checar);
 
-            System.out.println("digite 1 caso o aluno seja especial (pode cursar apenas 2 disciplinas e não recebe nota, apenas presença)");
-            escolha = input.nextInt();
-            input.nextLine(); //come o enter
+            escolha = LerInt(input, "digite 1 caso o aluno seja especial (pode cursar apenas 2 disciplinas e não recebe nota, apenas presença)");
             if (escolha == 1)
             {
                 AlunoEspecial aluno = new AlunoEspecial(nome, matricula, curso);
@@ -189,9 +185,7 @@ public class SIGAA2
         }
         else
         {
-        System.out.println("digite 1 caso o aluno seja especial (pode cursar apenas 2 disciplinas e não recebe nota, apenas presença)");
-        escolha = input.nextInt();
-        input.nextLine(); //come o enter
+        escolha = LerInt(input, "digite 1 caso o aluno seja especial (pode cursar apenas 2 disciplinas e não recebe nota, apenas presença)");
         if (escolha == 1)
         {
             AlunoEspecial aluno = new AlunoEspecial(nome, matricula, curso);
@@ -224,9 +218,7 @@ public class SIGAA2
 
     public static void MatricularAlunoEmTurma(Scanner input)
     {
-        System.out.println("digite a matricula do aluno que vai ser matriculado");
-        int matricula = input.nextInt();
-        input.nextLine(); //come o espaço
+        int matricula = LerInt(input, "digite a matricula do aluno que vai ser matriculado");
 
         if (!ChecarMatricula(matricula))
         {
@@ -278,9 +270,7 @@ public class SIGAA2
             return;
         }
 
-        System.out.println("digite o numero da turma que o aluno "+aluno.getNome()+" será matriculado:");
-        int numTurma = input.nextInt();
-        input.nextLine(); //come o enter
+        int numTurma = LerInt(input, "digite o numero da turma que o aluno "+aluno.getNome()+" será matriculado:");
 
         if (!ChecarTurma(numTurma, codigoDisciplina))
         {
@@ -322,9 +312,7 @@ public class SIGAA2
         int matriculaVelha; //SERVE PRA ESCOLHER O ALUNO
         int teste; //serve para checar se a matricula digitada é a correta
 
-        System.out.println("digite a matricula do aluno cujo cadastro vai ser editado");
-        matriculaVelha = input.nextInt();
-        input.nextLine(); //come o enter
+        matriculaVelha = LerInt(input, "digite a matricula do aluno cujo cadastro vai ser editado");
 
         if (!ChecarMatricula(matriculaVelha))
         {
@@ -345,8 +333,7 @@ public class SIGAA2
             System.out.println("digite 5 para remover disciplinas que o aluno já fez");
             System.out.println("digite 0 para voltar ao menu anterior");
 
-            escolha = input.nextInt();
-            input.nextLine(); //come o enter
+            escolha = LerInt(input, "");
 
             String codigo;
             Disciplina disciplina;
@@ -358,9 +345,7 @@ public class SIGAA2
 
                     System.out.println("o nome antigo era: "+aluno.getNome()+" o novo nome será: "+nome);
 
-                    System.out.println("digite a matricula do aluno para confirmar a mudança");
-                    teste = input.nextInt();
-                    input.nextLine(); //come o enter
+                    teste = LerInt(input, "digite a matricula do aluno para confirmar a mudança");
 
                     if (!(teste == matriculaVelha))
                     {
@@ -380,9 +365,7 @@ public class SIGAA2
 
                     System.out.println("o curso antigo era: "+aluno.getCurso()+" o novo curso será: "+curso);
 
-                    System.out.println("digite a matricula do aluno para confirmar a mudança");
-                    teste = input.nextInt();
-                    input.nextLine(); //come o enter
+                    teste = LerInt(input, "digite a matricula do aluno para confirmar a mudança");
 
                     if (!(teste == matriculaVelha))
                     {
@@ -397,9 +380,7 @@ public class SIGAA2
                     break;
                 case 3:
 
-                    System.out.println("digite a nova matricula: ");
-                    int matriculaNova = input.nextInt();
-                    input.nextLine(); //come o enter
+                    int matriculaNova = LerInt(input, "digite a nova matricula: ");
 
                     Aluno alunoComNovaMatricula = BuscarAluno(matriculaNova);
 
@@ -412,9 +393,7 @@ public class SIGAA2
 
                     System.out.println("a matricula antiga era: "+aluno.getMatricula()+" a nova matricula será: "+matriculaNova);
 
-                    System.out.println("digite a matricula ANTIGA do aluno para confirmar a mudança");
-                    teste = input.nextInt();
-                    input.nextLine(); //come o enter
+                    teste = LerInt(input, "digite a matricula ANTIGA do aluno para confirmar a mudança");
 
                     if (!(teste == matriculaVelha))
                     {
@@ -502,9 +481,7 @@ public class SIGAA2
                         }
                     }
 
-                    System.out.println("digite novamente a matricula do aluno para confirmar: ");
-                    teste = input.nextInt();
-                    input.nextLine(); //come o enter
+                    teste = LerInt(input, "digite novamente a matricula do aluno para confirmar: ");
 
                     if (!(teste == matriculaVelha))
                     {
@@ -540,9 +517,7 @@ public class SIGAA2
 
                     disciplina = BuscarDisciplina(codigo);
                     System.out.println("a disciplina selecionada é: "+disciplina.getNome()+'/'+disciplina.getCodigo());
-                    System.out.println("digite novamente a matricula do aluno para confirmar: ");
-                    teste = input.nextInt();
-                    input.nextLine(); //come o enter
+                    teste = LerInt(input, "digite novamente a matricula do aluno para confirmar: ");
 
                     if (!(teste == matriculaVelha))
                     {
@@ -571,10 +546,8 @@ public class SIGAA2
         System.out.println("trancar matricula geral = sair de todas as turmas");
         System.out.println("trancar matricula de materia = sair da turma da materia");
         System.out.println("sabendo disso...");
-        System.out.println("digite a matricula do aluno: ");
 
-        int matricula = input.nextInt();
-        input.nextLine(); //come o enter
+        int matricula = LerInt(input, "digite a matricula do aluno: ");
 
         if (!ChecarMatricula(matricula))
         {
@@ -584,15 +557,11 @@ public class SIGAA2
 
         Aluno aluno = BuscarAluno(matricula);
         System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
-        System.out.println("digite 1 para realizar o trancamento geral de matricula ou outro numero para trancar apenas uma disciplina");
-        int escolha = input.nextInt();
-        input.nextLine(); //come o enter
+        int escolha = LerInt(input, "digite 1 para realizar o trancamento geral de matricula ou outro numero para trancar apenas uma disciplina");
 
         if (escolha == 1)
         {
-            System.out.println("digite novamente a matricula do aluno para confirmar o trancamento geral");
-            int teste = input.nextInt();
-            input.nextLine(); // come o enter
+            int teste = LerInt(input, "digite novamente a matricula do aluno para confirmar o trancamento geral");
 
             if (aluno.getMatricula() != teste)
             {
@@ -639,9 +608,7 @@ public class SIGAA2
             return;
         }
 
-        System.out.println("digite o numero da turma: ");
-        int num = input.nextInt();
-        input.nextLine(); //come o enter 
+        int num = LerInt(input, "digite o numero da turma: ");
 
         if (!ChecarTurma(num, codigo))
             {
@@ -650,9 +617,7 @@ public class SIGAA2
             }
         Turma turma = BuscarTurma(num, codigo);
 
-        System.out.println("digite novamente a matricula do aluno para confirmar o trancamento");
-        int teste = input.nextInt();
-        input.nextLine(); //come o enter
+        int teste = LerInt(input, "digite novamente a matricula do aluno para confirmar o trancamento");
 
         if (teste == aluno.getMatricula())
         {
@@ -680,9 +645,7 @@ public class SIGAA2
     public static void RemoverAluno(Scanner input)
     {
         System.out.println("CUIDADO AO REMOVER ALUNOS DO SISTEMA");
-        System.out.println("digite a matricula do aluno que será removido");
-        int matricula = input.nextInt();
-        input.nextLine();//come o enter
+        int matricula = LerInt(input, "digite a matricula do aluno que será removido");
 
         if(!ChecarMatricula(matricula))
         {
@@ -693,9 +656,7 @@ public class SIGAA2
         System.out.println("aluno selecionado para remoção:");
         BuscarAluno(matricula).MostrarInfo();
 
-        System.out.println("digite novamente a matricula para confirmar a remoção");
-        int teste = input.nextInt();
-        input.nextLine();//come o enter
+        int teste = LerInt(input, "digite novamente a matricula para confirmar a remoção");
 
         if (!(teste == matricula))
         {
@@ -746,9 +707,7 @@ public class SIGAA2
     }
     public static void MostrarInfoAluno(Scanner input)
     {
-        System.out.println("digite a matricula do aluno que sera consultado");
-        int matricula = input.nextInt();
-        input.nextLine(); //come o espaço
+        int matricula = LerInt(input, "digite a matricula do aluno que sera consultado");
 
         if (!ChecarMatricula(matricula))
         {
@@ -779,8 +738,7 @@ public class SIGAA2
             System.out.println("digite 11 para listar os professores existentes"); 
             System.out.println("digite 12 para ver informações sobre um professor");
             System.out.println("digite 0 para voltar ao menu anterior");
-            escolha = input.nextInt();
-            input.nextLine(); //come o enter
+            escolha = LerInt(input, "");
 
             switch (escolha)
             {
@@ -849,7 +807,7 @@ public class SIGAA2
         System.out.println("digite o codigo da disciplina: ");
         String codigo = input.nextLine();
 
-        for (Disciplina disciplina: disciplinas)//checa codigo duplo
+        for (Disciplina disciplina: disciplinas) //checa codigo duplo
         {
             if (disciplina.getCodigo().equals(codigo))
             {
@@ -859,13 +817,9 @@ public class SIGAA2
             }
         }
 
-        System.out.println("digite a carga horaria: ");
-        int carga_horaria = input.nextInt();
-        input.nextLine(); //come o enter
+        int carga_horaria = LerInt(input, "digite a carga horaria: ");
 
-        System.out.println("digite 1 caso essa materia tenha pré-requisitos");
-        int escolha = input.nextInt();
-        input.nextLine();
+        int escolha = LerInt(input, "digite 1 caso essa materia tenha pré-requisitos");
 
         if (escolha == 1)
         {
@@ -922,9 +876,7 @@ public class SIGAA2
 
         do
         {
-            System.out.println("digite o numero da turma");
-            numero = input.nextInt();
-            input.nextLine(); //come o enter
+            numero = LerInt(input, "digite o numero da turma");
 
             continuar = false;
 
@@ -941,9 +893,7 @@ public class SIGAA2
 
         boolean online = false;
 
-        System.out.println("digite a quantidade de vagas");
-        int vagas = input.nextInt();
-        input.nextLine(); //come o enter
+        int vagas = LerInt(input, "digite a quantidade de vagas");
 
         System.out.println("digite o nome da sala onde a aula ocorrerá ou deixe em branco caso seja online: ");
         String sala = input.nextLine();
@@ -953,9 +903,7 @@ public class SIGAA2
             online = true;
         }
 
-        System.out.println("digite a matricula do professor que vai ministrar a turma");
-        int matriculaProf = input.nextInt();
-        input.nextLine(); //come o enter
+        int matriculaProf = LerInt(input, "digite a matricula do professor que vai ministrar a turma");
 
         if (ChecarMatriculaProf(matriculaProf))
         {
@@ -963,10 +911,8 @@ public class SIGAA2
             return;
         }
 
-        System.out.println("digite o horario de inicio da aula no formato: 8 (8AM) ou 12(meio dia) NÃO USE APENAS O 0");
         System.out.println("lembre que as aulas duram sempre 2 horas");
-        int horario = input.nextInt();
-        input.nextLine(); //come o enter
+        int horario = LerInt(input, "digite o horario de inicio da aula no formato: 8 (8AM) ou 12(meio dia) NÃO USE APENAS O 0");
 
         if (!ChecarHorario(horario) && !ChecarSala(sala) && !online)
         {
@@ -980,9 +926,7 @@ public class SIGAA2
             return;
         }
 
-        System.out.println("digite o semestre da turma: ");
-        int semestre = input.nextInt();
-        input.nextLine(); //come o enter
+        int semestre = LerInt(input, "digite o semestre da turma: ");
 
         System.out.println("digite o metodo de avaliação, a ou b");
         char metodoAvaliacao = input.nextLine().charAt(0);
@@ -1071,9 +1015,7 @@ public class SIGAA2
         System.out.println("digite o codigo da disciplina da turma");
         String codigoDisciplina = input.nextLine();
 
-        System.out.println("digite o numero da turma");
-        int numTurma = input.nextInt();
-        input.nextLine(); //come o enter
+        int numTurma = LerInt(input, "digite o numero da turma");
 
         if (!ChecarTurma(numTurma, codigoDisciplina))
         {
@@ -1126,9 +1068,7 @@ public class SIGAA2
         Disciplina disciplina = BuscarDisciplina(codigo);
         System.out.println("a disciplina selecionada foi: "+disciplina.getNome()+'/'+disciplina.getCodigo());
 
-        System.out.println("digite o numero da turma");
-        int numero = input.nextInt();
-        input.nextLine(); //come o enter
+        int numero = LerInt(input, "digite o numero da turma");
 
         if (!ChecarTurma(numero, codigo))
         {
@@ -1145,10 +1085,7 @@ public class SIGAA2
         System.out.println("digite o nome do professor: ");
         String nome = input.nextLine();
 
-        System.out.println("digite a matricula do professor: ");
-        int matricula = input.nextInt();
-
-        input.nextLine(); //come o enter
+        int matricula = LerInt(input, "digite a matricula do professor: ");
 
         if (!ChecarMatriculaProf(matricula))
         {
@@ -1166,9 +1103,7 @@ public class SIGAA2
     {
         System.out.println("CUIDADO AO REMOVER PROFESSORES, seus relatorios serão perdidos");
         System.out.println("suas turmas serão apagadas e os boletins de alunos que dependem do professor tambem serão");
-        System.out.println("digite a matricula do professor");
-        int matricula = input.nextInt();
-        input.nextLine(); //come o enter
+        int matricula = LerInt(input, "digite a matricula do professor");
 
         if (ChecarMatriculaProf(matricula))
         {
@@ -1179,9 +1114,7 @@ public class SIGAA2
         Professor professor = BuscarProfessor(matricula);
         System.out.println("professor a ser apagado: "+professor.getNome()+'/'+professor.getMatricula());
 
-        System.out.println("para confirmar a remoção do professor digite novamente a matricula do professor");
-        int teste = input.nextInt();
-        input.nextLine(); //come o enter
+        int teste = LerInt(input, "para confirmar a remoção do professor digite novamente a matricula do professor");
 
         if (! (teste == matricula))
         {
@@ -1227,9 +1160,7 @@ public class SIGAA2
     }
     public static void MostrarInfoProfessor(Scanner input)
     {
-        System.out.println("digite a matricula do professor");
-        int matricula = input.nextInt();
-        input.nextLine();//come o enter
+        int matricula = LerInt(input, "digite a matricula do professor");
 
         if (ChecarMatriculaProf(matricula))
         {
@@ -1256,8 +1187,7 @@ public class SIGAA2
             System.out.println("digite 6 para exibir boletim simples de aluno");
             System.out.println("digite 7 para exibir boletim completo de aluno");
             System.out.println("digite 0 para voltar ao menu anterior");
-            escolha = input.nextInt();
-            input.nextLine(); //come o enter
+            escolha = LerInt(input, "");
 
             switch (escolha)
             {
@@ -1303,9 +1233,7 @@ public class SIGAA2
             return;
         }
 
-        System.out.println("digite o numero da turma");
-        int numeroTurma = input.nextInt();
-        input.nextLine(); //come o enter
+        int numeroTurma = LerInt(input, "digite o numero da turma");
 
         if (!ChecarTurma(numeroTurma, codigoDisciplina))
         {
@@ -1317,9 +1245,7 @@ public class SIGAA2
         turma.ListarAlunos();
         System.out.println("lista dos alunos da turma acima");
 
-        System.out.println("digite a matricula do aluno cujas notas e presença serão lançadas: ");
-        int matricula = input.nextInt();
-        input.nextLine(); //come o enter
+        int matricula = LerInt(input, "digite a matricula do aluno cujas notas e presença serão lançadas: ");
 
         String codigoTurma = turma.getCodigoTurma();
         if (!ChecarAlunoTurma(matricula, codigoTurma))
@@ -1342,9 +1268,7 @@ public class SIGAA2
             System.out.println("o aluno selecionado é do tipo especial");
             System.out.println("alunos especiais recebem apenas presença");
 
-            System.out.println("digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
-            presenca = input.nextInt();
-            input.nextLine(); //come o enter
+            presenca = LerInt(input, "digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
 
             if (presenca < 75)
             {
@@ -1378,8 +1302,7 @@ public class SIGAA2
         }
         System.out.println("digite 1 para lançar nota por nota");
         System.out.println("digite 2 para lançar todas as notas de uma vez");
-        int num = input.nextInt();
-        input.nextLine();
+        int num = LerInt(input, "");
 
         float p1;
         float p2;
@@ -1405,9 +1328,7 @@ public class SIGAA2
             System.out.println("digite a nota do seminario no formato float: ");
             seminario = input.nextFloat();
             input.nextLine();
-            System.out.println("digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
-            presenca = input.nextInt();
-            input.nextLine();
+            presenca = LerInt(input, "digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
         }
         else
         {
@@ -1480,8 +1401,7 @@ public class SIGAA2
         System.out.println("digite 1 para lançar nota por nota");
         System.out.println("digite 2 para lançar todas as notas de uma vez");
 
-        int num = input.nextInt();
-        input.nextLine();
+        int num = LerInt(input, "");
 
         float p1;
         float p2;
@@ -1513,9 +1433,7 @@ public class SIGAA2
             seminario = input.nextFloat();
             input.nextLine();
 
-            System.out.println("digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
-            presenca = input.nextInt();
-            input.nextLine();
+            presenca = LerInt(input, "digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
         }
         else
         {
@@ -1576,9 +1494,7 @@ public class SIGAA2
             return;
         }
 
-        System.out.println("para exibir o relatorio, digite o numero da turma");
-        int numTurma = input.nextInt();
-        input.nextLine(); //come o enter
+        int numTurma = LerInt(input, "para exibir o relatorio, digite o numero da turma");
 
         if (!ChecarTurma(numTurma, codigoDisciplina))
         {
@@ -1630,9 +1546,7 @@ public class SIGAA2
     }
     public static void MostrarRelatorioProfessor(Scanner input)
     {
-        System.out.println("para mostrar o relatorio de professor, digite a matricula do profesor: ");
-        int matricula = input.nextInt();
-        input.nextLine(); //come o enter
+        int matricula = LerInt(input, "para mostrar o relatorio de professor, digite a matricula do profesor: ");
 
         if (ChecarMatriculaProf(matricula))
         {
@@ -1657,9 +1571,7 @@ public class SIGAA2
     }
     public static void MostrarBoletimSimples(Scanner input)
     {
-        System.out.println("digite a matricula do aluno");
-        int matricula = input.nextInt();
-        input.nextLine(); //come o enter
+        int matricula = LerInt(input, "digite a matricula do aluno");
 
         if (!ChecarMatricula(matricula))
         {
@@ -1689,9 +1601,7 @@ public class SIGAA2
     }
     public static void MostrarBoletimCompleto(Scanner input)
     {
-        System.out.println("digite a matricula do aluno");
-        int matricula = input.nextInt();
-        input.nextLine(); //come o enter
+        int matricula = LerInt(input, "digite a matricula do aluno");
 
         if (!ChecarMatricula(matricula))
         {
@@ -2055,6 +1965,27 @@ public class SIGAA2
             }
         }
         return null;
+    }
+
+    // parte pra checagem do menu
+    public static int LerInt(Scanner input, String mensagem) // garante que ao digitar um não inteiro, o programa não explode
+    {
+        int valor;
+        while (true)
+        {
+            try 
+            {
+                System.out.println(mensagem);
+                valor = input.nextInt();
+                input.nextLine(); //come o enter
+                break;
+            } catch (InputMismatchException e )
+            {
+                System.out.println("Entrada invalida, deve ser um numero inteiro (3 5 8 2 9)");
+                input.nextLine(); //come o enter
+            }
+        }
+        return valor;
     }
 
 
