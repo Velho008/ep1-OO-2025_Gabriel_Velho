@@ -8,8 +8,7 @@ public class SIGAA2
     // O QUE FALTA 
     //{
     // fazer o readme
-    // testar remover uma turma e um professor e uma disciplina, ver se tudo desencadeia corretamente Y
-    // bugs conhecidos Y 
+    // bugs conhecidos 
     //}
 
     // BUGS CONHECIDOS PRA ARRUMAR
@@ -18,11 +17,10 @@ public class SIGAA2
     
     //otimização super opcional
     //{
-    // deixar os menus mais formatados e bonitos Z
-    // facilitar lançar multiplas notas de varios alunos de uma vez ZX
-    // talvez mudar a exibição de boletins pra selecionar por semestre ZX
-    // quando digitar uma matricula/codigo que já existe, falar a quem pertence Z
-    // mostrar listas em mais momentos, por exemplo, quando for apagar uma turma, listar todas as que existem, fazer isso sempre que for digitar algo que seleciona turma/aluno etc Z
+    // deixar os menus mais formatados e bonitos Z2
+    // facilitar lançar multiplas notas de varios alunos de uma vez ZX2
+    // talvez mudar a exibição de boletins pra selecionar por semestre ZX1
+    // mostrar listas em mais momentos, por exemplo, quando for apagar uma turma, listar todas as que existem, fazer isso sempre que for digitar algo que seleciona turma/aluno etc Z1
     //}
     
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
@@ -144,9 +142,10 @@ public class SIGAA2
 
         for (Aluno aluno : alunos) //checa matricula dupla
         {
-            if ( aluno.getMatricula() == matricula) 
+            if (aluno.getMatricula() == matricula) 
             {
                 System.out.println("essa matricula já existe");
+                System.out.println("ela pertence ao aluno de nome: "+aluno.getNome());
                 return;
             }
         }
@@ -421,7 +420,7 @@ public class SIGAA2
 
                     if (alunoComNovaMatricula != null && alunoComNovaMatricula != aluno)
                     {
-                        System.out.println("essa matricula já existe");
+                        System.out.println("essa matricula já existe, pertence ao aluno de nome"+alunoComNovaMatricula.getNome());
                         System.out.println("voltando ao menu anterior");
                         return;
                     }
@@ -688,7 +687,7 @@ public class SIGAA2
     }
     public static void RemoverAluno(Scanner input)
     {
-        System.out.println("CUIDADO AO REMOVER ALUNOS DO SISTEMA");
+        System.out.println("CUIDADO AO REMOVER ALUNOS DO SISTEMA, seus boletins são perdidos!");
         int matricula = LerInt(input, "digite a matricula do aluno que será removido (ou 0 para voltar)");
         if (matricula == 0) return;
 
@@ -859,7 +858,7 @@ public class SIGAA2
         {
             if (disciplina.getCodigo().equals(codigo))
             {
-                System.out.println("esse codigo já existe");
+                System.out.println("esse codigo já existe, pertence a disciplina de nome: "+disciplina.getNome());
                 System.out.println("voltando ao menu anterior");
                 return;
             }
@@ -1155,7 +1154,7 @@ public class SIGAA2
 
         if (!ChecarMatriculaProf(matricula))
         {
-            System.out.println("já existe um professor com essa matricula");
+            System.out.println("já existe um professor com essa matricula, seu nome é: "+BuscarProfessor(matricula).getNome());
             return;
         }
 
