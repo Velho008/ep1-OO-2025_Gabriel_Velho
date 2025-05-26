@@ -17,17 +17,17 @@ public class SIGAA2
     // quando remover disciplina apagar todas as turmas da disciplina tirar da lista das feitas por aluno
     // quando remover professor, as turmas dele são removidas tmb, desencadeando as coisas de remover turma
     // quando editar a matricula do aluno e trocar a matricula, mudar isso na lista da turma
-    // quando remover o aluno do sistema, tirar ele da lista da turma
     //}
     
     //otimização super opcional
     //{
     // poder a qualquer momento voltar pro menu anterior, pra caso tenha digitado e entrado em um menu sem querer
-    // melhorar todos os inputs, na hora que digitar errado, não dar erro e fechar o programa, e sim falar qual foi o erro e receber outra entrada
+    // melhorar todos os inputs, na hora que digitar errado, não dar erro e fechar o programa, e sim falar qual foi o erro e receber outra entrada (provavelmente fazer isso usando um metodo padrão)
     // deixar os menus mais formatados e bonitos
     // salvar as coisas quando mudar, não só quando criar e fechar o programa
     // facilitar lançar multiplas notas de uma vez
     // talvez mudar a exibição de boletins pra selecionar por semestre
+    // rever por completo o editar aluno, tá uma bagunça da porra
     //}
     
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
@@ -64,15 +64,12 @@ public class SIGAA2
             {
                 case 1:
                     ModoAluno(input1);
-
                     break;
                 case 2:
                     ModoTurma(input1);
-
                     break;
                 case 3:
                     ModoNotas(input1);
-
                     break;
                 case 0:
                     SalvarTudo(); //salva tudo antes de fechar
@@ -100,6 +97,7 @@ public class SIGAA2
             System.out.println("digite 6 para deletar um aluno do sistema");
             System.out.println("digite 7 para buscar informações sobre um aluno");
             System.out.println("digite 0 voltar ao menu anterior"); 
+
             escolha = input.nextInt();
             input.nextLine(); //come o enter
 
@@ -107,27 +105,21 @@ public class SIGAA2
             {
                 case 1:
                     Cadastro(input);
-
                     break;
                 case 2:
                     ListarAlunos();
-
                     break;
                 case 3:
                     MatricularAlunoEmTurma(input);
-
                     break;
                 case 4:
                     EditarAluno(input); 
-
                     break;
                 case 5:
                     TrancarMatricula(input); 
-
                     break;
                 case 6:
                     RemoverAluno(input);
-
                     break;
                 case 7:
                     MostrarInfoAluno(input);
@@ -145,6 +137,7 @@ public class SIGAA2
     {
         System.out.println("digite o nome: ");
         String nome = input.nextLine();
+
         System.out.println("digite a matricula: ");
         int matricula = input.nextInt();
         input.nextLine(); // come o enter
@@ -258,7 +251,6 @@ public class SIGAA2
         Disciplina disciplina = BuscarDisciplina(codigoDisciplina);
         System.out.println("disciplina selecionada: " + disciplina.getNome()+'/'+disciplina.getCodigo()); 
 
-        //AQUI FALTA OTIMIZAR, TÁ MTO RUIM
         for (String codTurma : disciplina.getTurmasDaDisciplina())
         {
             Turma turma = BuscarTurma(codTurma);
@@ -266,7 +258,7 @@ public class SIGAA2
             {
                 if (matriculaAluno == matricula)
                 {
-                    System.out.println("O ALUNO JÁ MATRICULADO NESSA DISCIPLINA");
+                    System.out.println("ALUNO JÁ MATRICULADO NESSA DISCIPLINA");
                     return;
                 }
             }
@@ -316,14 +308,15 @@ public class SIGAA2
             {
                 System.out.println("Esse aluno especial já cursa o maximo de disciplinas permitidas");
                 return;
-            } else
+            } 
+            else
             {
                 especial.addDisciplinaAtual();
             }
         }
         turma.addAluno(aluno);
+        SalvarTudo();
         System.out.println("aluno matriculado com sucesso, vagas atuais da turma: "+turma.getVagasAtuais()+'/'+turma.getVagasTotais());   
-
     }
     
     public static void EditarAluno(Scanner input)
@@ -553,6 +546,7 @@ public class SIGAA2
                 }
             }
             System.out.println("trancamento geral realizado com sucesso");
+            SalvarTudo();
             return;
         }
 
@@ -601,6 +595,7 @@ public class SIGAA2
             System.out.println("matricula errada, voltando ao menu anterior");
             return;
         }
+        SalvarTudo();
     }
     public static void RemoverAluno(Scanner input)
     {
@@ -608,28 +603,49 @@ public class SIGAA2
         System.out.println("digite a matricula do aluno que será removido");
         int matricula = input.nextInt();
         input.nextLine();//come o enter
-        if(ChecarMatricula(matricula))
+
+        if(!ChecarMatricula(matricula))
         {
-            System.out.println("aluno selecionado para remoção:");
-            BuscarAluno(matricula).MostrarInfo();
-            System.out.println("digite novamente a matricula para confirmar a remoção");
-            int teste = input.nextInt();
-            input.nextLine();//come o enter
-            if (teste == matricula)
+            System.out.println("a matricula digitada não existe");
+            return;
+        }
+
+        System.out.println("aluno selecionado para remoção:");
+        BuscarAluno(matricula).MostrarInfo();
+
+        System.out.println("digite novamente a matricula para confirmar a remoção");
+        int teste = input.nextInt();
+        input.nextLine();//come o enter
+
+        if (!(teste == matricula))
+        {
+            System.out.println("matricula errada digitada...");
+            System.out.println("voltando ao menu anterior");
+            return;
+        }
+        System.out.println("aluno "+BuscarAluno(matricula).getNome()+" removido do sistema");
+
+        ArrayList<Turma> turmasPraTirarOAluno = new ArrayList<>();
+        for (Turma turma : turmas) //tira o aluno da lista das turmas
+        {
+            for (int aluno : turma.getAlunos())
             {
-                System.out.println("aluno "+BuscarAluno(matricula).getNome()+" removido do sistema");
-                alunos.remove(BuscarAluno(matricula)); //tira do sistema
-                RemoverAlunoArquivo(matricula); //apaga o arquivo
-            }
-            else
-            {
-                System.out.println("matricula errada digitada");
+                if (aluno == matricula)
+                {
+                    turmasPraTirarOAluno.add(turma);
+                }
             }
         }
-        else
+
+        for (Turma turma : turmasPraTirarOAluno) //tira da turma
         {
-            System.out.println("a matricula não existe");
+            turma.removerAluno(matricula);
         }
+
+        alunos.remove(BuscarAluno(matricula)); //tira do sistema
+        RemoverAlunoArquivo(matricula); //apaga o arquivo
+        
+        SalvarTudo();
     }
     public static void MostrarInfoAluno(Scanner input)
     {
