@@ -13,9 +13,10 @@ public class SIGAA2
 
     // BUGS CONHECIDOS PRA ARRUMAR
     //{ 
-    // quando remover turmas do sistema, tirar da disciplina e do professor e da conta de disciplinas atuais do aluno especial
-    // quando remover disciplina apagar todas as turmas da disciplina tirar da lista das feitas por aluno
-    // quando remover professor, as turmas dele são removidas tmb, desencadeando as coisas de remover turma
+    // quando apagar um aluno, o boletim dele continua existindo, isso pode causar problemas quando iniciar o sistema novamente
+    // quando remover turmas do sistema, tirar da disciplina e do professor e da conta de disciplinas atuais do aluno especial e apagar o relatorio da turma
+    // quando remover disciplina apagar todas as turmas da disciplina tirar da lista das feitas por aluno, avisar quais outras disciplinas ficarão sem pré requisito existente ao retirar essa e apagar relatorios de disciplina
+    // quando remover professor, as turmas dele são removidas tmb, desencadeando as coisas de remover turma e apagar relatorios de professor
     // quando editar a matricula do aluno e trocar a matricula, mudar isso na lista da turma
     //}
     
@@ -28,6 +29,7 @@ public class SIGAA2
     // facilitar lançar multiplas notas de uma vez
     // talvez mudar a exibição de boletins pra selecionar por semestre
     // rever por completo o editar aluno, tá uma bagunça da porra
+    // quando digitar uma matricula/codigo que já existe, falar a quem pertence
     //}
     
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
@@ -652,14 +654,13 @@ public class SIGAA2
         System.out.println("digite a matricula do aluno que sera consultado");
         int matricula = input.nextInt();
         input.nextLine(); //come o espaço
-        if (ChecarMatricula(matricula))
+
+        if (!ChecarMatricula(matricula))
         {
-            BuscarAluno(matricula).MostrarInfo();
+            System.out.println("a matricula digitada não existe");
+            return;
         }
-        else
-        {
-            System.out.println("a matricula digitada não existe no sistema");
-        }
+        BuscarAluno(matricula).MostrarInfo();
     }
         
 
@@ -749,6 +750,7 @@ public class SIGAA2
     {
         System.out.println("digite o nome da disciplina: ");
         String nome = input.nextLine();
+
         System.out.println("digite o codigo da disciplina: ");
         String codigo = input.nextLine();
 
@@ -757,15 +759,19 @@ public class SIGAA2
             if (disciplina.getCodigo().equals(codigo))
             {
                 System.out.println("esse codigo já existe");
+                System.out.println("voltando ao menu anterior");
                 return;
             }
         }
+
         System.out.println("digite a carga horaria: ");
         int carga_horaria = input.nextInt();
         input.nextLine(); //come o enter
+
         System.out.println("digite 1 caso essa materia tenha pré-requisitos");
         int escolha = input.nextInt();
         input.nextLine();
+
         if (escolha == 1)
         {
             boolean veracidadeRequisitos = true; //checa a veracidade de cada codigo de pre_requisito
@@ -775,6 +781,7 @@ public class SIGAA2
                 veracidadeRequisitos = true;
                 System.out.println("digite o codigo dos pré-requisitos, espaçados por um espaço");
                 pre_requisitos = input.nextLine();
+
                 for (String requisito : pre_requisitos.split(" "))
                 {
                     if (!ChecarCodigoDisciplina(requisito))
@@ -790,14 +797,15 @@ public class SIGAA2
             Disciplina disciplina = new Disciplina(nome, codigo, carga_horaria, pre_requisitos);
             disciplinas.add(disciplina);
             SalvarDisciplina(disciplina);
+            SalvarTudo();
+            return;
             
         }
-        else
-        {
-            Disciplina disciplina = new Disciplina(nome,codigo,carga_horaria); 
-            disciplinas.add(disciplina); //coloca a disciplina na lista do sistema
-            SalvarDisciplina(disciplina);
-        }
+        
+        Disciplina disciplina = new Disciplina(nome,codigo,carga_horaria); 
+        disciplinas.add(disciplina); //coloca a disciplina na lista do sistema 
+        SalvarDisciplina(disciplina); 
+        SalvarTudo();
     }   
 
     public static void CriarTurma(Scanner input)
@@ -835,41 +843,52 @@ public class SIGAA2
                 }
             }
         } while (continuar);
+
         boolean online = false;
+
         System.out.println("digite a quantidade de vagas");
         int vagas = input.nextInt();
         input.nextLine(); //come o enter
+
         System.out.println("digite o nome da sala onde a aula ocorrerá ou deixe em branco caso seja online: ");
         String sala = input.nextLine();
+
         if (sala.isEmpty())//online
         {
             online = true;
         }
+
         System.out.println("digite a matricula do professor que vai ministrar a turma");
         int matriculaProf = input.nextInt();
         input.nextLine(); //come o enter
+
         if (ChecarMatriculaProf(matriculaProf))
         {
             System.out.println("não existe professor com essa matricula");
             return;
         }
+
         System.out.println("digite o horario de inicio da aula no formato: 8 (8AM) ou 12(meio dia) NÃO USE APENAS O 0");
         System.out.println("lembre que as aulas duram sempre 2 horas");
         int horario = input.nextInt();
         input.nextLine(); //come o enter
+
         if (!ChecarHorario(horario) && !ChecarSala(sala) && !online)
         {
             System.out.println("existe outra turma que usa a sala no mesmo horario");
             return;
         }
+
         if (!ChecarHorario(horario) && !ChecarProfTurma(matriculaProf))
         {
             System.out.println("esse prof já dá aula no mesmo horario");
             return;
         }
+
         System.out.println("digite o semestre da turma: ");
         int semestre = input.nextInt();
         input.nextLine(); //come o enter
+
         System.out.println("digite o metodo de avaliação, a ou b");
         char metodoAvaliacao = input.nextLine().charAt(0);
         if (!(metodoAvaliacao == 'b') && !(metodoAvaliacao == 'a'))
@@ -877,14 +896,19 @@ public class SIGAA2
             System.out.println("metodo de avaliação selecionado não existe");
             return;
         }
+
         Turma turmanova = new Turma(matriculaProf, sala, metodoAvaliacao, horario, numero, vagas, semestre, codigo);
         turmas.add(turmanova);
         SalvarTurma(turmanova);
+
         Professor professor = BuscarProfessor(matriculaProf);
         professor.addTurma(turmanova.getCodigoTurma());
+
         Disciplina disciplina = BuscarDisciplina(codigo);
         disciplina.addTurma(turmanova.getCodigoTurma());
+
         System.out.println("turma criada corretamente");
+        SalvarTudo();
     }
         
 
@@ -921,27 +945,34 @@ public class SIGAA2
         System.out.println("CUIDADO AO REMOVER DISCIPLINAS");
         System.out.println("digite o codigo da disciplina que será removida: ");
         String codigo = input.nextLine();
-        if (ChecarCodigoDisciplina(codigo))
+
+        if (!ChecarCodigoDisciplina(codigo))
         {
-            System.out.println("Disciplina a ser apagada: "+BuscarDisciplina(codigo).getNome());
-            System.out.println("para confirmar a remoção da disciplina digite novamente o codigo ");
-            String teste = input.nextLine();
-            if (teste.equals(codigo))
-            {
-                Disciplina disciplina = BuscarDisciplina(codigo);
-                RemoverDisciplinaArquivo(disciplina);
-                System.out.println("disciplina removida");
-                disciplinas.remove(BuscarDisciplina(codigo));
-            }
-            else
-            {
-                System.out.println("algum erro na confirmação do codigo");
-            }
+            System.out.println("o codigo digitado não existe...");
+            System.out.println("voltando ao menu anterior");
+            return;
         }
-        else
+
+        System.out.println("Disciplina a ser apagada: "+BuscarDisciplina(codigo).getNome());
+        System.out.println("para confirmar a remoção da disciplina digite novamente o codigo ");
+        String teste = input.nextLine();
+
+        if (!teste.equals(codigo))
         {
-            System.out.println("o codigo não existe");
+            System.out.println("erro na confirmação do codigo...");
+            System.out.println("voltando ao menu anterior");
+            return;
         }
+
+        Disciplina disciplina = BuscarDisciplina(codigo);
+        RemoverDisciplinaArquivo(disciplina);
+        disciplinas.remove(BuscarDisciplina(codigo));
+        System.out.println("disciplina removida");
+
+        // remover da lista de disciplinas feitas de cada aluno AQUI
+        // remover todas as turmas da disciplina que existem e tudo que isso desencadeia AQUI
+        
+        SalvarTudo();
     }
     public static void RemoverTurma(Scanner input)
     {
@@ -953,61 +984,71 @@ public class SIGAA2
         int numTurma = input.nextInt();
         input.nextLine(); //come o enter
 
-        if (ChecarTurma(numTurma, codigoDisciplina))
+        if (!ChecarTurma(numTurma, codigoDisciplina))
         {
-            Turma turma = BuscarTurma(numTurma, codigoDisciplina);
-            String nomeDisciplina = BuscarDisciplina(codigoDisciplina).getNome();
-
-            System.out.println("turma a ser apagada: "+turma.getNumero()+" de "+nomeDisciplina);
-            System.out.println("para confirmar a remoção da turma digite novamente o codigo da disciplina: ");
-            String teste = input.nextLine();
-
-            if (teste.equals(codigoDisciplina))
-            {
-                System.out.println("turma removida");
-                RemoverTurmaArquivo(turma);
-                turmas.remove(turma);
-            }
-            else
-            {
-                System.out.println("algum erro na confirmação");
-            }
+            System.out.println("não existe tuma com esse numero e esse codigo de disciplina...");
+            System.out.println("voltando ao menu anterior");
+            return;
         }
-        else
+
+        Turma turma = BuscarTurma(numTurma, codigoDisciplina);
+        String nomeDisciplina = BuscarDisciplina(codigoDisciplina).getNome();
+
+        System.out.println("turma a ser apagada: "+turma.getNumero()+" de "+nomeDisciplina);
+        System.out.println("para confirmar a remoção da turma digite novamente o codigo da disciplina: ");
+        String teste = input.nextLine();
+
+        if (!teste.equals(codigoDisciplina))
         {
-            System.out.println("algum erro no codigo da disciplina ou no numero da turma");
+            System.out.println("erro na confirmação do codigo da disciplina da turma...");
+            System.out.println("voltando ao menu anterio");
+            return;
         }
-    }
+
+        System.out.println("turma removida");
+        RemoverTurmaArquivo(turma); // apaga o arquivo
+        turmas.remove(turma); // tira da lista do sistema 
+        
+
+        SalvarTudo();
+}
     public static void MostrarInfoDisciplina(Scanner input)
     {
         System.out.println("digite o codigo da disciplina que sera consultada");
         String codigo = input.nextLine();
+
         if (!ChecarCodigoDisciplina(codigo))
         {
             System.out.println("o codigo digitado não existe");
-            return; //só pra parar mesmo de rodar
+            return; 
         }
+
         BuscarDisciplina(codigo).MostrarInfo();
     }
     public static void MostrarInfoTurma(Scanner input)
     {
         System.out.println("digite o codigo da disciplina da turma");
         String codigo = input.nextLine();
+
         if (!ChecarCodigoDisciplina(codigo))
         {
             System.out.println("o codigo digitado não existe");
             return; 
         }
+
         Disciplina disciplina = BuscarDisciplina(codigo);
         System.out.println("a disciplina selecionada foi: "+disciplina.getNome()+'/'+disciplina.getCodigo());
+
         System.out.println("digite o numero da turma");
         int numero = input.nextInt();
         input.nextLine(); //come o enter
+
         if (!ChecarTurma(numero, codigo))
         {
             System.out.println("a turma não existe");
             return;
         }
+
         Turma turma = BuscarTurma(numero, codigo);
         turma.MostrarInfo();
 
@@ -1016,8 +1057,10 @@ public class SIGAA2
     {
         System.out.println("digite o nome do professor: ");
         String nome = input.nextLine();
+
         System.out.println("digite a matricula do professor: ");
         int matricula = input.nextInt();
+
         input.nextLine(); //come o enter
 
         if (!ChecarMatriculaProf(matricula))
@@ -1029,6 +1072,8 @@ public class SIGAA2
         Professor professor = new Professor(nome, matricula);
         professores.add(professor);
         SalvarProfessor(professor);
+
+        SalvarTudo();
     }
     public static void RemoverProfessor(Scanner input)
     {
@@ -1042,19 +1087,25 @@ public class SIGAA2
             System.out.println("não existe nenhum professor com essa matricula");
             return;
         }
+
         Professor professor = BuscarProfessor(matricula);
         System.out.println("professor a ser apagado: "+professor.getNome()+'/'+professor.getMatricula());
+
         System.out.println("para confirmar a remoção do professor digite novamente a matricula do professor");
         int teste = input.nextInt();
         input.nextLine(); //come o enter
+
         if (! (teste == matricula))
         {
             System.out.println("erro na confirmação da matricula");
             return;
         }
+
         System.out.println("professor removido");
         RemoverProfessorArquivo(professor);
         professores.remove(professor);
+
+        SalvarTudo();
     }
     public static void ListarProfessores()
     {
@@ -1079,10 +1130,10 @@ public class SIGAA2
             System.out.println("a matricula digitada não pertence a nenhum professor");
             return; 
         }
+
         Professor professor = BuscarProfessor(matricula);
         System.out.println("o professor selecionado foi: "+professor.getNome()+'/'+professor.getMatricula());
         professor.MostrarInfo();
-
     }
 
     public static void ModoNotas(Scanner input)
@@ -1158,7 +1209,8 @@ public class SIGAA2
 
         Turma turma = BuscarTurma(numeroTurma, codigoDisciplina);
         turma.ListarAlunos();
-        System.out.println("lista dos alunos acima");
+        System.out.println("lista dos alunos da turma acima");
+
         System.out.println("digite a matricula do aluno cujas notas e presença serão lançadas: ");
         int matricula = input.nextInt();
         input.nextLine(); //come o enter
@@ -1183,6 +1235,7 @@ public class SIGAA2
         {
             System.out.println("o aluno selecionado é do tipo especial");
             System.out.println("alunos especiais recebem apenas presença");
+
             System.out.println("digite o numero da porcentagem de presença do aluno (exemplo: 75 para 75%): ");
             presenca = input.nextInt();
             input.nextLine(); //come o enter
@@ -1204,6 +1257,7 @@ public class SIGAA2
                 relatorioTurma.addPassaram();
                 relatorioProfessor.addPassaram();
             }
+
             boletim = new Boletim(matricula, turma, presenca, turma.getMetodoAvaliacao(), 10, 10, 10, 10, 10);
             boletins.add(boletim);
             SalvarBoletim(boletim);
@@ -1212,6 +1266,8 @@ public class SIGAA2
             SalvarRelatorio(relatorioProfessor);
             System.out.println("relatorios criados ou atualizados");
             System.out.println("todos os boletins pode ser encontrados na pasta banco_de_dados/boletins, eles estão separados por aluno");
+
+            SalvarTudo();
             return;
         }
         System.out.println("digite 1 para lançar nota por nota");
@@ -1309,6 +1365,8 @@ public class SIGAA2
         SalvarRelatorio(relatorioProfessor);
         System.out.println("relatorios criados ou atualizados");
         System.out.println("todos os boletins pode ser encontrados na pasta banco_de_dados/boletins, eles estão separados por aluno");
+
+        SalvarTudo();
     }
     public static void CalculadoraNota(Scanner input)
     {
@@ -1556,6 +1614,7 @@ public class SIGAA2
         }
     }
 
+    // metodos que mostram/acessam/buscam
     public static Relatorio AcessaOuCriaRelatorio(char tipo, String identificador)
     {
         for (Relatorio relatorio : relatorios)
@@ -2082,5 +2141,4 @@ public class SIGAA2
             SalvarRelatorio(relatorio);
         }
     }
-
 }
