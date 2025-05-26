@@ -3,7 +3,7 @@ package classes;
 public class Boletim
 {
     //todos esses são FINAL, portanto não tem set
-    private final int matriculaAluno;
+    private int matriculaAluno; // a matricula do aluno pode ser editada
     private final int matriculaProf;
     private final String disciplina;
     private final int semestre;
@@ -214,6 +214,10 @@ public class Boletim
     public int getMatriculaAluno()
     {
         return this.matriculaAluno;
+    }
+    public void setMatriculaAluno(int matricula)
+    {
+        this.matriculaAluno = matricula;
     }
     public int getMatriculaProf()
     {

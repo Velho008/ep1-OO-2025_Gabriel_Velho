@@ -8,8 +8,7 @@ public class SIGAA2
     // O QUE FALTA 
     //{
     // fazer o readme
-    // testar tirar uma turma do sistema e matricular um aluno especial já com o maximo de turmas em uma nova turma
-    // testar criar 2 boletins de um aluno e apagar ele, os boletins devem ser apagados
+    // testar remover uma turma e um professor, ver se tudo desencadeia corretamente
     // bugs conhecidos
     //}
 
@@ -17,8 +16,6 @@ public class SIGAA2
     //{
     // quando remover disciplina apagar todas as turmas da disciplina tirar da lista das feitas por aluno, avisar quais outras disciplinas ficarão sem pré requisito existente ao retirar essa e
     // apagar relatorios de disciplina e boletins de aluno que dependem da disciplina quando uma disciplina for removida
-    // quando remover professor, as turmas dele são removidas tmb, desencadeando as coisas de remover turma e apagar relatorios de professor
-    //quando trocar a matricula do aluno, o boletim continua linkado na matricula antiga
     //}
     
     //otimização super opcional
@@ -449,6 +446,22 @@ public class SIGAA2
                         turma.removerAluno(matriculaVelha);
                         turma.addAluno(aluno.getMatricula());
                         SalvarTurma(turma);
+                    }
+
+                    ArrayList<Boletim> boletinsParaApagar = new ArrayList<>();
+                    for (Boletim boletim : boletins)
+                    {
+                        if (boletim != null && boletim.getMatriculaAluno() == matriculaVelha)
+                        {
+                            boletinsParaApagar.add(boletim);
+                            RemoverBoletimArquivo(boletim); //apaga os arquivos antigos
+                            boletim.setMatriculaAluno(matriculaNova); //troca a matricula nos boletins
+                            SalvarBoletim(boletim); //cria um novo com a matricula trocada
+                        }
+                    }
+                    for (Boletim boletim : boletinsParaApagar)
+                    {
+                        boletins.remove(boletim); //apaga os boletins antigos da lista do sistema
                     }
 
                     System.out.println("matricula alterada com sucesso");
@@ -1091,45 +1104,7 @@ public class SIGAA2
         }
 
         //COISAS QUE DESENCADEIAM COM A REMOÇAO DE TURMA
-        Disciplina disciplinaComTurma = BuscarDisciplina(turma.getCodigoDisciplina());
-        
-        if (disciplinaComTurma !=null)
-        {
-            System.out.println("a turma n"+turma.getNumero()+" fazia parte da disciplina: "+disciplinaComTurma.getNome()+'/'+disciplinaComTurma.getCodigo());
-            System.out.println("agora a turma não consta mais na lista de turmas da disciplina");
-            disciplinaComTurma.removerTurma(turma);
-        }
-
-        Professor professorComTurma = BuscarProfessor(turma.getMatriculaProf());
-
-        if (professorComTurma !=null)
-        {
-            System.out.println("a turma era ministrada pelo prof: "+professorComTurma.getNome()+'/'+professorComTurma.getMatricula());
-            System.out.println("agora a turma não consta mais na lista de turmas do professor");
-            professorComTurma.removerTurma(turma.getCodigoTurma());
-        }
-
-        Relatorio relatorioTurma = AcessaOuCriaRelatorio('t', turma.getCodigoTurma());
-        relatorios.remove(relatorioTurma);
-        RemoverRelatorioArquivo(relatorioTurma); //tira o relatorio da turma do sistema
-
-        for (Aluno aluno : alunos) 
-        {
-            if (aluno instanceof AlunoEspecial)
-            {
-                if (turma.getAlunos().contains(aluno.getMatricula()))
-                {
-                    ((AlunoEspecial)aluno).removerDisciplinaAtual(); //arruma o calculo de disciplinas atuais de aluno especial
-                }
-            }
-        }
-
-        System.out.println("turma removida");
-        RemoverTurmaArquivo(turma); // apaga o arquivo
-        turmas.remove(turma); // tira da lista do sistema 
-        
-
-        SalvarTudo();
+        DesencadeamentoRemoverTurma(turma);
     }
     public static void MostrarInfoDisciplina(Scanner input)
     {
@@ -1220,9 +1195,22 @@ public class SIGAA2
             return;
         }
 
+        for (String codTurma : professor.getTurmas())
+        {
+            if (codTurma != null)
+            {
+                Turma turma = BuscarTurma(codTurma);
+                DesencadeamentoRemoverTurma(turma); //coisas que desencadeiam quando as turmas do professor deixam de existir
+            }
+        }
+
+        Relatorio relatorio = AcessaOuCriaRelatorio('p', String.valueOf(professor.getMatricula()));
+        relatorios.remove(relatorio); // tira o relatorio da lista do sistema
+        RemoverRelatorioArquivo(relatorio); //apaga o arquivo de relatorio
+
         System.out.println("professor removido");
-        RemoverProfessorArquivo(professor);
-        professores.remove(professor);
+        RemoverProfessorArquivo(professor); //tira o arquivo
+        professores.remove(professor); // tira da lista do sistema
 
         SalvarTudo();
     }
@@ -1732,6 +1720,48 @@ public class SIGAA2
             System.out.println("Esse aluno não possui boletins registrados no sistema");
         }
     }
+    public static void DesencadeamentoRemoverTurma(Turma turma)
+    {
+        Disciplina disciplinaComTurma = BuscarDisciplina(turma.getCodigoDisciplina());
+        
+        if (disciplinaComTurma !=null)
+        {
+            System.out.println("a turma n"+turma.getNumero()+" fazia parte da disciplina: "+disciplinaComTurma.getNome()+'/'+disciplinaComTurma.getCodigo());
+            System.out.println("agora a turma não consta mais na lista de turmas da disciplina");
+            disciplinaComTurma.removerTurma(turma);
+        }
+
+        Professor professorComTurma = BuscarProfessor(turma.getMatriculaProf());
+
+        if (professorComTurma !=null)
+        {
+            System.out.println("a turma era ministrada pelo prof: "+professorComTurma.getNome()+'/'+professorComTurma.getMatricula());
+            System.out.println("agora a turma não consta mais na lista de turmas do professor");
+            professorComTurma.removerTurma(turma.getCodigoTurma());
+        }
+
+        Relatorio relatorioTurma = AcessaOuCriaRelatorio('t', turma.getCodigoTurma());
+        relatorios.remove(relatorioTurma);//tira o relatorio da turma do sistema
+        RemoverRelatorioArquivo(relatorioTurma); //apaga o arquivo
+
+        for (Aluno aluno : alunos) 
+        {
+            if (aluno instanceof AlunoEspecial)
+            {
+                if (turma.getAlunos().contains(aluno.getMatricula()))
+                {
+                    ((AlunoEspecial)aluno).removerDisciplinaAtual(); //arruma o calculo de disciplinas atuais de aluno especial
+                }
+            }
+        }
+
+        System.out.println("turma removida");
+        RemoverTurmaArquivo(turma); // apaga o arquivo
+        turmas.remove(turma); // tira da lista do sistema 
+        
+
+        SalvarTudo();
+    }
 
     // metodos que mostram/acessam/buscam
     public static Relatorio AcessaOuCriaRelatorio(char tipo, String identificador)
@@ -2199,7 +2229,7 @@ public class SIGAA2
     public static void RemoverBoletimArquivo(Boletim boletim)
     {
         String pasta = "banco_de_dados/boletins/"+boletim.getMatriculaAluno();
-        String caminhoEspecifico = pasta+"semestre"+boletim.getSemestre()+"disciplina"+boletim.getDisciplina()+"boletim.txt";
+        String caminhoEspecifico = pasta+'/'+"semestre"+boletim.getSemestre()+"disciplina"+boletim.getDisciplina()+"boletim.txt";
         File arquivoBoletim = new File(caminhoEspecifico);
 
         if (!arquivoBoletim.exists())
