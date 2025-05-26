@@ -7,14 +7,17 @@ public class SIGAA2
 {
     // O QUE FALTA 
     //{
+    // fazer o readme
+    // testar tirar uma turma do sistema e matricular um aluno especial já com o maximo de turmas em uma nova turma
+    // testar criar 2 boletins de um aluno e apagar ele, os boletins devem ser apagados
     // bugs conhecidos
     //}
 
     // BUGS CONHECIDOS PRA ARRUMAR
     //{
-    // quando apagar um aluno, o boletim dele continua existindo, isso pode causar problemas quando iniciar o sistema novamente
     // quando remover disciplina apagar todas as turmas da disciplina tirar da lista das feitas por aluno, avisar quais outras disciplinas ficarão sem pré requisito existente ao retirar essa e apagar relatorios de disciplina e boletins de aluno que dependem da disciplina
     // quando remover professor, as turmas dele são removidas tmb, desencadeando as coisas de remover turma e apagar relatorios de professor
+    //quando trocar a matricula do aluno, o boletim continua linkado na matricula antiga
     //}
     
     //otimização super opcional
@@ -46,7 +49,6 @@ public class SIGAA2
         CarregarTurmas();
         CarregarBoletins();
         CarregarRelatorios();
-        
 
         Scanner input1 = new Scanner(System.in);//scanner usado no menu inteiro
         int escolha;//variavel de escolha do menu
@@ -707,6 +709,23 @@ public class SIGAA2
         for (Turma turma : turmasPraTirarOAluno) //tira da turma
         {
             turma.removerAluno(matricula);
+        }
+
+        ArrayList<Boletim> boletinsParaApagar = new ArrayList<>();
+        for (Boletim boletim : boletins)
+        {
+            if (boletim.getMatriculaAluno() == matricula)
+            {
+                boletinsParaApagar.add(boletim);
+                RemoverBoletimArquivo(boletim);
+            }
+        }
+        if (boletinsParaApagar != null && !boletinsParaApagar.isEmpty())
+        {
+            for (Boletim boletim : boletinsParaApagar)
+            {
+                boletins.remove(boletim);
+            }
         }
 
         alunos.remove(BuscarAluno(matricula)); //tira do sistema
@@ -2174,6 +2193,24 @@ public class SIGAA2
                     }
                 }
             }
+        }
+    }
+    public static void RemoverBoletimArquivo(Boletim boletim)
+    {
+        String pasta = "banco_de_dados/boletins/"+boletim.getMatriculaAluno();
+        String caminhoEspecifico = pasta+"semestre"+boletim.getSemestre()+"disciplina"+boletim.getDisciplina()+"boletim.txt";
+        File arquivoBoletim = new File(caminhoEspecifico);
+
+        if (!arquivoBoletim.exists())
+        {
+            System.out.println("arquivo de boletim não encontrado: "+caminhoEspecifico);
+            return;
+        }
+
+        boolean deletado = arquivoBoletim.delete();
+        if (!deletado)
+        {
+            System.out.println("não foi possivel remover o boletim");
         }
     }
     public static void SalvarRelatorio(Relatorio relatorio)
