@@ -13,8 +13,7 @@ public class SIGAA2
     // BUGS CONHECIDOS PRA ARRUMAR
     //{
     // quando apagar um aluno, o boletim dele continua existindo, isso pode causar problemas quando iniciar o sistema novamente
-    // quando remover turmas do sistema, tirar da disciplina e do professor e da conta de disciplinas atuais do aluno especial e apagar o relatorio da turma
-    // quando remover disciplina apagar todas as turmas da disciplina tirar da lista das feitas por aluno, avisar quais outras disciplinas ficarão sem pré requisito existente ao retirar essa e apagar relatorios de disciplina
+    // quando remover disciplina apagar todas as turmas da disciplina tirar da lista das feitas por aluno, avisar quais outras disciplinas ficarão sem pré requisito existente ao retirar essa e apagar relatorios de disciplina e boletins de aluno que dependem da disciplina
     // quando remover professor, as turmas dele são removidas tmb, desencadeando as coisas de remover turma e apagar relatorios de professor
     //}
     
@@ -28,6 +27,7 @@ public class SIGAA2
     // talvez mudar a exibição de boletins pra selecionar por semestre
     // rever por completo o editar aluno, tá uma bagunça da porra
     // quando digitar uma matricula/codigo que já existe, falar a quem pertence
+    // no boletim do aluno, ao apagar uma turma, ele segue referenciando a turma apagada, talvez mudar isso
     //}
     
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
@@ -1041,7 +1041,7 @@ public class SIGAA2
     }
     public static void RemoverTurma(Scanner input)
     {
-        System.out.println("CUIDADO AO REMOVER TURMAS");
+        System.out.println("CUIDADO AO REMOVER TURMAS, pois seus relatorios são apagados");
         System.out.println("digite o codigo da disciplina da turma");
         String codigoDisciplina = input.nextLine();
 
@@ -1070,13 +1070,47 @@ public class SIGAA2
             return;
         }
 
+        //COISAS QUE DESENCADEIAM COM A REMOÇAO DE TURMA
+        Disciplina disciplinaComTurma = BuscarDisciplina(turma.getCodigoDisciplina());
+        
+        if (disciplinaComTurma !=null)
+        {
+            System.out.println("a turma n"+turma.getNumero()+" fazia parte da disciplina: "+disciplinaComTurma.getNome()+'/'+disciplinaComTurma.getCodigo());
+            System.out.println("agora a turma não consta mais na lista de turmas da disciplina");
+            disciplinaComTurma.removerTurma(turma);
+        }
+
+        Professor professorComTurma = BuscarProfessor(turma.getMatriculaProf());
+
+        if (professorComTurma !=null)
+        {
+            System.out.println("a turma era ministrada pelo prof: "+professorComTurma.getNome()+'/'+professorComTurma.getMatricula());
+            System.out.println("agora a turma não consta mais na lista de turmas do professor");
+            professorComTurma.removerTurma(turma.getCodigoTurma());
+        }
+
+        Relatorio relatorioTurma = AcessaOuCriaRelatorio('t', turma.getCodigoTurma());
+        relatorios.remove(relatorioTurma);
+        RemoverRelatorioArquivo(relatorioTurma); //tira o relatorio da turma do sistema
+
+        for (Aluno aluno : alunos) 
+        {
+            if (aluno instanceof AlunoEspecial)
+            {
+                if (turma.getAlunos().contains(aluno.getMatricula()))
+                {
+                    ((AlunoEspecial)aluno).removerDisciplinaAtual(); //arruma o calculo de disciplinas atuais de aluno especial
+                }
+            }
+        }
+
         System.out.println("turma removida");
         RemoverTurmaArquivo(turma); // apaga o arquivo
         turmas.remove(turma); // tira da lista do sistema 
         
 
         SalvarTudo();
-}
+    }
     public static void MostrarInfoDisciplina(Scanner input)
     {
         System.out.println("digite o codigo da disciplina que sera consultada");
@@ -2176,6 +2210,16 @@ public class SIGAA2
                     }
                 }
             }
+        }
+    }
+    public static void RemoverRelatorioArquivo(Relatorio relatorio)
+    {
+        String caminho = ("banco_de_dados/relatorios/"+relatorio.getCharTipo()+"ID"+relatorio.getIdentificador()+"relatorio.txt");
+        File arquivo = new File(caminho);
+
+        if (arquivo.exists())
+        {
+            arquivo.delete();
         }
     }
     
