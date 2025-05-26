@@ -8,14 +8,14 @@ public class SIGAA2
     // O QUE FALTA 
     //{
     // fazer o readme
-    // testar remover uma turma e um professor, ver se tudo desencadeia corretamente
+    // testar remover uma turma e um professor e uma disciplina, ver se tudo desencadeia corretamente
     // bugs conhecidos
     //}
 
     // BUGS CONHECIDOS PRA ARRUMAR
     //{
-    // quando remover disciplina apagar todas as turmas da disciplina tirar da lista das feitas por aluno, avisar quais outras disciplinas ficarão sem pré requisito existente ao retirar essa e
-    // apagar relatorios de disciplina e boletins de aluno que dependem da disciplina quando uma disciplina for removida
+    // quando apaga um professor, o boletim do aluno segue referenciando o professor apagado
+    // no boletim do aluno, ao apagar uma turma, ele segue referenciando a turma apagada
     //}
     
     //otimização super opcional
@@ -28,7 +28,6 @@ public class SIGAA2
     // talvez mudar a exibição de boletins pra selecionar por semestre
     // quando digitar uma matricula/codigo que já existe, falar a quem pertence
     // mostrar listas em mais momentos, por exemplo, quando for apagar uma turma, listar todas as que existem, fazer isso sempre que for digitar algo que seleciona turma/aluno etc..
-    // no boletim do aluno, ao apagar uma turma, ele segue referenciando a turma apagada, talvez mudar isso
     //}
     
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
@@ -1062,15 +1061,10 @@ public class SIGAA2
             return;
         }
 
+        // tudo que desencadeia ao retirar disciplina
         Disciplina disciplina = BuscarDisciplina(codigo);
-        RemoverDisciplinaArquivo(disciplina);
-        disciplinas.remove(BuscarDisciplina(codigo));
-        System.out.println("disciplina removida");
 
-        // remover da lista de disciplinas feitas de cada aluno AQUI
-        // remover todas as turmas da disciplina que existem e tudo que isso desencadeia AQUI
-        
-        SalvarTudo();
+        DesencadeamentoRemoverDisciplina(disciplina);
     }
     public static void RemoverTurma(Scanner input)
     {
@@ -1760,6 +1754,87 @@ public class SIGAA2
         turmas.remove(turma); // tira da lista do sistema 
         
 
+        SalvarTudo();
+    }
+    public static void DesencadeamentoRemoverDisciplina(Disciplina disciplina)
+    {
+        // tudo que desencadeia ao retirar disciplina
+
+        // apaga as disciplinas que tem essa como pré-requisito e desencadeia tudo de novo pra cada uma delas
+        ArrayList<Disciplina> disciplinasParaApagar = new ArrayList<>();
+        for (Disciplina disciplinaDaLista : disciplinas)
+        {
+            if ((!disciplinaDaLista.getPreRequisitos().isEmpty()) && disciplinaDaLista.getPreRequisitos().contains(disciplina.getCodigo()))
+            {
+                System.out.println("a disciplina: "+disciplinaDaLista.getNome()+'/'+disciplinaDaLista.getCodigo()+" tem essa disciplina como pré-requisito");
+                System.out.println("ao apagar essa disciplina, todas as que tem ela como requisito serão apagadas");
+                disciplinasParaApagar.add(disciplinaDaLista);
+            }
+        }
+        for (Disciplina disciplinaParaRemover : disciplinasParaApagar)
+        {
+            DesencadeamentoRemoverDisciplina(disciplinaParaRemover);
+        }
+
+        // apaga os boletins de alunos dessa materia
+        ArrayList<Boletim> boletinsParaApagar = new ArrayList<>();
+        for (Boletim boletim : boletins)
+        {
+            if (boletim.getDisciplina().equals(disciplina.getCodigo()))
+            {
+                boletinsParaApagar.add(boletim);
+            }
+        }
+        for (Boletim boletim : boletinsParaApagar)
+        {
+            boletins.remove(boletim); //tira os boletins da lista do sistema
+            RemoverBoletimArquivo(boletim); // tira o arquivo do boletim
+        }
+
+        // apaga o relatorio da disciplina
+        Relatorio relatorio = AcessaOuCriaRelatorio('d', disciplina.getCodigo());
+        relatorios.remove(relatorio); //tira o relatorio da lista do sistema
+        RemoverRelatorioArquivo(relatorio); //apaga o arquivo do relatorio
+
+        //tira a disciplina da lista de já feitas por todos os alunos que tem ela como feita
+        ArrayList<Aluno> alunosComDisciplina = new ArrayList<>();
+        for (Aluno aluno : alunos)
+        {
+            if (!aluno.getDisciplinasCursadas().isEmpty())
+            {
+                for (String codDisciplina : aluno.getDisciplinasCursadas())
+                {
+                    if (disciplina.getCodigo().equals(codDisciplina))
+                    {
+                        alunosComDisciplina.add(aluno);
+                    }
+                }
+            }
+        }
+        for (Aluno aluno : alunosComDisciplina)
+        {
+            aluno.removerDisciplina(disciplina);
+        }
+
+        // apaga as turmas da disciplina
+        ArrayList<Turma> turmasDaDisciplina = new ArrayList<>();
+        for (Turma turma : turmas)
+        {
+            if (turma.getCodigoDisciplina().equals(disciplina.getCodigo()))
+            {
+                turmasDaDisciplina.add(turma);
+            }
+        }
+        for (Turma turma : turmasDaDisciplina)
+        {
+            DesencadeamentoRemoverTurma(turma);
+        }
+
+        //parte normal da remoção
+        RemoverDisciplinaArquivo(disciplina); //remove o arquivo
+        disciplinas.remove(disciplina); //tira da lista de disciplinas do sistema
+        System.out.println("disciplina removida");
+        
         SalvarTudo();
     }
 
