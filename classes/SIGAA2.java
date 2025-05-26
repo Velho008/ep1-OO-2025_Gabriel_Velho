@@ -17,10 +17,9 @@ public class SIGAA2
     
     //otimização super opcional
     //{
-    // deixar os menus mais formatados e bonitos Z2
+    // deixar os menus mais formatados e bonitos Z1 (colocar emoji)
     // facilitar lançar multiplas notas de varios alunos de uma vez ZX2
     // talvez mudar a exibição de boletins pra selecionar por semestre ZX1
-    // mostrar listas em mais momentos, por exemplo, quando for apagar uma turma, listar todas as que existem, fazer isso sempre que for digitar algo que seleciona turma/aluno etc Z1
     //}
     
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
@@ -239,6 +238,7 @@ public class SIGAA2
             return;
         }
         Aluno aluno = BuscarAluno(matricula);
+        ListarDisciplinas();
         System.out.println("aluno selecionado: "+aluno.getNome()+'/'+aluno.getMatricula());
 
         System.out.println("digite o codigo da disciplina: (ou 0 para voltar)");
@@ -287,6 +287,7 @@ public class SIGAA2
             return;
         }
 
+        ListarTurmas(); //lista todas as turmas que existem, não só as da disciplina
         int numTurma = LerInt(input, "digite o numero da turma que o aluno "+aluno.getNome()+" será matriculado: (ou 0 para voltar)");
         if (numTurma == 0)
         {
@@ -332,6 +333,8 @@ public class SIGAA2
         int escolha;
         int matriculaVelha; //SERVE PRA ESCOLHER O ALUNO
         int teste; //serve para checar se a matricula digitada é a correta
+
+        ListarAlunos();
 
         matriculaVelha = LerInt(input, "digite a matricula do aluno cujo cadastro vai ser editado (ou 0 para voltar)");
         if (matriculaVelha == 0) return;
@@ -581,6 +584,7 @@ public class SIGAA2
     }
     public static void TrancarMatricula(Scanner input)
     {
+        ListarAlunos();
         System.out.println("LEMBRE-SE...");
         System.out.println("trancar matricula geral = sair de todas as turmas");
         System.out.println("trancar matricula de materia = sair da turma da materia");
@@ -687,6 +691,7 @@ public class SIGAA2
     }
     public static void RemoverAluno(Scanner input)
     {
+        ListarAlunos();
         System.out.println("CUIDADO AO REMOVER ALUNOS DO SISTEMA, seus boletins são perdidos!");
         int matricula = LerInt(input, "digite a matricula do aluno que será removido (ou 0 para voltar)");
         if (matricula == 0) return;
@@ -1035,6 +1040,7 @@ public class SIGAA2
     }
     public static void RemoverDisciplina(Scanner input)
     {
+        ListarDisciplinas();
         System.out.println("CUIDADO AO REMOVER DISCIPLINAS, pois seus relatorios serão apagados");
         System.out.println("alem disso, todos os boletins de alunos que dependem da disciplina serão apagados");
         System.out.println("alem disso todas as turmas da disciplina serão apagadas, desencadeando uma serie de remoções");
@@ -1068,6 +1074,7 @@ public class SIGAA2
     }
     public static void RemoverTurma(Scanner input)
     {
+        ListarTurmas();
         System.out.println("CUIDADO AO REMOVER TURMAS, pois seus relatorios são apagados");
         System.out.println("alem disso, todos os boletins de alunos que dependem da turma serão apagados");
         System.out.println("digite o codigo da disciplina da turma (ou 0 para voltar)");
@@ -1166,6 +1173,7 @@ public class SIGAA2
     }
     public static void RemoverProfessor(Scanner input)
     {
+        ListarProfessores();
         System.out.println("CUIDADO AO REMOVER PROFESSORES, seus relatorios serão perdidos");
         System.out.println("suas turmas serão apagadas e os boletins de alunos que dependem do professor tambem serão");
         int matricula = LerInt(input, "digite a matricula do professor (ou 0 para voltar)");
@@ -1291,6 +1299,7 @@ public class SIGAA2
     }
     public static void LancarNota(Scanner input)
     {
+        ListarDisciplinas();
         System.out.println("para lançar notas, primeiro identifique a materia da turma");
         System.out.println("digite o codigo da materia da qual a turma faz parte: (ou 0 para voltar)");
         String codigoDisciplina = input.nextLine();
@@ -1581,6 +1590,7 @@ public class SIGAA2
     }
     public static void MostrarRelatorioTurma(Scanner input)
     {
+        ListarDisciplinas();
         System.out.println("digite o codigo da disciplina da turma (ou 0 para voltar)");
         String codigoDisciplina = input.nextLine();
         if (codigoDisciplina.equals("0")) return;
@@ -1618,6 +1628,7 @@ public class SIGAA2
     }
     public static void MostrarRelatorioDisciplina(Scanner input)
     {
+        ListarDisciplinas();
         System.out.println("para exibir o relatorio, digite o codigo da disciplina: (ou 0 para voltar)");
         String codigoDisciplina = input.nextLine();
         if (codigoDisciplina.equals("0")) return;
@@ -1645,6 +1656,7 @@ public class SIGAA2
     }
     public static void MostrarRelatorioProfessor(Scanner input)
     {
+        ListarProfessores();
         int matricula = LerInt(input, "para mostrar o relatorio de professor, digite a matricula do profesor: (ou 0 para voltar)");
         if (matricula == 0) return;
 
@@ -1671,6 +1683,7 @@ public class SIGAA2
     }
     public static void MostrarBoletimSimples(Scanner input)
     {
+        ListarAlunos();
         int matricula = LerInt(input, "digite a matricula do aluno (ou 0 para voltar)");
         if (matricula == 0) return;
 
@@ -1702,6 +1715,7 @@ public class SIGAA2
     }
     public static void MostrarBoletimCompleto(Scanner input)
     {
+        ListarAlunos();
         int matricula = LerInt(input, "digite a matricula do aluno (ou 0 para voltar)");
         if (matricula == 0) return;
 
