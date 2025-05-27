@@ -5,22 +5,6 @@ import java.io.*;
 
 public class SIGAA2 
 {
-    // O QUE FALTA 
-    //{
-    // fazer o readme
-    // bugs conhecidos 
-    //}
-
-    // BUGS CONHECIDOS PRA ARRUMAR
-    //{
-    //}
-    
-    //otimização super opcional
-    //{
-    // deixar os menus mais formatados e bonitos Z1 (colocar emoji)
-    // facilitar lançar multiplas notas de varios alunos de uma vez ZX2
-    // talvez mudar a exibição de boletins pra selecionar por semestre ZX1
-    //}
     
     static ArrayList<Aluno> alunos = new ArrayList<>(); //serve pra manter e criar alunos
     static ArrayList<Disciplina> disciplinas = new ArrayList<>(); //serve pra manter e criar disciplinas
