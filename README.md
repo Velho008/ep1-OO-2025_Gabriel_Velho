@@ -25,7 +25,7 @@ O enunciado do trabalho pode ser encontrado aqui:
    [a main do programa fica em SIGAA2.java, basta executar codigo]
 
 3. **Estrutura de Pastas:**  
-   [## 🗂️ Estrutura do Projeto 
+## 🗂️ Estrutura do Projeto 
 ```
 classes/
 ├── Aluno.java/            # 
@@ -44,7 +44,7 @@ banco_de_dados/
 ├── professores/           # 
 ├── relatorios/            # 
 └──  turmas/               # 
-```]
+```
 
 3. **Versão do JAVA utilizada:**  
    [java version "1.8.0_441"
