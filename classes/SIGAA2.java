@@ -407,7 +407,7 @@ public class SIGAA2
 
                     if (alunoComNovaMatricula != null && alunoComNovaMatricula != aluno)
                     {
-                        System.out.println("essa matricula já existe, pertence ao aluno de nome"+alunoComNovaMatricula.getNome());
+                        System.out.println("essa matricula já existe, pertence ao aluno de nome: "+alunoComNovaMatricula.getNome());
                         System.out.println("voltando ao menu anterior");
                         return;
                     }

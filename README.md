@@ -65,7 +65,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.441-b07, mixed mode)]
 
 ## Vídeo de Demonstração
 
-- [Inserir o link para o vídeo no YouTube/Drive aqui]
+- [(https://drive.google.com/file/d/1pNgnd3x1PG1dVmj07rmA_kb1RGmBPvlP/view?usp=drive_link)]
 
 ---
 
@@ -98,7 +98,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.441-b07, mixed mode)]
 
 ## Observações (Extras ou Dificuldades)
 
-- [na verdade eu coloquei varias funcionalidades que não foram pedidas, o menu não quebra ao digitar coisas que não numeros, é quase sempre possivel retornar ao menu anterior, ao atualizar dados de aluno o sistema atualiza tudo sozinho (turmas, boletins e etc...), ao retirar turma/disciplina/aluno o sistema é automaticamente atualizado para prevenir falhas]
+- [no meu video eu apenas comento sobre o sistema, não executo ele, na verdade eu coloquei varias funcionalidades que não foram pedidas, o menu não quebra ao digitar coisas que não numeros, é quase sempre possivel retornar ao menu anterior, ao atualizar dados de aluno o sistema atualiza tudo sozinho (turmas, boletins e etc...), ao retirar turma/disciplina/aluno o sistema é automaticamente atualizado para prevenir falhas]
 
 ---
 
