@@ -19,31 +19,41 @@ O enunciado do trabalho pode ser encontrado aqui:
 ## Instruções para Compilação e Execução
 
 1. **Compilação:**  
-   [na realidade eu só estava apertando o "play" do vscode, mas imagino que 'javac SIGAA2.java' tambem sirva]
+   [é necessario clonar meu repositorio na IDE que for usada, recomendavel o uso do VSCODE, usar comando git clone https://github.com/Velho008/ep1-OO-2025_Gabriel_Velho]
 
 2. **Execução:**  
    [a main do programa fica em SIGAA2.java, basta executar codigo]
 
 3. **Estrutura de Pastas:**  
-## 🗂️ Estrutura do Projeto 
+## 📂 Estrutura do Projeto 
 ```
-classes/
-├── Aluno.java/            # 
-├── AlunoEspecial.java/    # 
-├── Boletim.java/          # 
-├── Disciplina.java/       # 
-├── Professor.java/        # 
-├── Relatorio.java/        # 
-├── SIGAA2.java/           # 
-└── Turma.java/            # 
-banco_de_dados/
-├── alunos/                # 
-├── boletins/              # 
-   └──"matricula_do_aluno" #
-├── disciplinas/           # 
-├── professores/           # 
-├── relatorios/            # 
-└──  turmas/               # 
+ep1-OO-2025_Gabriel_Velho
+│
+├── classes/
+│      ├── Aluno.java             # construtores, sets, gets e parte de arquivos usada em alunos
+│      ├── AlunoEspecial.java     # construtores, sets, gets e parte de arquivos usada em alunos especiais
+│      ├── Boletim.java           # construtores, sets, gets e parte de arquivos usada em boletins
+│      ├── Disciplina.java        # construtores, sets, gets e parte de arquivos usada em disciplinas
+│      ├── Professor.java         # construtores, sets, gets e parte de arquivos usada em professores
+│      ├── Relatorio.java         # construtores, sets, gets e parte de arquivos usada em relatorios
+│      ├── SIGAA2.java            # classe main e diversos outros metodos/funções
+│      └── Turma.java             # construtores, sets, gets e parte de arquivos usada em turmas
+│
+├──  banco_de_dados/              # criado de maneira automatica, assim como suas subpastas
+│      ├── alunos/                # local onde alunos são armazenados, para garantir sua persistencia
+│      ├── boletins/              # local onde diretorios de boletim são armazenados, para garantir sua persistencia
+│         └──"matricula_do_aluno"/# local onde boletins são armazenados, para garantir sua persistencia, muda para cada matricula de aluno
+│      ├── disciplinas/           # local onde disciplinas são armazenadas, para garantir sua persistencia
+│      ├── professores/           # local onde professores são armazenados, para garantir sua persistencia
+│      ├── relatorios/            # local onde relatorios são armazenados, para garantir sua persistencia
+│      └── turmas/                # local onde turmas são armazenadas, para garantir sua persistencia
+│
+├── imgs/                         # prints usadas no README.md
+│      ├── print_cadastro.png
+│      ├── print_menus.png
+│      └── print_notas.png
+│
+└── README.md
 ```
 
 3. **Versão do JAVA utilizada:**  
