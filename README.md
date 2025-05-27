@@ -88,7 +88,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.441-b07, mixed mode)]
 
 ## Observações (Extras ou Dificuldades)
 
-- [na verdade eu coloquei varias funcionalidades que não foram pedidas, o menu não quebra ao digitar coisas que não numeros, é quase sempre possivel retornar ao menu anterior, ao atualizar dados de aluno o sistema atualiza tudo sozinho (turmas, boletins e etc...), ao retirar turma/disciplina/aluno]
+- [na verdade eu coloquei varias funcionalidades que não foram pedidas, o menu não quebra ao digitar coisas que não numeros, é quase sempre possivel retornar ao menu anterior, ao atualizar dados de aluno o sistema atualiza tudo sozinho (turmas, boletins e etc...), ao retirar turma/disciplina/aluno o sistema é automaticamente atualizado para prevenir falhas]
 
 ---
 
