@@ -170,12 +170,12 @@ public class Relatorio
     public void addPassaram()
     {
         this.passaram++;
-        addTotalAlunos();
+        this.addTotalAlunos();
     }
     public void removerPassaram()
     {
         this.passaram--;
-        removerTotalAlunos();
+        this.removerTotalAlunos();
     }
     public void addReprovaram()
     {
@@ -188,43 +188,43 @@ public class Relatorio
     public void addReprovaramFalta()
     {
         this.reprovaramFalta++;
-        addTotalAlunos();
-        addReprovaram();
+        this.addTotalAlunos();
+        this.addReprovaram();
     }
     public void removerReprovaramFalta()
     {
         this.reprovaramFalta--;
-        removerTotalAlunos();
-        removerReprovaram();
+        this.removerTotalAlunos();
+        this.removerReprovaram();
     }
     public void addReprovaramNota()
     {
         this.reprovaramNota++;
-        addTotalAlunos();
-        addReprovaram();
+        this.addTotalAlunos();
+        this.addReprovaram();
     }
     public void removeReprovaramNota()
     {
         this.reprovaramNota--;
-        removerTotalAlunos();
-        removerReprovaram();
+        this.removerTotalAlunos();
+        this.removerReprovaram();
     }
     public void addReprovaramNotaEFalta()
     {
         this.reprovaramNotaEFalta++;
-        addTotalAlunos();
-        addReprovaram();
+        this.addTotalAlunos();
+        this.addReprovaram();
     }
     public void removeReprovaramNotaEFalta()
     {
         this.reprovaramNotaEFalta--;
-        removerTotalAlunos();
-        removerReprovaram();
+        this.removerTotalAlunos();
+        this.removerReprovaram();
     }
 
     public void addNotaMedia(float nota)
     {
-        int total = getTotalAlunos();
+        int total = this.totalAlunos;
         if (total <=1)
         {
             this.notaMedia = nota;

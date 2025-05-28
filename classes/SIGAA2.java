@@ -98,6 +98,7 @@ public class SIGAA2
                     break;
                 case 7:
                     MostrarInfoAluno(input);
+                    break;
                 case 0:
                     break;
                 default:
